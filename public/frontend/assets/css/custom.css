@@ -1,0 +1,94 @@
+.entry-main-content .tab-pane ul{
+    padding: 0 0 0px 14px;
+}
+
+.entry-main-content .tab-pane ul li{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin: 0 0 10px;
+    position: relative;
+}
+
+.entry-main-content .tab-pane ul li::before{
+    position: absolute;
+    left: -14px;
+    top: 9px;
+    content: "";
+    height: 6px;
+    width: 6px;
+    border-radius: 100%;
+    background-color: #9b9b9b;
+}
+
+.entry-main-content .tab-pane ul li span{
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 165px;
+    flex: 0 0 165px;
+    display: inline-block;
+}
+
+.entry-main-content .tab-pane ul li:last-child{
+    margin: 0 0 0;
+}
+
+.entry-main-content .tab-pane blockquote{
+    background-color: #F4F6FA;
+    padding: 30px;
+    border-radius: 15px;
+    margin: 10px auto;
+    font-size: 24px;
+    border-left: 5px solid #8a8c91;
+}
+
+.entry-main-content .tab-pane blockquote p{
+    position: relative;
+    font-weight: 700;
+    font-style: italic;
+}
+
+/* .entry-main-content .tab-pane blockquote p::before{
+    content: "\f347";
+    font-family: IonIcons;
+    color: #8a8c91;
+    font-size: 24px;
+    padding-right: 15px;
+}
+
+.entry-main-content .tab-pane blockquote p::after{
+    content: "\f10e";
+    font-family: FontAwesome;
+    color: #8a8c91;
+    font-size: 24px;
+    padding-left: 15px;
+} */
+
+.error-red{
+    color: #c82333;
+}
+
+.cart-btn-destroy{
+    background-color: transparent !important;
+    padding: 0px !important;
+    border: 0px !important;
+    color: #282525 !important;
+}
+
+.cart-destroy button.submit:hover,
+.cart-destroy button[type='submit']:hover{
+    background-color: transparent !important;
+    color: #c82333 !important;
+}
+
+.cart-btn-update{
+    background-color: transparent !important;
+    padding: 0px !important;
+    border: 0px !important;
+    color: #282525 !important;
+}
+
+.cart-update button.submit:hover,
+.cart-update button[type='submit']:hover{
+    background-color: transparent !important;
+    color: #3BB77E !important;
+}

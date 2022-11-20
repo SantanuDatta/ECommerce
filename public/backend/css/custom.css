@@ -1,0 +1,113 @@
+.br-sideleft{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.card-header{
+    background-image: linear-gradient(to right, #1CAF9A 0%, #17A2B8 100%);
+    background-repeat: repeat-x;
+}
+
+.table th, .table td, .table p{
+    vertical-align: middle;
+}
+
+.list-table thead tr{
+    background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.list-table thead tr:hover > th, thead tr:hover > td{
+    background-color: #a9acb0 !important;
+}
+    
+.table p{
+    margin-bottom: 0;
+}
+
+.action-bar a{
+    margin-right: 5px;
+    font-size: 15px;
+}
+
+.action-bar a .fa-eye{
+    color: #e41c78;
+}
+.action-bar a .fa-edit{
+    color: #158373;
+}
+.action-bar a .fa-trash{
+    color: #bd2130;
+}
+
+.custom-file-label-primary::after{
+    background-color: #1CAF9A;
+}
+
+.footer{
+    position: fixed;
+}
+
+.table-image{
+    width: 35px;
+    height: 35px;
+    border: 2px solid #1CAF9A;
+}
+
+.table-sq-image{
+    width: 100px;
+    height: 50px;
+    border-radius: 6px;
+    border: 3px solid #1CAF9A;
+}
+
+.toast-info{
+    background-color: #17A2B8;
+}
+.toast-success{
+    background-color: #1c9108;
+}
+.toast-warning{
+    background-color: #F49917;
+}
+#toast-container > .toast-warning{
+    color: #212529;
+}
+
+#toast-container > .toast-warning:before {
+    color: #212529;
+}
+
+.toast-error{
+    background-color: #DC3545;
+}
+
+#toast-container > div {
+    font-weight: 600;
+    opacity:1;
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+    filter: alpha(opacity=100);
+    -moz-box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+
+.card-header .container{
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: auto;
+    margin-left: 0;
+}
+
+.card-header .container .right a{
+    border-bottom: 1px solid;
+    padding-bottom: 3px;
+}
+
+.card-header .container .right a:hover{
+    color: #750f1a;
+}
+
+.errors ul{
+    margin: 0;
+}
