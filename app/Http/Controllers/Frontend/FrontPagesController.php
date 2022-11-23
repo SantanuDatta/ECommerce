@@ -55,7 +55,8 @@ class FrontPagesController extends Controller
         $flashes = Flash::where('status', '1')->get();
         $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
         $settings = Setting::where('id', 1)->get();
-        $inv = Order::find($id)->where('id', $id)->first();
+        $inv = Order::find($id);
+        dd($inv);
         return view('frontend.pages.userDashboard.invoice', compact('flashes', 'inv', 'categories', 'settings'));
     }
 

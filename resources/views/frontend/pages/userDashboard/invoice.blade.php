@@ -15,7 +15,7 @@
                                 <div class="row">
                                     <div class="col-lg-4 col-md-6">
                                         <div class="logo">
-                                            <a href="index.html"><img src="{{ asset('frontend/assets/imgs/theme/logo.svg') }}" alt="logo" /></a>
+                                            <a href="{{ route('home') }}"><img src="{{ asset('frontend/assets/imgs/theme/logo.svg') }}" alt="logo" /></a>
                                         </div>
                                         <p class="invoice-addr-1 mt-10">
                                             <strong>Invoice Numb:</strong> <strong class="text-brand">#{{ $inv->inv_id }}</strong> <br />
