@@ -2,10 +2,24 @@
 
 namespace App\Http\Controllers\Backend;
 
+use File;
+use Image;
+use App\Models\Cart;
+use App\Models\User;
+use App\Models\Brand;
+use App\Models\Order;
+use App\Models\Country;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\District;
+use App\Models\Division;
+use Illuminate\Support\Str;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
-class PagesController extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +28,8 @@ class PagesController extends Controller
      */
     public function index()
     {
-        return view('backend.pages.dashboard');
+        $orders = Order::orderBy('id', 'desc')->get();
+        return view('backend.pages.order.manage', compact('orders'));
     }
 
     /**
@@ -46,7 +61,11 @@ class PagesController extends Controller
      */
     public function show($id)
     {
-        //
+        $order = Order::find($id);
+        if(!is_null($id)){
+            $carts = Cart::orderBy('id', 'asc')->where('order_id', $order->id)->get();
+            return view('backend.pages.order.details', compact('order', 'carts'));
+        }
     }
 
     /**

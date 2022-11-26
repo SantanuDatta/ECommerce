@@ -30,10 +30,23 @@ class Order extends Model
         'status',
         'add_info',
         'payment_method',
+        'total_quantity',
         'paid_amount',
         'amount',
         'currency',
         'transaction_id',
     ];
+
+    public function country(){
+        return $this->belongsTo(Country::class);
+    }
+
+    public function division(){
+        return $this->belongsTo(Division::class);
+    }
+
+    public function district(){
+        return $this->belongsTo(District::class);
+    }
 
 }

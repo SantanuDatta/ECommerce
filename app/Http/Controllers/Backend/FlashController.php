@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
 use App\Models\Flash;
-use App\Models\Setting;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class FlashController extends Controller
 {
@@ -16,9 +15,8 @@ class FlashController extends Controller
      */
     public function index()
     {
-        $settings = Setting::where('id', 1)->get();
         $flashes = Flash::orderBy('id', 'desc')->get();
-        return view('backend.pages.flash.manage', compact('flashes', 'settings'));
+        return view('backend.pages.flash.manage', compact('flashes'));
     }
 
     /**
@@ -28,8 +26,7 @@ class FlashController extends Controller
      */
     public function create()
     {
-        $settings = Setting::where('id', 1)->get();
-        return view('backend.pages.flash.create', compact('settings'));
+        return view('backend.pages.flash.create');
     }
 
     /**
@@ -72,10 +69,9 @@ class FlashController extends Controller
      */
     public function edit($id)
     {
-        $settings = Setting::where('id', 1)->get();
         $flash = Flash::find($id);
         if(!is_null($flash)){
-            return view('backend.pages.flash.edit', compact('flash', 'settings'));
+            return view('backend.pages.flash.edit', compact('flash'));
         }else{
             //404
         }

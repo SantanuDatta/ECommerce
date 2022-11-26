@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Auth\Events\PasswordReset;
-use App\Models\Flash;
-use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -23,10 +21,8 @@ class NewPasswordController extends Controller
      */
     public function create(Request $request)
     {
-        $flashes = Flash::where('status', '1')->get();
         $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        $settings = Setting::where('id', 1)->get();
-        return view('frontend.pages.userAuth.reset-password',['request' => $request], compact('flashes', 'categories', 'settings'));
+        return view('frontend.pages.userAuth.reset-password',['request' => $request], compact('categories'));
     }
 
     /**

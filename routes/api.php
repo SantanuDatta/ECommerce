@@ -21,3 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/divisions/{id}', function($id){
     return json_encode(App\Models\Division::where('country_id', $id)->get());
 });
+
+Route::get('/districts/{id}', function($id){
+    return json_encode(App\Models\District::where('division_id', $id)->get());
+});

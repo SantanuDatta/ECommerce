@@ -31,6 +31,7 @@ return new class extends Migration
             $table->text('add_info')->nullable();
             // Payment Gateway Info
             $table->integer('payment_method')->nullable();
+            $table->integer('total_quantity')->nullable();
             $table->integer('paid_amount')->nullable();
             $table->integer('amount')->nullable();
             $table->string('currency')->nullable();

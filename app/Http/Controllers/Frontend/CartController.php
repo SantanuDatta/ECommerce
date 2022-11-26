@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\Product;
-use App\Models\Slider;
-use App\Models\Flash;
-use App\Models\ProductImage;
-use App\Models\Cart;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
 use File;
 use Image;
+use App\Models\Cart;
+use App\Models\Brand;
+use App\Models\Product;
+use Illuminate\Support\Str;
+use App\Models\ProductImage;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -25,9 +22,7 @@ class CartController extends Controller
      */
     public function index()
     {
-    $flashes = Flash::where('status', '1')->get();
-    $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->get();
-    return view('frontend.pages.cart', compact('flashes', 'categories'));
+    return view('frontend.pages.cart');
     
     }
 

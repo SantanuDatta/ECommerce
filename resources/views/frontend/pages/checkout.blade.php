@@ -121,7 +121,7 @@
                             <div class="row shipping_calculator">
                                 <div class="form-group col-lg-4">
                                     <div class="custom_select">
-                                        <select name="country_id" class="form-control select-active" required>
+                                        <select name="country_id" id="country_id" class="form-control select-active" required>
                                             <option value="">{{ __('Please Select Country') }}</option>
                                             @foreach ($countries as $country)
                                                 @if (Auth::check())
@@ -139,37 +139,15 @@
                                 </div>
                                 <div class="form-group col-lg-4">
                                     <div class="custom_select">
-                                        <select name="division_id" class="form-control select-active" required>
-                                            <option value="">{{ __('Please Select Division') }}</option>
-                                            @foreach ($divisions as $division)
-                                                @if (Auth::check())
-                                                    @if (!is_null(Auth::user()->division_id))
-                                                        <option value="{{ $division->id }}" @if ($division->id == Auth::user()->division_id) selected @endif>{{ $division->name }}</option>
-                                                    @else
-                                                        <option value="{{ $division->id }}">{{ $division->name }}</option>
-                                                    @endif
-                                                @else
-                                                    <option value="{{ $division->id }}">{{ $division->name }}</option>
-                                                @endif
-                                            @endforeach
+                                        <select name="division_id" id="divisions" class="form-control select-active" required>
+                                            <option value="" hidden>{{ __('Please Select Division') }}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-4">
                                     <div class="custom_select">
-                                        <select name="district_id" class="form-control select-active" required>
-                                            <option value="">{{ __('Please Select District') }}</option>
-                                            @foreach ($districts as $district)
-                                                @if (Auth::check())
-                                                    @if (!is_null(Auth::user()->district_id))
-                                                        <option value="{{ $district->id }}" @if ($district->id == Auth::user()->district_id) selected @endif>{{ $district->name }}</option>
-                                                    @else
-                                                        <option value="{{ $district->id }}">{{ $district->name }}</option>
-                                                    @endif
-                                                @else
-                                                    <option value="{{ $district->id }}">{{ $district->name }}</option>
-                                                @endif
-                                            @endforeach
+                                        <select name="district_id" id="districts" class="form-control select-active" required>
+                                            <option value="" hidden>{{ __('Please Select District') }}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -321,6 +299,7 @@
                                                         @endphp
                                                     @endif
                                                 </h4>
+                                                <input type="hidden" name="totalQuantity" value="{{ App\Models\Cart::totalItems() }}">
                                             </td>
                                         </tr>
                                     @endforeach
@@ -363,6 +342,7 @@
                                                     {{ $totalAmount }} {{ __('BDT') }}
                                                 </h4>
                                                 <input type="hidden" name="totalAmount" value="{{ $totalAmount }}">
+                                                
                                             </td>
                                         </tr>
                                     </tbody>
@@ -390,5 +370,36 @@
             </div>
         </div>
     </main>
-    
+@endsection
+
+@section('pageScripts')
+    <script>
+        $('#country_id').change(function(){
+            var country = $('#country_id').val();
+            // Make All The Division As Null
+            $('#divisions').html("");
+            var option = "";
+            $.get("http://127.0.0.1:8000/divisions/" + country, function(data){
+                data = JSON.parse(data);
+                data.forEach(function(value){
+                    option += "<option value=' " + value.id + " '>" + value.name + "</option>";
+                });
+                $('#divisions').html(option);
+            });
+        });
+
+        $('#divisions').change(function(){
+            var division = $('#divisions').val();
+            // Make All The Dsitrict As Null
+            $('#districts').html("");
+            var option = "";
+            $.get("http://127.0.0.1:8000/districts/" + division, function(data){
+                data = JSON.parse(data);
+                data.forEach(function(value){
+                    option += "<option value=' " + value.id + " '>" + value.name + "</option>";
+                });
+                $('#districts').html(option);
+            });
+        });
+    </script>
 @endsection

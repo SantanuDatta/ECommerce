@@ -91,7 +91,11 @@
         <label class="sidebar-label pd-x-10 mg-t-25 mg-b-20 tx-info">Order Management</label>
 
         <li class="br-menu-item">
-            <a href="" class="br-menu-link">
+            <a href="{{ route('order.manage') }}" class="br-menu-link 
+            @if (Route::is('order.manage') || Route::is('order.details') || Route::is('order.edit'))
+            active
+            @endif
+            ">
                 <i class="menu-item-icon icon ion-ios-printer-outline tx-24"></i>
                 <span class="menu-item-label">Manage All Orders</span>
             </a>

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
@@ -17,10 +16,8 @@ class PasswordResetLinkController extends Controller
      */
     public function create()
     {
-        $flashes = Flash::where('status', '1')->get();
         $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        $settings = Setting::where('id', 1)->get();
-        return view('frontend.pages.userAuth.forgot-password', compact('flashes', 'categories', 'settings'));
+        return view('frontend.pages.userAuth.forgot-password', compact('categories'));
     }
 
     /**

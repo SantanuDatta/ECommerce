@@ -1,11 +1,17 @@
 @extends('frontend.layout.template')
 
-@section('title', 'Invoice')
+@section('title', 'Success')
 @section('body-content')
-    <div class="invoice invoice-content invoice-4">
-        <div class="back-top-home hover-up mt-30 ml-30">
-            <a class="hover-up" href="index.html"><i class="fi-rs-home mr-5"></i> Homepage</a>
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="{{ route('home') }}" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
+                <span></span> <a href="{{ route('user.dashboard') }}" rel="nofollow"></i>My Acount</a>
+                <span></span> Successful Order
+            </div>
         </div>
+    </div>
+    <div class="invoice invoice-content invoice-4">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -15,7 +21,9 @@
                                 <div class="row">
                                     <div class="col-lg-4 col-md-6">
                                         <div class="logo">
-                                            <a href="index.html"><img src="{{ asset('frontend/assets/imgs/theme/logo.svg') }}" alt="logo" /></a>
+                                            @foreach ($settings as $setting)
+                                                <a href="{{ route('home') }}"><img src="{{ asset('backend/img/settings/logo/'.$setting->logo) }}" alt="logo" /></a>
+                                            @endforeach
                                         </div>
                                         <p class="invoice-addr-1 mt-10">
                                             <strong>Invoice Numb:</strong> <strong class="text-brand">#{{ $orderHistory->inv_id }}</strong> <br />
@@ -23,7 +31,7 @@
                                         </p>
                                     </div>
                                     @php
-                                        $total = collect($orderHistory->amount)->sum();;
+                                        $total = collect($orderHistory->amount)->sum();
                                     @endphp 
                                     <div class="col-lg-4 offset-4">
                                         <div class="invoice-number">
@@ -89,7 +97,7 @@
                                                 <strong>Cash On Delivery</strong>
                                             @elseif ($orderHistory->payment_method == 2)
                                                 <strong>Paid Through SSL Commerz</strong><br>
-                                                <strong>Transaction Id:</strong> {{ $orderHistory->transaction_id }}
+                                                <strong>Transaction Id: <u class="text-brand">{{ $orderHistory->transaction_id }}</u></strong> 
                                             @endif
                                         </p>
                                     </div>

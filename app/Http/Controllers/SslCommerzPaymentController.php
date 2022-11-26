@@ -3,16 +3,14 @@
 namespace App\Http\Controllers;
 
 use DB;
-use Illuminate\Http\Request;
-use App\Library\SslCommerz\SslCommerzNotification;
-use App\Models\Flash;
-use App\Models\Product;
 use App\Models\Cart;
-use App\Models\Category;
+use App\Models\Flash;
 use App\Models\Order;
-use App\Models\Setting;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Product;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use App\Library\SslCommerz\SslCommerzNotification;
 
 class SslCommerzPaymentController extends Controller
 {
@@ -35,6 +33,7 @@ class SslCommerzPaymentController extends Controller
 
         $post_data = array();
         $post_data['payment_method']    = $request->payment_method;
+        $post_data['total_quantity']    = $request->totalQuantity;
         $post_data['total_amount']      = $request->totalAmount; # You cant not pay less than 10
         $post_data['currency']          = "BDT";
         $post_data['tran_id']           = uniqid(); // tran_id must be unique
@@ -104,6 +103,7 @@ class SslCommerzPaymentController extends Controller
                 'add_info'              => $post_data['cus_info'],
                 'status'                => "Pending",
                 'payment_method'        => $post_data['payment_method'],
+                'total_quantity'        => $post_data['total_quantity'],
                 'amount'                => $post_data['total_amount'],
                 'transaction_id'        => $post_data['tran_id'],
                 'currency'              => $post_data['currency'],
@@ -231,10 +231,7 @@ class SslCommerzPaymentController extends Controller
 
                 //echo "<br >Transaction is successfully Completed";
                 $orderHistory = Order::where('transaction_id', $tran_id)->first();
-                $flashes = Flash::where('status', '1')->get();
-                $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-                $settings = Setting::where('id', 1)->get();
-                return view('frontend.pages.success', compact('orderHistory', 'flashes', 'categories', 'settings'));
+                return view('frontend.pages.success', compact('orderHistory'));
             } else {
                 /*
                 That means IPN did not work or IPN URL was not set in your merchant panel and Transation validation failed.
@@ -251,10 +248,7 @@ class SslCommerzPaymentController extends Controller
              */
             //echo "Transaction is successfully Completed";
             $orderHistory = Order::where('transaction_id', $tran_id)->first();
-            $flashes = Flash::where('status', '1')->get();
-            $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-            $settings = Setting::where('id', 1)->get();
-            return view('frontend.pages.success', compact('orderHistory', 'flashes', 'settings', 'categories'));
+            return view('frontend.pages.success', compact('orderHistory'));
         } else {
             #That means something wrong happened. You can redirect customer to your product page.
             echo "Invalid Transaction";

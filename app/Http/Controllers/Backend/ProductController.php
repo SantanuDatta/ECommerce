@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\Product;
-use App\Models\ProductImage;
-use App\Models\Setting;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use File;
 use Image;
+use App\Models\Brand;
+use App\Models\Product;
+use App\Models\Category;
+use Illuminate\Support\Str;
+use App\Models\ProductImage;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
@@ -22,9 +21,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $settings = Setting::where('id', 1)->get();
         $products = Product::orderBy('id', 'desc')->get();
-        return view('backend.pages.product.manage', compact('products', 'settings'));
+        return view('backend.pages.product.manage', compact('products'));
     }
 
     /**
@@ -34,10 +32,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $settings = Setting::where('id', 1)->get();
         $brands = Brand::orderBy('name', 'asc')->where('status', 0 && 'name', null)->get();
         $parentCat = Category::orderBy('name', 'asc')->where('is_parent', 0 && 'status', 0 && 'name', null)->get();
-        return view('backend.pages.product.create', compact('brands', 'parentCat', 'settings'));
+        return view('backend.pages.product.create', compact('brands', 'parentCat'));
     }
 
     /**
@@ -109,12 +106,11 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $settings = Setting::where('id', 1)->get();
         $product = Product::find($id);
         if (!is_null($product)) {
             $brands = Brand::orderBy('name', 'asc')->where('status', 0)->get();
             $parentCat = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-            return view('backend.pages.product.edit', compact('product', 'brands', 'parentCat', 'settings'));
+            return view('backend.pages.product.edit', compact('product', 'brands', 'parentCat'));
         }else{
             //404
         }
@@ -165,7 +161,6 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $settings = Setting::where('id', 1)->get();
         $product = Product::find($id);
         if(!is_null($product)){
             $product->status = 2;
@@ -182,9 +177,8 @@ class ProductController extends Controller
 
     public function softdelete()
     {
-        $settings = Setting::where('id', 1)->get();
         $products = Product::orderBy('id', 'desc')->where('status', 2)->get();
-        return view('backend.pages.product.softdelete', compact('products', 'settings'));
+        return view('backend.pages.product.softdelete', compact('products'));
     }
 
     public function fulldelete($id)

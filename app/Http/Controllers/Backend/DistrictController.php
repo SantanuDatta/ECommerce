@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
 use App\Models\Country;
-use App\Models\Division;
 use App\Models\District;
-use App\Models\Setting;
+use App\Models\Division;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class DistrictController extends Controller
 {
@@ -18,9 +17,8 @@ class DistrictController extends Controller
      */
     public function index()
     {
-        $settings = Setting::where('id', 1)->get();
         $districts = District::orderBy('name','asc')->get();
-        return view('backend.pages.district.manage', compact('districts', 'settings'));
+        return view('backend.pages.district.manage', compact('districts'));
     }
 
     /**
@@ -30,10 +28,9 @@ class DistrictController extends Controller
      */
     public function create()
     {
-        $settings = Setting::where('id', 1)->get();
         $countries = Country::orderBy('priority', 'asc')->get();
         $divisions = Division::orderBy('priority', 'asc')->get();
-        return view('backend.pages.district.create', compact('countries', 'divisions', 'settings'));
+        return view('backend.pages.district.create', compact('countries', 'divisions'));
     }
 
     /**
@@ -78,12 +75,11 @@ class DistrictController extends Controller
      */
     public function edit($id)
     {
-        $settings = Setting::where('id', 1)->get();
         $district = District::find($id);
         if(!is_null($district)){
             $countries = Country::orderBy('priority', 'asc')->get();
             $divisions = Division::orderBy('priority', 'asc')->get();
-            return view('backend.pages.district.edit', compact('district', 'divisions', 'countries', 'settings'));
+            return view('backend.pages.district.edit', compact('district', 'divisions', 'countries'));
         }else{
             //404
         }

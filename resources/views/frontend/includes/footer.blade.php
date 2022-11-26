@@ -166,16 +166,16 @@
                     <div class="footer-bottom"></div>
                 </div>
                 <div class="col-xl-4 col-lg-6 col-md-6">
-                    <p class="font-sm mb-0">&copy; 2022, <strong class="text-brand">Nest</strong> - HTML Ecommerce Template <br />All rights reserved</p>
+                    <p class="font-sm mb-0">&copy; 2020 - {{ date('Y') }} | <strong class="text-brand">{{ $setting->site_title }}</strong> - HTML Ecommerce Template <br />All Rights Reserved</p>
                 </div>
                 <div class="col-xl-4 col-lg-6 text-center d-none d-xl-block">
                     <div class="hotline d-lg-inline-flex mr-30">
                         <img src="{{ asset('frontend/assets/imgs/theme/icons/phone-call.svg')  }}" alt="hotline" />
-                        <p>1900 - 6666<span>Working 8:00 - 22:00</span></p>
+                        <p>{{ $setting->phone_no ?? 'N/A' }}<span>{{ $setting->business_hours ?? 'N/A' }}</span></p>
                     </div>
                     <div class="hotline d-lg-inline-flex">
                         <img src="{{ asset('frontend/assets/imgs/theme/icons/phone-call.svg')  }}" alt="hotline" />
-                        <p>1900 - 8888<span>24/7 Support Center</span></p>
+                        <p>{{ $setting->support_phone ?? 'N/A' }}<span>24/7 Support Center</span></p>
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-6 col-md-6 text-end d-none d-md-block">

@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
-use App\Models\Brand;
-use App\Models\Setting;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use File;
 use Image;
+use App\Models\Brand;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class BrandController extends Controller
 {
@@ -19,9 +18,8 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $settings = Setting::where('id', 1)->get();
         $brands = Brand::orderBy('name', 'asc')->get();
-        return view('backend.pages.brand.manage', compact('brands', 'settings'));
+        return view('backend.pages.brand.manage', compact('brands'));
     }
 
     /**
@@ -31,8 +29,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        $settings = Setting::where('id', 1)->get();
-        return view('backend.pages.brand.create', compact('settings'));
+        return view('backend.pages.brand.create');
     }
 
     /**
@@ -92,10 +89,9 @@ class BrandController extends Controller
      */
     public function edit($id)
     {
-        $settings = Setting::where('id', 1)->get();
         $brand = Brand::find($id);
         if(!is_null($brand)){
-            return view('backend.pages.brand.edit', compact('brand', 'settings'));
+            return view('backend.pages.brand.edit', compact('brand'));
         }else{
             //404
         }
@@ -167,8 +163,7 @@ class BrandController extends Controller
 
     public function softDelete(){
         $brands = Brand::where('status', 2)->orderBy('name', 'asc')->get();
-        $settings = Setting::where('id', 1)->get();
-        return view('backend.pages.brand.softdelete', compact('brands', 'settings'));
+        return view('backend.pages.brand.softdelete', compact('brands'));
     }
 
     public function fullDelete($id)

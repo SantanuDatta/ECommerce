@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
-use App\Models\Setting;
-use App\Models\Slider;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use File;
 use Image;
+use App\Models\Slider;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class SliderController extends Controller
 {
@@ -19,9 +18,8 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $settings = Setting::where('id', 1)->get();
         $sliders = Slider::orderBy('name', 'asc')->get();
-        return view('backend.pages.slider.manage', compact('sliders', 'settings'));
+        return view('backend.pages.slider.manage', compact('sliders'));
     }
 
     /**
@@ -31,8 +29,7 @@ class SliderController extends Controller
      */
     public function create()
     {
-        $settings = Setting::where('id', 1)->get();
-        return view('backend.pages.slider.create', compact('settings'));
+        return view('backend.pages.slider.create');
     }
 
     /**
@@ -85,10 +82,9 @@ class SliderController extends Controller
      */
     public function edit($id)
     {
-        $settings = Setting::where('id', 1)->get();
         $slider = Slider::find($id);
         if(!is_null($slider)){
-            return view('backend.pages.slider.edit', compact('slider', 'settings'));
+            return view('backend.pages.slider.edit', compact('slider'));
         }else{
             //404
         }

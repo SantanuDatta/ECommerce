@@ -95,11 +95,11 @@
                                                 @php $img = 1; @endphp
                                                 @foreach ($prDetails->images as $image)
                                                     @if ($img > 0)
-                                                    <img class="default-img" src="{{ asset('backend/img/products/' . $image->image) }}" alt="" />
+                                                    <img class="default-img" src="{{ asset('backend/img/products/'.$image->image) }}" alt="" />
                                                         @php $img--; @endphp
                                                     @endif
                                                     @if ($img == 2)
-                                                    <img class="hover-img" src="{{ asset('backend/img/products/' . $image->image) }}" alt="" />
+                                                    <img class="hover-img" src="{{ asset('backend/img/products/'.$image->image) }}" alt="" />
                                                         @php $img++; @endphp
                                                     @endif
                                                 @endforeach

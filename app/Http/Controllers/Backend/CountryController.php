@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
 use App\Models\Country;
-use App\Models\Setting;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class CountryController extends Controller
 {
@@ -16,9 +15,8 @@ class CountryController extends Controller
      */
     public function index()
     {
-        $settings = Setting::where('id', 1)->get();
         $countries = Country::orderBy('name','asc')->get();
-        return view('backend.pages.country.manage', compact('countries', 'settings'));
+        return view('backend.pages.country.manage', compact('countries'));
     }
 
     /**
@@ -28,8 +26,7 @@ class CountryController extends Controller
      */
     public function create()
     {
-        $settings = Setting::where('id', 1)->get();
-        return view('backend.pages.country.create', compact('settings'));
+        return view('backend.pages.country.create');
     }
 
     /**
@@ -73,10 +70,9 @@ class CountryController extends Controller
      */
     public function edit($id)
     {
-        $settings = Setting::where('id', 1)->get();
         $country = Country::find($id);
         if(!is_null($country)){
-            return view('backend.pages.country.edit', compact('country', 'settings'));
+            return view('backend.pages.country.edit', compact('country'));
         }else{
             //404
         }

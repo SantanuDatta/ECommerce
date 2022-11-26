@@ -1,7 +1,8 @@
     <footer class="br-footer">
         <div class="footer-left">
-        <div class="mg-b-2">Copyright &copy; 2017. Bracket Plus. All Rights Reserved.</div>
-        <div>Attentively and carefully made by ThemePixels.</div>
+            @foreach ($settings as $setting)
+                <div class="mg-b-2">Copyright &copy; 2020 - {{ date('Y') }} | {{ $setting->site_title }} -  HTML Ecommerce Template<br />All Rights Reserved</div>
+            @endforeach
         </div>
         <div class="footer-right d-flex align-items-center">
         <span class="tx-uppercase mg-r-10">Share:</span>

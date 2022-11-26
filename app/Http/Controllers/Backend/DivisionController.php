@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
 use App\Models\Country;
 use App\Models\Division;
-use App\Models\Setting;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class DivisionController extends Controller
 {
@@ -17,9 +16,8 @@ class DivisionController extends Controller
      */
     public function index()
     {
-        $settings = Setting::where('id', 1)->get();
         $divisions = Division::orderBy('name','asc')->get();
-        return view('backend.pages.division.manage', compact('divisions', 'settings'));
+        return view('backend.pages.division.manage', compact('divisions'));
     }
 
     /**
@@ -29,9 +27,8 @@ class DivisionController extends Controller
      */
     public function create()
     {
-        $settings = Setting::where('id', 1)->get();
         $countries = Country::orderBy('priority', 'asc')->get();
-        return view('backend.pages.division.create', compact('countries', 'settings'));
+        return view('backend.pages.division.create', compact('countries'));
     }
 
     /**
@@ -76,11 +73,10 @@ class DivisionController extends Controller
      */
     public function edit($id)
     {
-        $settings = Setting::where('id', 1)->get();
         $division = Division::find($id);
         if(!is_null($division)){
             $countries = Country::orderBy('priority', 'asc')->get();
-            return view('backend.pages.division.edit', compact('division', 'countries', 'settings'));
+            return view('backend.pages.division.edit', compact('division', 'countries'));
         }else{
             //404
         }

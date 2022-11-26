@@ -2,25 +2,22 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use App\Models\Brand;
-use App\Models\Cart;
-use App\Models\Category;
-use App\Models\Product;
-use App\Models\Country;
-use App\Models\Division;
-use App\Models\District;
-use App\Models\Slider;
-use App\Models\Flash;
-use App\Models\Order;
-use App\Models\Setting;
-use App\Models\User;
-use App\Models\ProductImage;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
 use File;
 use Image;
+use App\Models\Cart;
+use App\Models\User;
+use App\Models\Brand;
+use App\Models\Order;
+use App\Models\Slider;
+use App\Models\Country;
+use App\Models\Product;
+use App\Models\District;
+use App\Models\Division;
+use Illuminate\Support\Str;
+use App\Models\ProductImage;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class FrontPagesController extends Controller
 {
@@ -32,17 +29,11 @@ class FrontPagesController extends Controller
     public function home()
     {
         $sliders = Slider::where('status', '1')->get();
-        $flashes = Flash::where('status', '1')->get();
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        $settings = Setting::where('id', 1)->get();
-        return view('frontend.pages.homepage', compact('sliders', 'flashes', 'categories' , 'settings'));
+        return view('frontend.pages.homepage', compact('sliders'));
     }
     public function notFound()
     {
-        $flashes = Flash::where('status', '1')->get();
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        $settings = Setting::where('id', 1)->get();
-        return view('frontend.pages.404', compact('flashes', 'categories', 'settings'));
+        return view('frontend.pages.404');
     }
     
     /**
@@ -52,12 +43,11 @@ class FrontPagesController extends Controller
      */
     public function invoice($id)
     {
-        $flashes = Flash::where('status', '1')->get();
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        $settings = Setting::where('id', 1)->get();
         $inv = Order::find($id);
-        dd($inv);
-        return view('frontend.pages.userDashboard.invoice', compact('flashes', 'inv', 'categories', 'settings'));
+        if(!is_null($id)){
+            return view('frontend.pages.userDashboard.invoice', compact('inv'));
+        }
+        
     }
 
 
@@ -66,12 +56,9 @@ class FrontPagesController extends Controller
         $countries  = Country::orderBy('priority', 'asc')->where('status', '1')->get();
         $divisions  = Division::orderBy('priority', 'asc')->where('status', '1')->get();
         $districts  = District::orderBy('name', 'asc')->where('status', '1')->get();
-        $flashes    = Flash::where('status', '1')->get();
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        $settings = Setting::where('id', 1)->get();
         $cart       = Cart::select('order_id')->get();
         $orderHistory = Order::where('user_id', Auth::user()->id)->orderBy('inv_id', 'asc')->get();
-        return view('frontend.pages.userDashboard.user-account', compact('countries', 'divisions', 'districts', 'flashes', 'orderHistory', 'cart', 'categories', 'settings'));
+        return view('frontend.pages.userDashboard.user-account', compact('countries', 'divisions', 'districts', 'orderHistory', 'cart'));
     }
 
     /**
@@ -105,32 +92,23 @@ class FrontPagesController extends Controller
     public function searchProduct(Request $request)
     {
         $search = $request->searchContent;
-        $flashes = Flash::where('status', '1')->get();
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        $settings = Setting::where('id', 1)->get();
         $products = Product::orWhere('name', 'like', '%' . $search . '%')->
         orWhere('slug', 'like', '%' . $search . '%')->
         orWhere('product_tags', 'like', '%' . $search . '%')->
         orderBy('id', 'desc')->where('status', 1)->paginate(15);
-        return view('frontend.pages.products.searchProducts', compact('products', 'flashes', 'search', 'categories', 'settings'));
+        return view('frontend.pages.products.searchProducts', compact('products', 'search'));
     }
     //Shop
     public function shop()
     {
-        $flashes = Flash::where('status', '1')->get();
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        $settings = Setting::where('id', 1)->get();
         $products = Product::orderBy('id', 'desc')->where('status', 1)->paginate(15);
         $lastProducts = Product::orderBy('id', 'desc')->where('status', 1)->take(3)->get();
-        return view('frontend.pages.products.shop', compact('products', 'lastProducts', 'flashes', 'categories', 'settings'));
+        return view('frontend.pages.products.shop', compact('products', 'lastProducts'));
     }
     public function singleProduct($slug)
     {
-        $flashes = Flash::where('status', '1')->get();
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        $settings = Setting::where('id', 1)->get();
         $prDetails = Product::where('slug', $slug)->first();
-        return view('frontend.pages.products.singleProduct', compact('prDetails', 'flashes', 'categories', 'settings'));
+        return view('frontend.pages.products.singleProduct', compact('prDetails'));
     }
 
     /**
@@ -140,10 +118,7 @@ class FrontPagesController extends Controller
      */
     public function customerLogin()
     {
-        $flashes = Flash::where('status', '1')->get();
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        $settings = Setting::where('id', 1)->get();
-        return view('frontend.pages.userAuth.login', compact('flashes', 'categories', 'settings'));
+        return view('frontend.pages.userAuth.login');
     }
     // public function resetPassword()
     // {
@@ -153,13 +128,10 @@ class FrontPagesController extends Controller
 
     public function checkout()
     {
-        $flashes = Flash::where('status', '1')->get();
         $countries = Country::orderBy('priority', 'asc')->where('status', '1')->get();
         $divisions = Division::orderBy('priority', 'asc')->where('status', '1')->get();
         $districts = District::orderBy('name', 'asc')->where('status', '1')->get();
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        $settings = Setting::where('id', 1)->get();
-        return view('frontend.pages.checkout', compact('countries', 'divisions', 'districts', 'flashes', 'categories', 'settings'));
+        return view('frontend.pages.checkout', compact('countries', 'divisions', 'districts'));
     }
 
 
@@ -170,45 +142,27 @@ class FrontPagesController extends Controller
      */
     public function about()
     {
-        $flashes = Flash::where('status', '1')->get();
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        $settings = Setting::where('id', 1)->get();
-        return view('frontend.pages.staticPages.about', compact('flashes', 'categories', 'settings'));
+        return view('frontend.pages.staticPages.about');
     }
     public function contact()
     {
-        $flashes = Flash::where('status', '1')->get();
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        $settings = Setting::where('id', 1)->get();
-        return view('frontend.pages.staticPages.contact', compact('flashes', 'categories', 'settings'));
+        return view('frontend.pages.staticPages.contact');
     }
     public function faq()
     {
-        $flashes = Flash::where('status', '1')->get();
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        $settings = Setting::where('id', 1)->get();
-        return view('frontend.pages.staticPages.faqs', compact('flashes', 'categories', 'settings'));
+        return view('frontend.pages.staticPages.faqs');
     }
     public function privacyPolicy()
     {
-        $flashes = Flash::where('status', '1')->get();
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        $settings = Setting::where('id', 1)->get();
-        return view('frontend.pages.staticPages.privacy-policy', compact('flashes', 'categories', 'settings'));
+        return view('frontend.pages.staticPages.privacy-policy');
     }
     public function returnPolicy()
     {
-        $flashes = Flash::where('status', '1')->get();
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        $settings = Setting::where('id', 1)->get();
-        return view('frontend.pages.staticPages.return-policy', compact('flashes', 'categories', 'settings'));
+        return view('frontend.pages.staticPages.return-policy');
     }
     public function termsCondition()
     {
-        $flashes = Flash::where('status', '1')->get();
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        $settings = Setting::where('id', 1)->get();
-        return view('frontend.pages.staticPages.terms-conditions', compact('flashes', 'categories', 'settings'));
+        return view('frontend.pages.staticPages.terms-conditions');
     }
 
     /**

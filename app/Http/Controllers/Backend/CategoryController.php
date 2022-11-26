@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\Setting;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use File;
-use Illuminate\Support\Facades\App;
 use Image;
+use App\Models\Category;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
@@ -20,9 +19,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $settings = Setting::where('id', 1)->get();
         $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->get();
-        return view('backend.pages.category.manage', compact('categories', 'settings'));
+        return view('backend.pages.category.manage', compact('categories'));
     }
 
     /**
@@ -32,9 +30,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $settings = Setting::where('id', 1)->get();
         $parentCat = Category::orderBy('name', 'asc')->where('is_parent', 0)->get();
-        return view('backend.pages.category.create', compact('parentCat', 'settings'));
+        return view('backend.pages.category.create', compact('parentCat'));
     }
 
     /**
@@ -98,11 +95,10 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $settings = Setting::where('id', 1)->get();
         $category = Category::find($id);
         if(!is_null($category)){
             $parentCat = Category::orderBy('name', 'asc')->where('is_parent', 0)->get();
-            return view('backend.pages.category.edit', compact('category', 'parentCat', 'settings'));
+            return view('backend.pages.category.edit', compact('category', 'parentCat'));
         }else{
             //404
         }
@@ -184,9 +180,8 @@ class CategoryController extends Controller
     }
 
     public function softDelete(){
-        $settings = Setting::where('id', 1)->get();
         $categories = Category::where('status', 2)->orderBy('name', 'asc')->get();
-        return view('backend.pages.category.softdelete', compact('categories', 'settings'));
+        return view('backend.pages.category.softdelete', compact('categories'));
     }
 
     public function fullDelete($id)

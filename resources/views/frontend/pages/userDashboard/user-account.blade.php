@@ -85,8 +85,8 @@
                                                                         <td>#{{ $item->inv_id }}</td>
                                                                         <td>{{ $item->created_at->toFormattedDateString() }}</td>
                                                                         <td>{{ $item->status }}</td>
-                                                                        <td>{{ $item->amount }} {{ __('BDT') }} for item</td>
-                                                                        <td><a href="{{ route('invoice', $item->inv_id) }}" class="btn-small d-block">View</a></td>
+                                                                        <td>{{ $item->amount }} {{ __('BDT') }} for {{ $item->total_quantity }} item</td>
+                                                                        <td><a href="{{ route('invoice', $item->id) }}" class="btn-small d-block">View</a></td>
                                                                     </tr>
                                                                 @endforeach
                                                             @endif
@@ -211,9 +211,6 @@
                                                             <label>District <span class="required">*</span></label>
                                                             <select name="district_id" class="form-control" id="districts">
                                                                 <option value="" hidden>Please Select District</option>
-                                                                @foreach ($districts as $district)
-                                                                    <option value="{{ $district->id }}" @if ($district->id == Auth::user()->district_id) selected @endif>{{ $district->name }}</option>
-                                                                @endforeach
                                                             </select>
                                                         </div>
                                                         <div class="col-md-12">
@@ -234,23 +231,36 @@
     </main>
 @endsection
 
-@section('pageScript')
+@section('pageScripts')
     <script>
-        $('#country_id').ready(function(){
+        $('#country_id').change(function(){
             var country = $('#country_id').val();
             // Make All The Division As Null
-            $('#divisions').HTML("");
+            $('#divisions').html("");
             var option = "";
             $.get("http://127.0.0.1:8000/divisions/" + country, function(data){
                 data = JSON.parse(data);
                 data.forEach(function(value){
                     option += "<option value=' " + value.id + " '>" + value.name + "</option>";
                 });
-                $('#divisions').HTML(option);
+                $('#divisions').html(option);
+            });
+        });
+
+        $('#divisions').change(function(){
+            var division = $('#divisions').val();
+            // Make All The Dsitrict As Null
+            $('#districts').html("");
+            var option = "";
+            $.get("http://127.0.0.1:8000/districts/" + division, function(data){
+                data = JSON.parse(data);
+                data.forEach(function(value){
+                    option += "<option value=' " + value.id + " '>" + value.name + "</option>";
+                });
+                $('#districts').html(option);
             });
         });
     </script>
-    
 @endsection
     
     

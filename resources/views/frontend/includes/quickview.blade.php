@@ -12,14 +12,14 @@
                                 <div class="product-image-slider">
                                     @foreach ($prDetails->images as $image)
                                         <figure class="border-radius-10">
-                                            <img src="{{ asset('backend/img/products/' . $image->image ) }}" alt="product image" />
+                                            <img src="{{ asset('backend/img/products/'.$image->image ) }}" alt="product image" />
                                         </figure>
                                     @endforeach
                                 </div>
                                 <!-- THUMBNAILS -->
                                 <div class="slider-nav-thumbnails">
                                     @foreach ($prDetails->images as $image)
-                                        <div><img src="{{ asset('backend/img/products/' . $image->image ) }}" alt="product image" /></div>
+                                        <div><img src="{{ asset('backend/img/products/'.$image->image ) }}" alt="product image" /></div>
                                     @endforeach
                                 </div>
                             </div>

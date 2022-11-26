@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\DistrictController;
 use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\FlashController;
+use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\SslCommerzPaymentController;
 use Illuminate\Routing\RouteGroup;
 
@@ -34,6 +35,7 @@ use Illuminate\Routing\RouteGroup;
 //     return view('welcome');
 // });
 
+//Home
 Route::get('/', [FrontPagesController::class, 'home'])->name('home');
 Route::get('/404', [FrontPagesController::class, 'notFound'])->name('notFound');
 
@@ -163,6 +165,12 @@ Route::group(['prefix' => '/admin'], function(){
         Route::get('/edit/{id}', [DistrictController::class, 'edit'])->name('district.edit');
         Route::post('/update/{id}', [DistrictController::class, 'update'])->name('district.update');
         Route::post('/destroy/{id}', [DistrictController::class, 'destroy'])->name('district.destroy');
+    });
+
+    // Order Route
+    Route::group(['prefix' => '/all-orders'], function(){
+        Route::get('/manage', [OrderController::class, 'index'])->name('order.manage');
+        Route::get('/order-details/{id}', [OrderController::class, 'show'])->name('order.details');
     });
 
     // Setting Route
