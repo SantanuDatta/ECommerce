@@ -2,24 +2,11 @@
 
 namespace App\Http\Controllers\Backend;
 
-use File;
-use Image;
-use App\Models\Cart;
-use App\Models\User;
-use App\Models\Brand;
-use App\Models\Order;
-use App\Models\Country;
-use App\Models\Product;
-use App\Models\Category;
-use App\Models\District;
-use App\Models\Division;
-use Illuminate\Support\Str;
-use App\Models\ProductImage;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Http\Request;
 
-class OrderController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,8 +15,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::orderBy('id', 'desc')->get();
-        return view('backend.pages.order.manage', compact('orders'));
+        $customers = USER::where('role', 2)->orderBy('name', 'asc')->get();
+        return view('backend.pages.customer.manage', compact('customers'));
     }
 
     /**
@@ -61,11 +48,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $order = Order::find($id);
-        if(!is_null($id)){
-            $carts = Cart::orderBy('id', 'asc')->where('order_id', $order->id)->get();
-            return view('backend.pages.order.details', compact('order', 'carts'));
-        }
+        //
     }
 
     /**
@@ -88,16 +71,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $order = Order::find($id);
-        $order->status = $request->status;
-
-        $notification = array(
-            'alert-type'    => 'success',
-            'message'       => 'Order Status Updated Successfully!',
-        );
-
-        $order->save();
-        return redirect()->back()->with($notification);
+        //
     }
 
     /**

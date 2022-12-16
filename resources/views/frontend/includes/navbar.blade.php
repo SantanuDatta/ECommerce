@@ -86,17 +86,10 @@
                             <form action="{{ route('search.products') }}" method="POST">
                                 @csrf
                                 <select class="select-active">
-                                    <option>All Categories</option>
-                                    <option>Milks and Dairies</option>
-                                    <option>Wines & Alcohol</option>
-                                    <option>Clothing & Beauty</option>
-                                    <option>Pet Foods & Toy</option>
-                                    <option>Fast food</option>
-                                    <option>Baking material</option>
-                                    <option>Vegetables</option>
-                                    <option>Fresh Seafood</option>
-                                    <option>Noodles & Rice</option>
-                                    <option>Ice cream</option>
+                                    <option hidden>All Categories</option>
+                                    @foreach ($categories as $category)
+                                        <option>{{ $category->name }}</option>
+                                    @endforeach
                                 </select>
                                 <input type="text" name="searchContent" placeholder="Search for items..." />
                             </form>
@@ -165,11 +158,25 @@
                                                     </div>
                                                     <div class="shopping-cart-title">
                                                         <h4><a href="{{ route('cart.manage') }}">{{ Str::limit($cart->product->name, 12) }}</a></h4>
-                                                        <h4><span>{{ $cart->product_quantity }} × {{ $cart->unit_price }}</span>
-                                                            @if (!is_null($cart->unit_price))
+                                                        <h4>
+                                                            @if (!is_null($cart->product->offer_price))
                                                                 @php
-                                                                    $totalAmount += $cart->unit_price * $cart->product_quantity;
+                                                                    $totalSave = ($cart->product->regular_price *($cart->product->offer_price /100) );
+                                                                    $savedAmount = $cart->product->regular_price - $totalSave;
                                                                 @endphp
+                                                                <span>{{ $cart->product_quantity }} × {{ $savedAmount }}</span>
+                                                            @else
+                                                                <span>{{ $cart->product_quantity }} × {{ $cart->product->regular_price }}</span>
+                                                            @endif
+                                                            @if (!is_null($cart->product->offer_price))
+                                                                @php
+                                                                    $totalAmount += $savedAmount * $cart->product_quantity;
+                                                                @endphp
+                                                                {{ __('BDT') }}
+                                                            @else
+                                                            @php
+                                                                $totalAmount += $cart->product->regular_price * $cart->product_quantity;
+                                                            @endphp
                                                                 {{ __('BDT') }}
                                                             @endif
                                                         </h4>

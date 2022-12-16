@@ -80,10 +80,17 @@
                                                 <td colspan="3" class="text-end f-w-600">Tax</td>
                                                 <td class="text-right">0 {{ __('BDT') }}</td>
                                             </tr>
-                                            <tr>
-                                                <td colspan="3" class="text-end f-w-600">Grand Total</td>
-                                                <td class="text-right f-w-600">{{ $total }} {{ ('BDT') }}</td>
-                                            </tr>
+                                            @if ($orderHistory->payment_method == 1)
+                                                <tr>
+                                                    <td colspan="3" class="text-end f-w-600">Total Due</td>
+                                                    <td class="text-right f-w-600">{{ $total }} {{ ('BDT') }}</td>
+                                                </tr>
+                                            @elseif ($orderHistory->payment_method == 2)
+                                                <tr>
+                                                    <td colspan="3" class="text-end f-w-600">Total Amount Paid</td>
+                                                    <td class="text-right f-w-600">{{ $total }} {{ ('BDT') }}</td>
+                                                </tr>
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>
@@ -101,11 +108,19 @@
                                             @endif
                                         </p>
                                     </div>
-                                    <div class="col-md-6 text-end">
-                                        <h6 class="mb-15">Total Amount</h6>
-                                        <h3 class="mt-0 mb-0 text-brand">{{ $total }} {{ ('BDT') }}</h3>
-                                        <p class="mb-0 text-muted">Taxes Included</p>
-                                    </div>
+                                    @if ($orderHistory->payment_method == 1)
+                                        <div class="col-md-6 text-end">
+                                            <h6 class="mb-15">Amount To Be Paid</h6>
+                                            <h3 class="mt-0 mb-0 text-brand">{{ $total }} {{ ('BDT') }}</h3>
+                                            <p class="mb-0 text-muted">Taxes Included</p>
+                                        </div>
+                                    @elseif ($orderHistory->payment_method == 2)
+                                        <div class="col-md-6 text-end">
+                                            <h6 class="mb-15">Total Amount</h6>
+                                            <h3 class="mt-0 mb-0 text-brand">{{ $total }} {{ ('BDT') }}</h3>
+                                            <p class="mb-0 text-muted">Taxes Included</p>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="row text-center">
                                     <div class="hr mt-30 mb-30"></div>

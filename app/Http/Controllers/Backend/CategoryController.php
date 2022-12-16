@@ -43,13 +43,13 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
 
-        // $category = $request->validate([
-        //     'name' => 'required|unique:categories|min:5|max:25|alpha',
-        //     'is_parent' => 'nullable',
-        //     'image' => 'nullable|image|mimes:png,jpg,jpeg|size:1024|dimensions:max_width=300,mnn_height=300',
-        //     'description' => 'nullable',
-        //     'status' => 'required'
-        // ]);
+        $category = $request->validate([
+            'name' => 'required|unique:categories|min:5|max:25|alpha',
+            'is_parent' => 'nullable',
+            'image' => 'nullable|image|mimes:png,jpg,jpeg|size:1024|dimensions:max_width=300,mnn_height=300',
+            'description' => 'nullable',
+            'status' => 'required'
+        ]);
 
         $category = new Category();
         $category->name         = $request->name;
@@ -113,12 +113,12 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $category = $request->validate([
-        //     'name' => 'required|min:5|max:25|alpha|unique:categories,'.$id,
-        //     'is_parent' => 'nullable',
-        //     'image' => 'nullable|image|mimes:png,jpg,jpeg|size:1024|dimensions:max_width=300,mnn_height=300',
-        //     'description' => 'nullable',
-        // ]);
+        $category = $request->validate([
+            'name' => 'required|min:5|max:25|alpha|unique:categories,name',
+            'is_parent' => 'nullable',
+            'image' => 'nullable|image|mimes:png,jpg,jpeg|size:1024|dimensions:max_width=300,mnn_height=300',
+            'description' => 'nullable',
+        ]);
 
         $category = Category::find($id);
         $category->name         = $request->name;

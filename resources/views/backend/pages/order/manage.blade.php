@@ -43,11 +43,22 @@
                                             <td>#{{ $order->inv_id }}</td>
                                             <td>{{ $order->name }} {{ $order->lastName }}</td>
                                             <td>{{ $order->email }}</td>
-                                            <td>{{ $order->status }}</td>
+                                            <td>
+                                                @if($order->status == 1) 
+                                                    <span class="badge badge-info">Pending</span> 
+                                                @elseif ($order->status == 2)
+                                                    <span class="badge badge-primary">Proceesing</span> 
+                                                @elseif ($order->status == 3)
+                                                    <span class="badge badge-success">Success</span> 
+                                                @elseif ($order->status == 4)
+                                                    <span class="badge badge-warning">Failed</span> 
+                                                @elseif ($order->status == 5)
+                                                    <span class="badge badge-danger">Cancelled</span> 
+                                                @endif
+                                            </td>
                                             <td>
                                                 <div class="btn-group action-bar" role="group">
                                                     <a href="{{ route('order.details', $order->id) }}"><i class="fas fa-eye"></i></a>
-                                                    <a href=""><i class="fas fa-edit"></i></a>
                                                     <a href="" data-toggle="modal" data-target="#softdelete-"><i class="fas fa-trash"></i></a>
                                                 </div>
                                             </td>

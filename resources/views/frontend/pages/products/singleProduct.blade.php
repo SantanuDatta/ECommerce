@@ -10,14 +10,14 @@
             <div class="container">
                 <div class="breadcrumb">
                     <a href="{{ route('home') }}" rel="nofollow"><i class="fi-rs-home mr-5"></i>{{ __('Home') }}</a>
-                    <span></span> 
+                    <span></span>
                     <a href="{{ route('shop') }}" rel="nofollow"></i>{{ __('Shop') }}</a>
-                    <span></span> 
+                    <span></span>
                     <a href="shop-grid-right.html">
                         @foreach ( App\Models\Category::orderBy('id', 'asc')->where('id',$prDetails->category->is_parent)->get() as $pCat)
                         {{ $pCat->name }}
                         @endforeach
-                    </a> 
+                    </a>
                     <span></span> {{ $prDetails->category->name}}
                 </div>
             </div>
@@ -59,21 +59,39 @@
                                         @endif
                                     @endif
                                     <h2 class="title-detail">{{ $prDetails->name }}</h2>
+                                    
                                     <div class="product-detail-rating">
                                         <div class="product-rate-cover text-end">
-                                            <div class="product-rate d-inline-block">
-                                                <div class="product-rating" style="width: 90%"></div>
+                                            @foreach ($reviews as $review)
+                                                
+                                            @endforeach
+                                            <div class="d-inline-block">
+                                                <form action="">
+                                                    <ul class="shop-rate-area">
+                                                        <input type="radio" id="5-star" name="rating" value="5" @if ($review->rating == 5) checked @endif />
+                                                        <label for="5-star" title="Amazing">5 stars</label>
+                                                        <input type="radio" id="4-star" name="rating" value="4" @if ($review->rating == 4) checked @endif/>
+                                                        <label for="4-star" title="Good">4 stars</label>
+                                                        <input type="radio" id="3-star" name="rating" value="3" @if ($review->rating == 3) checked @endif/>
+                                                        <label for="3-star" title="Average">3 stars</label>
+                                                        <input type="radio" id="2-star" name="rating" value="2" @if ($review->rating == 2) checked @endif/>
+                                                        <label for="2-star" title="Not Good">2 stars</label>
+                                                        <input type="radio" id="1-star" name="rating" value="1" @if ($review->rating == 1) checked @endif/>
+                                                        <label for="1-star" title="Bad">1 star</label>
+                                                    </ul>
+                                                </form>
                                             </div>
-                                            <span class="font-small ml-5 text-muted"> (32 reviews)</span>
+                                            <span class="font-small ml-5 text-muted"> ({{ $reviews->count() }} reviews)</span>
                                         </div>
                                     </div>
+
                                     <div class="clearfix product-price-cover">
                                         <div class="product-price primary-color float-left">
                                             @if (!is_null($prDetails->offer_price))
                                                 @php
                                                     $totalSave = ($prDetails->regular_price *($prDetails->offer_price /100) );
                                                 @endphp
-                                                <span class="current-price text-brand">{{ $prDetails->regular_price - $totalSave }} {{ __('BDT') }}</span> 
+                                                <span class="current-price text-brand">{{ $prDetails->regular_price - $totalSave }} {{ __('BDT') }}</span>
                                                 <span>
                                                     @if (!is_null($prDetails->offer_price))
                                                         <span class="save-price font-md color3 ml-15"">{{ $prDetails->offer_price }} {{ __('% Off') }}</span>
@@ -157,7 +175,7 @@
                                         <a class="nav-link" id="Vendor-info-tab" data-bs-toggle="tab" href="#Vendor-info">Vendor</a>
                                     </li> --}}
                                     <li class="nav-item">
-                                        <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#Reviews">Reviews (3)</a>
+                                        <a class="nav-link" id="Reviews-tab" data-bs-toggle="tab" href="#Reviews">Reviews ({{ $reviews->count()}})</a>
                                     </li>
                                 </ul>
                                 <div class="tab-content shop_info_tab entry-main-content">
@@ -211,92 +229,106 @@
                                                 <div class="col-lg-8">
                                                     <h4 class="mb-30">Customer questions & answers</h4>
                                                     <div class="comment-list">
-                                                        <div class="single-comment justify-content-between d-flex mb-30">
-                                                            <div class="user justify-content-between d-flex">
-                                                                <div class="thumb text-center">
-                                                                    <img src="{{ asset('frontend/assets/imgs/blog/author-2.png') }}" alt="" />
-                                                                    <a href="#" class="font-heading text-brand">Sienna</a>
-                                                                </div>
-                                                                <div class="desc">
-                                                                    <div class="d-flex justify-content-between mb-10">
-                                                                        <div class="d-flex align-items-center">
-                                                                            <span class="font-xs text-muted">December 4, 2022 at 3:12 pm </span>
-                                                                        </div>
-                                                                        <div class="product-rate d-inline-block">
-                                                                            <div class="product-rating" style="width: 100%"></div>
-                                                                        </div>
+                                                        @foreach ($reviews as $review)
+                                                            <div class="single-comment justify-content-between d-flex mb-30">
+                                                                <div class="user justify-content-between d-flex">
+                                                                    <div class="thumb text-center">
+                                                                        <img src="{{ asset('backend/img/Default.png') }}" alt="" /><br>
+                                                                        <a href="#" class="font-heading text-brand">{{ $review->user->name }}</a>
                                                                     </div>
-                                                                    <p class="mb-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, suscipit exercitationem accusantium obcaecati quos voluptate nesciunt facilis itaque modi commodi dignissimos sequi repudiandae minus ab deleniti totam officia id incidunt? <a href="#" class="reply">Reply</a></p>
+                                                                    <div class="desc">
+                                                                        <div class="d-flex justify-content-between mb-10">
+                                                                            <div class="d-flex align-items-center">
+                                                                                <span class="font-xs text-muted">{{ $review->created_at->toDayDateTimeString() }} </span>
+                                                                            </div>
+
+                                                                            <div class="d-inline-block">
+                                                                            <form action="">
+                                                                                <ul class="shop-rate-area">
+                                                                                    <input type="radio" id="5-star" name="rating" value="5" @if ($review->rating == 5) checked @endif />
+                                                                                    <label for="5-star" title="Amazing">5 stars</label>
+                                                                                    <input type="radio" id="4-star" name="rating" value="4" @if ($review->rating == 4) checked @endif/>
+                                                                                    <label for="4-star" title="Good">4 stars</label>
+                                                                                    <input type="radio" id="3-star" name="rating" value="3" @if ($review->rating == 3) checked @endif/>
+                                                                                    <label for="3-star" title="Average">3 stars</label>
+                                                                                    <input type="radio" id="2-star" name="rating" value="2" @if ($review->rating == 2) checked @endif/>
+                                                                                    <label for="2-star" title="Not Good">2 stars</label>
+                                                                                    <input type="radio" id="1-star" name="rating" value="1" @if ($review->rating == 1) checked @endif/>
+                                                                                    <label for="1-star" title="Bad">1 star</label>
+                                                                                </ul>
+                                                                            </form>
+                                                                            </div>
+                                                                        </div>
+                                                                        <p class="mb-10">{{ $review->comment }} <a href="#" class="reply">Reply</a></p>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="single-comment justify-content-between d-flex mb-30 ml-30">
-                                                            <div class="user justify-content-between d-flex">
-                                                                <div class="thumb text-center">
-                                                                    <img src="{{ asset('frontend/assets/imgs/blog/author-3.png') }}" alt="" />
-                                                                    <a href="#" class="font-heading text-brand">Brenna</a>
-                                                                </div>
-                                                                <div class="desc">
-                                                                    <div class="d-flex justify-content-between mb-10">
-                                                                        <div class="d-flex align-items-center">
-                                                                            <span class="font-xs text-muted">December 4, 2022 at 3:12 pm </span>
-                                                                        </div>
-                                                                        <div class="product-rate d-inline-block">
-                                                                            <div class="product-rating" style="width: 80%"></div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <p class="mb-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, suscipit exercitationem accusantium obcaecati quos voluptate nesciunt facilis itaque modi commodi dignissimos sequi repudiandae minus ab deleniti totam officia id incidunt? <a href="#" class="reply">Reply</a></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="single-comment justify-content-between d-flex">
-                                                            <div class="user justify-content-between d-flex">
-                                                                <div class="thumb text-center">
-                                                                    <img src="{{ asset('frontend/assets/imgs/blog/author-4.png') }}" alt="" />
-                                                                    <a href="#" class="font-heading text-brand">Gemma</a>
-                                                                </div>
-                                                                <div class="desc">
-                                                                    <div class="d-flex justify-content-between mb-10">
-                                                                        <div class="d-flex align-items-center">
-                                                                            <span class="font-xs text-muted">December 4, 2022 at 3:12 pm </span>
-                                                                        </div>
-                                                                        <div class="product-rate d-inline-block">
-                                                                            <div class="product-rating" style="width: 80%"></div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <p class="mb-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, suscipit exercitationem accusantium obcaecati quos voluptate nesciunt facilis itaque modi commodi dignissimos sequi repudiandae minus ab deleniti totam officia id incidunt? <a href="#" class="reply">Reply</a></p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        @endforeach
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <h4 class="mb-30">Customer reviews</h4>
                                                     <div class="d-flex mb-30">
-                                                        <div class="product-rate d-inline-block mr-15">
-                                                            <div class="product-rating" style="width: 90%"></div>
+                                                        <div class=" d-inline-block mr-15">
+                                                            <ul class="customer-rate-area">
+                                                                <input type="radio" id="5-star" name="rating" value="5" @if ($review->rating == 5) checked @endif />
+                                                                <label for="5-star" title="Amazing">5 stars</label>
+                                                                <input type="radio" id="4-star" name="rating" value="4" @if ($review->rating == 4) checked @endif/>
+                                                                <label for="4-star" title="Good">4 stars</label>
+                                                                <input type="radio" id="3-star" name="rating" value="3" @if ($review->rating == 3) checked @endif/>
+                                                                <label for="3-star" title="Average">3 stars</label>
+                                                                <input type="radio" id="2-star" name="rating" value="2" @if ($review->rating == 2) checked @endif/>
+                                                                <label for="2-star" title="Not Good">2 stars</label>
+                                                                <input type="radio" id="1-star" name="rating" value="1" @if ($review->rating == 1) checked @endif/>
+                                                                <label for="1-star" title="Bad">1 star</label>
+                                                            </ul>
                                                         </div>
-                                                        <h6>4.8 out of 5</h6>
+                                                        @php
+                                                            $totalRating = 0;
+                                                        @endphp
+                                                        @foreach ($reviews as $review)
+                                                            @php
+                                                                $totalRating += $review->rating
+                                                            @endphp
+                                                        @endforeach
+                                                        <h6>@if (!is_null($totalRating))
+                                                            {{ $totalRating / $reviews->count() ?? '0' }} out of 5
+                                                        @else
+                                                            0 out of 5
+                                                        @endif</h6>
                                                     </div>
+                                                    @php
+                                                        $totalFive = DB::table('product_reviews') ->where('rating', 5) ->count();
+                                                        $totalFour = DB::table('product_reviews') ->where('rating', 4) ->count();
+                                                        $totalThree = DB::table('product_reviews') ->where('rating', 3) ->count();
+                                                        $totalTwo = DB::table('product_reviews') ->where('rating', 2) ->count();
+                                                        $totalOne = DB::table('product_reviews') ->where('rating', 1) ->count();
+
+                                                        $five   = ($totalFive / $reviews->count() * 100);
+                                                        $four   = ($totalFour / $reviews->count() * 100);
+                                                        $three  = ($totalThree / $reviews->count() * 100);
+                                                        $two    = ($totalTwo / $reviews->count() * 100);
+                                                        $one    = ($totalOne / $reviews->count() * 100);
+                                                    @endphp
                                                     <div class="progress">
                                                         <span>5 star</span>
-                                                        <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+                                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ $five}}" aria-valuemin="0" aria-valuemax="100">{{ $five }}%</div>
                                                     </div>
                                                     <div class="progress">
                                                         <span>4 star</span>
-                                                        <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ $four}}" aria-valuemin="0" aria-valuemax="100">{{ $four }}%</div>
                                                     </div>
                                                     <div class="progress">
                                                         <span>3 star</span>
-                                                        <div class="progress-bar" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">45%</div>
+                                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ $three}}" aria-valuemin="0" aria-valuemax="100">{{ $three }}%</div>
                                                     </div>
                                                     <div class="progress">
                                                         <span>2 star</span>
-                                                        <div class="progress-bar" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%</div>
+                                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ $two }}" aria-valuemin="0" aria-valuemax="100">{{ $two }}%</div>
                                                     </div>
                                                     <div class="progress mb-30">
                                                         <span>1 star</span>
-                                                        <div class="progress-bar" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">85%</div>
+                                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ $one}}" aria-valuemin="0" aria-valuemax="100">{{ $one }}%</div>
                                                     </div>
                                                     <a href="#" class="font-xs text-muted">How are ratings calculated?</a>
                                                 </div>
@@ -305,6 +337,7 @@
                                         <!--comment form-->
                                         <div class="comment-form">
                                             <h4 class="mb-15">Add a review</h4>
+
                                             <div class="product-rate d-inline-block mb-30"></div>
                                             <div class="row">
                                                 <div class="col-lg-8 col-md-12">
@@ -313,21 +346,6 @@
                                                             <div class="col-12">
                                                                 <div class="form-group">
                                                                     <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9" placeholder="Write Comment"></textarea>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <input class="form-control" name="name" id="name" type="text" placeholder="Name" />
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <div class="form-group">
-                                                                    <input class="form-control" name="email" id="email" type="email" placeholder="Email" />
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12">
-                                                                <div class="form-group">
-                                                                    <input class="form-control" name="website" id="website" type="text" placeholder="Website" />
                                                                 </div>
                                                             </div>
                                                         </div>

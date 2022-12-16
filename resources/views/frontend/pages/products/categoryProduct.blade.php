@@ -8,10 +8,13 @@
                 <div class="archive-header">
                     <div class="row align-items-center">
                         <div class="col-xl-3">
-                            <h1 class="mb-15">All Products</h1>
+                            @foreach ($cDetails as $category)
+                                <h1 class="mb-15">{{ $category->name }}</h1>
+                            @endforeach
+                            
                             <div class="breadcrumb">
                                 <a href="{{ route('home') }}" rel="nofollow"><i class="fi-rs-home mr-5"></i>{{ __('Home') }}</a>
-                                <span></span> {{ __('Shop') }}
+                                <span></span> {{ __('Category Products') }}
                             </div>
                         </div>
                         {{-- <div class="col-xl-9 text-end d-none d-xl-block">
@@ -42,7 +45,16 @@
                 <div class="col-lg-4-5">
                     <div class="shop-product-fillter">
                         <div class="totall-product">
-                            <p>{{ __('We found') }} <strong class="text-brand">{{ $products->count() }}</strong> {{ __('items for you!') }}</p>
+                            @foreach ($cDetails as $cat)
+                            @php
+                                $numCount = DB::table('products')->orderBy('id', 'asc')->where('category_id', $cat->id)->get();
+                            @endphp
+                                @if ($numCount->count() == 0)
+                                    <p>{{ __('We found') }} <strong class="text-brand">{{ $numCount->count() }}</strong> {{ __('items in this category!') }}</p>
+                                @else
+                                    <p>{{ __('We found') }} <strong class="text-brand">{{ $cDetails->count() }}</strong> {{ __('items in this category!') }}</p>
+                                @endif
+                            @endforeach
                         </div>
                         <div class="sort-by-product-area">
                             <div class="sort-by-cover mr-10">
@@ -86,110 +98,121 @@
                         </div>
                     </div>
                     <div class="row product-grid">
-                        @foreach ($products as $prDetails)
-                            <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
-                                <div class="product-cart-wrap mb-30">
-                                    <div class="product-img-action-wrap">
-                                        <div class="product-img product-img-zoom">
-                                            <a href="{{ route('singleProduct', $prDetails->slug) }}">
-                                                @php $img = 1; @endphp
-                                                @foreach ($prDetails->images as $image)
-                                                    @if ($img > 0)
-                                                    <img class="default-img" src="{{ asset('backend/img/products/'.$image->image) }}" alt="" />
-                                                        @php $img--; @endphp
-                                                    @endif
-                                                    @if ($img == 2)
-                                                    <img class="hover-img" src="{{ asset('backend/img/products/'.$image->image) }}" alt="" />
-                                                        @php $img++; @endphp
-                                                    @endif
-                                                @endforeach
-                                                {{-- <img class="hover-img" src="{{ asset('frontend/assets/imgs/shop/product-1-2.jpg') }}" alt="" /> --}}
-                                            </a>
-                                        </div>
-                                        <div class="product-action-1">
-                                            <a aria-label="Add To Wishlist" class="action-btn" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
-                                            <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
-                                            <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal" data-bs-target="#quickViewModal-{{ $prDetails->id }}"><i class="fi-rs-eye"></i></a>
-                                        </div>
-                                        @include('frontend.includes.quickview')
-                                        <div class="product-badges product-badges-position product-badges-mrg">
-                                            @if ($prDetails->is_featured == 1 && $prDetails->offer_price)
-                                                <span class="best">{{ __('Hot & Sale') }}</span>
-                                            @elseif ($prDetails->is_featured == 1)
-                                                <span class="hot">{{ __('Hot') }}</span>
-                                            @elseif ($prDetails->is_featured == 0)
-                                                @if (!is_null($prDetails->offer_price))
-                                                    <span class="sale">{{ __('Sale') }}</span>
-                                                @endif
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="product-content-wrap">
-                                        <div class="product-category">
-                                            <a href="">{{ $prDetails->category->name ?? 'N/A'}}</a>
-                                        </div>
-                                        <h2><a href="{{ route('singleProduct', $prDetails->slug) }}">{{ $prDetails->name }}</a></h2>
-                                            <div class="product-rate-cover">
-                                                <div class=" d-inline-block">
+                        @foreach ($cDetails as $category)
+                            @php
+                                $numCount = DB::table('products')->orderBy('id', 'asc')->where('category_id', $category->id)->get();
+                            @endphp
+                            @if ($numCount->count() == 0)
+                                <div class="alert alert-warning">{{ __('No Products Has Been Added To Ths Category!!') }}</div>
+                            @else
+                                @foreach (App\Models\Product::orderBy('id', 'desc')->where('category_id', $category->id)->where('status', 1)->get() as $prDetails)
+                                    <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
+                                        <div class="product-cart-wrap mb-30">
+                                            <div class="product-img-action-wrap">
+                                                <div class="product-img product-img-zoom">
+                                                    <a href="{{ route('singleProduct', $prDetails->slug) }}">
+                                                        @php $img = 1; @endphp
+                                                        @foreach ($prDetails->images as $image)
+                                                            @if ($img > 0)
+                                                            <img class="default-img" src="{{ asset('backend/img/products/'.$image->image) }}" alt="" />
+                                                                @php $img--; @endphp
+                                                            @endif
+                                                            @if ($img == 2)
+                                                            <img class="hover-img" src="{{ asset('backend/img/products/'.$image->image) }}" alt="" />
+                                                                @php $img++; @endphp
+                                                            @endif
+                                                        @endforeach
+                                                        {{-- <img class="hover-img" src="{{ asset('frontend/assets/imgs/shop/product-1-2.jpg') }}" alt="" /> --}}
+                                                    </a>
                                                 </div>
-                                                <span class="font-small ml-5 text-muted">(0)</span>
+                                                <div class="product-action-1">
+                                                    <a aria-label="Add To Wishlist" class="action-btn" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                                    <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal" data-bs-target="#quickViewModal-{{ $prDetails->id }}"><i class="fi-rs-eye"></i></a>
+                                                </div>
+                                                @include('frontend.includes.quickview')
+                                                <div class="product-badges product-badges-position product-badges-mrg">
+                                                    @if ($prDetails->is_featured == 1 && $prDetails->offer_price)
+                                                        <span class="best">{{ __('Hot & Sale') }}</span>
+                                                    @elseif ($prDetails->is_featured == 1)
+                                                        <span class="hot">{{ __('Hot') }}</span>
+                                                    @elseif ($prDetails->is_featured == 0)
+                                                        @if (!is_null($prDetails->offer_price))
+                                                            <span class="sale">{{ __('Sale') }}</span>
+                                                        @endif
+                                                    @endif
+                                                </div>
                                             </div>
-                                        <div>
-                                            @if (!is_null($prDetails->offer_price))
-                                                <span class="font-small text-muted">{{ __('Save') }} <a href="">{{ $prDetails->offer_price }} %</a></span>
-                                            @endif
-                                        </div>
-                                        <div class="product-card-bottom">
-                                            <div class="product-price">
-                                                @if (!is_null($prDetails->offer_price))
-                                                    @php
-                                                        $totalSave = ($prDetails->regular_price *($prDetails->offer_price /100) );
-                                                    @endphp
-                                                    <span>{{ $prDetails->regular_price - $totalSave }} {{ __('BDT') }}</span> 
-                                                    <span class="old-price">{{ $prDetails->regular_price }} {{ __('BDT') }}</span>
-                                                @else
-                                                    <span>{{ $prDetails->regular_price }} {{ __('BDT') }}</span>
-                                                @endif
-                                            </div>
-                                            <div class="detail-extralink">
-                                                <form action="{{ route('cart.store') }}" method="POST">
-                                                    @csrf
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="detail-qty bordeproductr radius">
-                                                                <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
-                                                                <input type="text" name="quantity" class="qty-val" value="1" min="1">
-                                                                <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="add-cart">
-                                                                <input type="hidden" name="product_id" value="{{ $prDetails->id }}">
-                                                                @if (!is_null($prDetails->offer_price))
-                                                                    @php
-                                                                        $totalSave = ($prDetails->regular_price *($prDetails->offer_price /100) );
-                                                                    @endphp
-                                                                    <input type="hidden" name="unit_price" value="{{ $prDetails->regular_price - $totalSave }}">
-                                                                @else
-                                                                    <input type="hidden" name="unit_price" value="{{ $prDetails->regular_price }}">
-                                                                @endif
-                                                                <button class="add" type="submit"><i class="fi-rs-shopping-cart mr-5"></i>{{ __('Add') }}</button>
-                                                            </div>
-                                                        </div>
+                                            <div class="product-content-wrap">
+                                                <div class="product-category">
+                                                    <a href="">{{ $prDetails->category->name ?? 'N/A'}}</a>
+                                                </div>
+                                                <h2><a href="{{ route('singleProduct', $prDetails->slug) }}">{{ $prDetails->name }}</a></h2>
+                                                <div class="product-rate-cover">
+                                                    <div class="product-rate d-inline-block">
+                                                        <div class="product-rating" style="width: 90%"></div>
                                                     </div>
-                                                </form>
+                                                    <span class="font-small ml-5 text-muted"> (4.0)</span>
+                                                </div>
+                                                <div>
+                                                    @if (!is_null($prDetails->offer_price))
+                                                        <span class="font-small text-muted">{{ __('Save') }} <a href="">{{ $prDetails->offer_price }} %</a></span>
+                                                    @endif
+                                                    
+                                                </div>
+                                                <div class="product-card-bottom">
+                                                    <div class="product-price">
+                                                        @if (!is_null($prDetails->offer_price))
+                                                            @php
+                                                                $totalSave = ($prDetails->regular_price *($prDetails->offer_price /100) );
+                                                            @endphp
+                                                            <span>{{ $prDetails->regular_price - $totalSave }} {{ __('BDT') }}</span> 
+                                                            <span class="old-price">{{ $prDetails->regular_price }} {{ __('BDT') }}</span>
+                                                        @else
+                                                            <span>{{ $prDetails->regular_price }} {{ __('BDT') }}</span>
+                                                        @endif
+                                                    </div>
+                                                    <div class="detail-extralink">
+                                                        <form action="{{ route('cart.store') }}" method="POST">
+                                                            @csrf
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="detail-qty bordeproductr radius">
+                                                                        <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
+                                                                        <input type="text" name="quantity" class="qty-val" value="1" min="1">
+                                                                        <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="add-cart">
+                                                                        <input type="hidden" name="product_id" value="{{ $prDetails->id }}">
+                                                                        @if (!is_null($prDetails->offer_price))
+                                                                            @php
+                                                                                $totalSave = ($prDetails->regular_price *($prDetails->offer_price /100) );
+                                                                            @endphp
+                                                                            <input type="hidden" name="unit_price" value="{{ $prDetails->regular_price - $totalSave }}">
+                                                                        @else
+                                                                            <input type="hidden" name="unit_price" value="{{ $prDetails->regular_price }}">
+                                                                        @endif
+                                                                        <button class="add" type="submit"><i class="fi-rs-shopping-cart mr-5"></i>{{ __('Add') }}</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                @endforeach
+                            @endif
                         @endforeach
                     </div>
                     <!--product grid-->
                     <div class="pagination-area mt-20 mb-20">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-start">
-                                {{ $products->links() }}
+                                {{ $cDetails->links() }}
                             </ul>
                         </nav>
                     </div>

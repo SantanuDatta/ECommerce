@@ -84,7 +84,19 @@
                                                                     <tr>
                                                                         <td>#{{ $item->inv_id }}</td>
                                                                         <td>{{ $item->created_at->toFormattedDateString() }}</td>
-                                                                        <td>{{ $item->status }}</td>
+                                                                        <td>
+                                                                            @if($item->status == 1) 
+                                                                                Pending
+                                                                            @elseif ($item->status == 2)
+                                                                                Proceesing 
+                                                                            @elseif ($item->status == 3)
+                                                                                Success
+                                                                            @elseif ($item->status == 4)
+                                                                                Failed 
+                                                                            @elseif ($item->status == 5)
+                                                                                Cancelled 
+                                                                            @endif
+                                                                        </td>
                                                                         <td>{{ $item->amount }} {{ __('BDT') }} for {{ $item->total_quantity }} item</td>
                                                                         <td><a href="{{ route('invoice', $item->id) }}" class="btn-small d-block">View</a></td>
                                                                     </tr>
@@ -233,7 +245,7 @@
 
 @section('pageScripts')
     <script>
-        $('#country_id').change(function(){
+        $('#country_id').on('change',function(){
             var country = $('#country_id').val();
             // Make All The Division As Null
             $('#divisions').html("");
@@ -244,10 +256,11 @@
                     option += "<option value=' " + value.id + " '>" + value.name + "</option>";
                 });
                 $('#divisions').html(option);
-            });
+                $('#divisions').trigger('change');
+            }).trigger('change');
         });
 
-        $('#divisions').change(function(){
+        $('#divisions').on('change', function(){
             var division = $('#divisions').val();
             // Make All The Dsitrict As Null
             $('#districts').html("");
@@ -258,7 +271,7 @@
                     option += "<option value=' " + value.id + " '>" + value.name + "</option>";
                 });
                 $('#districts').html(option);
-            });
+            }).trigger('change');
         });
     </script>
 @endsection

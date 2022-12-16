@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 //Frontend
 use App\Http\Controllers\Frontend\FrontPagesController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\ProductReviewController;
 
 //Backend
 use App\Http\Controllers\Backend\PagesController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\FlashController;
 use App\Http\Controllers\Backend\OrderController;
+use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\SslCommerzPaymentController;
 use Illuminate\Routing\RouteGroup;
 
@@ -55,20 +57,25 @@ Route::group(['prefix' => '/cart'], function(){
 Route::group(['prefix' => '/user'], function(){
     Route::get('/dashboard', [FrontPagesController::class, 'userDashboard'])->name('user.dashboard');
     Route::post('/update/{id}', [FrontPagesController::class, 'userUpdate'])->name('user.update');
+    //User Account
+    Route::get('/invoice/{id}', [FrontPagesController::class, 'invoice'])->name('invoice');
+    //Product Review
+    Route::post('/review-product', [ProductReviewController::class, 'store'])->name('product.review');
+    Route::post('/update-review-product/{id}', [ProductReviewController::class, 'update'])->name('update.review');
 });
 
-//User Account
-Route::get('/invoice/{id}', [FrontPagesController::class, 'invoice'])->name('invoice');
 
 
 //Search Products
 Route::post('/search-products', [FrontPagesController::class, 'searchProduct'])->name('search.products');
 
-//Products 
+//Products
 Route::get('/shop', [FrontPagesController::class, 'shop'])->name('shop');
 Route::get('/single-product/{slug}', [FrontPagesController::class, 'singleProduct'])->name('singleProduct');
+Route::get('category/{slug}', [FrontPagesController::class, 'categoryProduct'])->name('category.product');
 
-//User Auth 
+
+//User Auth
 Route::get('/customer-login', [FrontPagesController::class, 'customerLogin'])->name('customerLogin');
 
 //Static Pages
@@ -137,6 +144,13 @@ Route::group(['prefix' => '/admin'], function(){
         Route::post('/delete/{id}', [ProductController::class, 'fullDelete'])->name('product.fulldelete');
     });
 
+    // Order Route
+    Route::group(['prefix' => '/all-orders'], function(){
+        Route::get('/manage', [OrderController::class, 'index'])->name('order.manage');
+        Route::get('/order-details/{id}', [OrderController::class, 'show'])->name('order.details');
+        Route::post('/order-details/update/{id}', [OrderController::class, 'update'])->name('order.update');
+    });
+
     // Country Route
     Route::group(['prefix' => '/country'], function () {
         Route::get('/manage', [CountryController::class, 'index'])->name('country.manage');
@@ -167,10 +181,9 @@ Route::group(['prefix' => '/admin'], function(){
         Route::post('/destroy/{id}', [DistrictController::class, 'destroy'])->name('district.destroy');
     });
 
-    // Order Route
-    Route::group(['prefix' => '/all-orders'], function(){
-        Route::get('/manage', [OrderController::class, 'index'])->name('order.manage');
-        Route::get('/order-details/{id}', [OrderController::class, 'show'])->name('order.details');
+    // Customer Route
+    Route::group(['prefix' => '/customer'], function (){
+        Route::get('/manage', [CustomerController::class, 'index'])->name('customer.manage');
     });
 
     // Setting Route
@@ -178,7 +191,7 @@ Route::group(['prefix' => '/admin'], function(){
         Route::get('/manage', [SettingController::class, 'index'])->name('setting.manage');
         Route::post('/update/{id}', [SettingController::class, 'update'])->name('setting.update');
     });
-    
+
     // Slider Route
     Route::group(['prefix' => '/slider'], function () {
         Route::get('/manage', [SliderController::class, 'index'])->name('slider.manage');

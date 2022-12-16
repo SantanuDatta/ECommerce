@@ -17,6 +17,8 @@ use Illuminate\Support\Str;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\ProductReview;
 use Illuminate\Support\Facades\Auth;
 
 class FrontPagesController extends Controller
@@ -50,7 +52,6 @@ class FrontPagesController extends Controller
         
     }
 
-
     public function userDashboard()
     {
         $countries  = Country::orderBy('priority', 'asc')->where('status', '1')->get();
@@ -79,8 +80,14 @@ class FrontPagesController extends Controller
         $user->country_id       = $request->country_id;
         $user->division_id      = $request->division_id;
         $user->district_id      = $request->district_id;
+
+        $notification = array(
+            'alert-type'    => 'success',
+            'message'       => 'Information Have Been Updated!',
+        );
+
         $user->save();
-        return redirect()->back();
+        return redirect()->back()->with($notification);
     }
 
     /**
@@ -108,7 +115,15 @@ class FrontPagesController extends Controller
     public function singleProduct($slug)
     {
         $prDetails = Product::where('slug', $slug)->first();
-        return view('frontend.pages.products.singleProduct', compact('prDetails'));
+        $reviews = ProductReview::where('product_id', $prDetails->id)->get();
+        return view('frontend.pages.products.singleProduct', compact('prDetails', 'reviews'));
+    }
+
+    public function categoryProduct($slug)
+    {
+        $cDetails = Category::where('slug', $slug)->where('status', 0)->paginate(15);
+        $lastProducts = Product::orderBy('id', 'desc')->where('status', 1)->take(3)->get();
+        return view('frontend.pages.products.categoryProduct', compact('cDetails', 'lastProducts'));
     }
 
     /**

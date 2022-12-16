@@ -40,12 +40,12 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        // $brand = $request->validate([
-        //     'name' => 'required|unique:brands|min:5|max:20|alpha',
-        //     'description' => 'nullable',
-        //     'image' => 'nullable|image|size:1024|mimes:jpeg,png,jpg|dimensions:max_width=300,max_height=300',
-        //     'status' => 'required',
-        // ]);
+        $brand = $request->validate([
+            'name' => 'required|unique:brands|min:5|max:20|alpha',
+            'description' => 'nullable',
+            'image' => 'nullable|image|size:1024|mimes:jpeg,png,jpg|dimensions:max_width=300,max_height=300',
+            'status' => 'required',
+        ]);
 
         $brand = new Brand();
         $brand->name        = $request->name;
@@ -107,11 +107,11 @@ class BrandController extends Controller
     public function update(Request $request, $id)
     {
 
-        // $brand = $request->validate([
-        //     'name' => 'required|min:5|max:20|alpha|unique:brands,'.$id,
-        //     'description' => 'nullable',
-        //     'image' => 'nullable|image|size:1024|mimes:jpeg,png,jpg|dimensions:max_width=300,max_height=300',
-        // ]);
+        $brand = $request->validate([
+            'name' => 'required|min:5|max:20|alpha|unique:brands,name',
+            'description' => 'nullable',
+            'image' => 'nullable|image|size:1024|mimes:jpeg,png,jpg|dimensions:max_width=300,max_height=300',
+        ]);
 
         $brand = Brand::find($id);
         $brand->name        = $request->name;
@@ -182,5 +182,5 @@ class BrandController extends Controller
         }else{
             //404
         }
-    } 
+    }
 }

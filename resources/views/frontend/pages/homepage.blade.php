@@ -46,11 +46,17 @@
                         @foreach ($categories as $pCat)
                             @foreach (App\Models\Category::orderBy('name', 'asc')->where('is_parent', $pCat->id)->get() as $category)
                                 @if ($category->is_featured == 1)
-                                    <div class="card-2 bg-9 wow animate__animated animate__fadeInUp" data-wow-delay=".1s">
+                                    <div class="card-2 bg-12 wow animate__animated animate__fadeInUp" data-wow-delay=".1s">
                                         <figure class="img-hover-scale overflow-hidden">
-                                            <a href="shop-grid-right.html"><img src="{{ asset('frontend/assets/imgs/shop/cat-13.png')  }}" alt="" /></a>
+                                            <a href="{{ route('category.product', $category->slug) }}"><img src="{{ asset('frontend/assets/imgs/shop/cat-13.png')  }}" alt="" /></a>
                                         </figure>
-                                        <h6><a href="shop-grid-right.html">{{ $category->name }}</a></h6>
+                                        <h6><a href="{{ route('category.product', $category->slug) }}">{{ $category->name }}</a></h6>
+                                        <span> 
+                                            @php
+                                                $numOfPItems = DB::table('products')->orderBy('id', 'asc')->where('category_id', $category->id)->get()
+                                            @endphp
+                                            {{ $numOfPItems->count() }} items
+                                        </span>
                                     </div>
                                 @endif
                             @endforeach

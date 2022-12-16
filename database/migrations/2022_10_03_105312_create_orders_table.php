@@ -27,7 +27,7 @@ return new class extends Migration
             $table->integer('division_id')->nullable();
             $table->integer('district_id')->nullable();
             $table->string('zipcode')->nullable();
-            $table->text('status')->nullable();
+            $table->integer('status')->nullable()->comment('1 = Pending, 2 = Processing, 3 = Success, 4 = Failed, 5 = Canceled');
             $table->text('add_info')->nullable();
             // Payment Gateway Info
             $table->integer('payment_method')->nullable();

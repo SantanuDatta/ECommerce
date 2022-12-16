@@ -74,60 +74,128 @@ class SslCommerzPaymentController extends Controller
         $post_data['value_c'] = "ref003";
         $post_data['value_d'] = "ref004";
 
-        $lastInvoice = Order::orderBy('id', 'desc')->first();
-        if(empty($lastInvoice)){
-            $newInvoice = 1;
-        }else{
-            $newInvoice = $lastInvoice->inv_id + 1;
-        }
-
-        $createDate = Carbon::now();
-        $createDateTime = $createDate->toDateTimeString();
-
-        #Before  going to initiate the payment order status need to insert or update as Pending.
-        $update_product = DB::table('orders')
-            ->where('transaction_id', $post_data['tran_id'])
-            ->updateOrInsert([
-                'inv_id'                => $newInvoice,
-                'user_id'               => $post_data['cus_id'],
-                'name'                  => $post_data['cus_name'],
-                'lastName'              => $post_data['cus_lastName'],
-                'email'                 => $post_data['cus_email'],
-                'phone'                 => $post_data['cus_phone'],
-                'address_1'             => $post_data['cus_add1'],
-                'address_2'             => $post_data['cus_add2'],
-                'country_id'            => $post_data['cus_country'],
-                'division_id'           => $post_data['cus_city'],
-                'district_id'           => $post_data['cus_state'],
-                'zipcode'               => $post_data['cus_postcode'],
-                'add_info'              => $post_data['cus_info'],
-                'status'                => "Pending",
-                'payment_method'        => $post_data['payment_method'],
-                'total_quantity'        => $post_data['total_quantity'],
-                'amount'                => $post_data['total_amount'],
-                'transaction_id'        => $post_data['tran_id'],
-                'currency'              => $post_data['currency'],
-                'created_at'            => $createDateTime,
-            ]);
-
-            $orderID = Order::where('transaction_id', $post_data['tran_id'])->first();
-
-            foreach(Cart::totalCarts() as $cart){
-                $cart->user_id  = $post_data['cus_id'];
-                $cart->order_id = $orderID->id;
-                $cart->save();
+        if($post_data['payment_method'] == 1){
+            // COD
+            $lastInvoice = Order::orderBy('id', 'desc')->first();
+            if(empty($lastInvoice)){
+                $newInvoice = 1;
+            }else{
+                $newInvoice = $lastInvoice->inv_id + 1;
             }
 
+            $createDate = Carbon::now();
+            $createDateTime = $createDate->toDateTimeString();
 
-        $sslc = new SslCommerzNotification();
-        # initiate(Transaction Data , false: Redirect to SSLCOMMERZ gateway/ true: Show all the Payement gateway here )
-        $payment_options = $sslc->makePayment($post_data, 'hosted');
+            #Before  going to initiate the payment order status need to insert or update as Pending.
+            $update_product = DB::table('orders')
+                ->where('transaction_id', $post_data['tran_id'])
+                ->updateOrInsert([
+                    'inv_id'                => $newInvoice,
+                    'user_id'               => $post_data['cus_id'],
+                    'name'                  => $post_data['cus_name'],
+                    'lastName'              => $post_data['cus_lastName'],
+                    'email'                 => $post_data['cus_email'],
+                    'phone'                 => $post_data['cus_phone'],
+                    'address_1'             => $post_data['cus_add1'],
+                    'address_2'             => $post_data['cus_add2'],
+                    'country_id'            => $post_data['cus_country'],
+                    'division_id'           => $post_data['cus_city'],
+                    'district_id'           => $post_data['cus_state'],
+                    'zipcode'               => $post_data['cus_postcode'],
+                    'add_info'              => $post_data['cus_info'],
+                    'status'                => 1,
+                    'payment_method'        => $post_data['payment_method'],
+                    'total_quantity'        => $post_data['total_quantity'],
+                    'amount'                => $post_data['total_amount'],
+                    'transaction_id'        => $post_data['tran_id'],
+                    'currency'              => $post_data['currency'],
+                    'created_at'            => $createDateTime,
+                ]);
 
-        if (!is_array($payment_options)) {
-            print_r($payment_options);
-            $payment_options = array();
+                $orderID = Order::where('transaction_id', $post_data['tran_id'])->first();
+
+                foreach(Cart::totalCarts() as $cart){
+                    if (!is_null($cart->product->offer_price)) {
+                        $totalSave = ($cart->product->regular_price *($cart->product->offer_price /100) );
+                        $cart->unit_price = $totalSave;
+                        $cart->user_id  = $post_data['cus_id'];
+                        $cart->order_id = $orderID->id;
+                        $cart->save();
+                    } else {
+                        $cart->unit_price = $cart->product->regular_price;
+                        $cart->user_id  = $post_data['cus_id'];
+                        $cart->order_id = $orderID->id;
+                        $cart->save();
+                    }
+                }
+
+                $orderHistory = Order::where('transaction_id', $post_data['tran_id'])->first();
+                return view('frontend.pages.success', compact('orderHistory'));
+
+        }elseif($post_data['payment_method'] == 2){
+            //SSL Commerce
+            $lastInvoice = Order::orderBy('id', 'desc')->first();
+            if(empty($lastInvoice)){
+                $newInvoice = 1;
+            }else{
+                $newInvoice = $lastInvoice->inv_id + 1;
+            }
+
+            $createDate = Carbon::now();
+            $createDateTime = $createDate->toDateTimeString();
+
+            #Before  going to initiate the payment order status need to insert or update as Pending.
+            $update_product = DB::table('orders')
+                ->where('transaction_id', $post_data['tran_id'])
+                ->updateOrInsert([
+                    'inv_id'                => $newInvoice,
+                    'user_id'               => $post_data['cus_id'],
+                    'name'                  => $post_data['cus_name'],
+                    'lastName'              => $post_data['cus_lastName'],
+                    'email'                 => $post_data['cus_email'],
+                    'phone'                 => $post_data['cus_phone'],
+                    'address_1'             => $post_data['cus_add1'],
+                    'address_2'             => $post_data['cus_add2'],
+                    'country_id'            => $post_data['cus_country'],
+                    'division_id'           => $post_data['cus_city'],
+                    'district_id'           => $post_data['cus_state'],
+                    'zipcode'               => $post_data['cus_postcode'],
+                    'add_info'              => $post_data['cus_info'],
+                    'status'                => 1,
+                    'payment_method'        => $post_data['payment_method'],
+                    'total_quantity'        => $post_data['total_quantity'],
+                    'amount'                => $post_data['total_amount'],
+                    'transaction_id'        => $post_data['tran_id'],
+                    'currency'              => $post_data['currency'],
+                    'created_at'            => $createDateTime,
+                ]);
+
+                $orderID = Order::where('transaction_id', $post_data['tran_id'])->first();
+
+                foreach(Cart::totalCarts() as $cart){
+                    if (!is_null($cart->product->offer_price)) {
+                        $totalSave = ($cart->product->regular_price *($cart->product->offer_price /100) );
+                        $cart->unit_price = $totalSave;
+                        $cart->user_id  = $post_data['cus_id'];
+                        $cart->order_id = $orderID->id;
+                        $cart->save();
+                    } else {
+                        $cart->unit_price = $cart->product->regular_price;
+                        $cart->user_id  = $post_data['cus_id'];
+                        $cart->order_id = $orderID->id;
+                        $cart->save();
+                    }
+                }
+
+            $sslc = new SslCommerzNotification();
+            # initiate(Transaction Data , false: Redirect to SSLCOMMERZ gateway/ true: Show all the Payement gateway here )
+            $payment_options = $sslc->makePayment($post_data, 'hosted');
+
+            if (!is_array($payment_options)) {
+                print_r($payment_options);
+                $payment_options = array();
+            }
         }
-
     }
 
     public function payViaAjax(Request $request)
@@ -216,7 +284,7 @@ class SslCommerzPaymentController extends Controller
             ->where('transaction_id', $tran_id)
             ->select('transaction_id', 'status', 'currency', 'amount')->first();
 
-        if ($order_detials->status == 'Pending') {
+        if ($order_detials->status == 1) {
             $validation = $sslc->orderValidate($request->all(), $tran_id, $amount, $currency);
 
             if ($validation == TRUE) {
@@ -227,7 +295,7 @@ class SslCommerzPaymentController extends Controller
                 */
                 $update_product = DB::table('orders')
                     ->where('transaction_id', $tran_id)
-                    ->update(['status' => 'Processing']);
+                    ->update(['status' => 2]);
 
                 //echo "<br >Transaction is successfully Completed";
                 $orderHistory = Order::where('transaction_id', $tran_id)->first();
@@ -242,7 +310,7 @@ class SslCommerzPaymentController extends Controller
                     ->update(['status' => 5]);
                 echo "validation Fail";
             }
-        } else if ($order_detials->status == 'Processing' || $order_detials->status == 'Complete') {
+        } else if ($order_detials->status == 2 || $order_detials->status == 3) {
             /*
             That means through IPN Order status already updated. Now you can just show the customer that transaction is completed. No need to update database.
              */
@@ -265,12 +333,12 @@ class SslCommerzPaymentController extends Controller
             ->where('transaction_id', $tran_id)
             ->select('transaction_id', 'status', 'currency', 'amount')->first();
 
-        if ($order_detials->status == 'Pending') {
+        if ($order_detials->status == 1) {
             $update_product = DB::table('orders')
                 ->where('transaction_id', $tran_id)
-                ->update(['status' => 'Failed']);
+                ->update(['status' => 4]);
             echo "Transaction is Falied";
-        } else if ($order_detials->status == 'Processing' || $order_detials->status == 'Complete') {
+        } else if ($order_detials->status == 2 || $order_detials->status == 3) {
             echo "Transaction is already Successful";
         } else {
             echo "Transaction is Invalid";
@@ -286,12 +354,12 @@ class SslCommerzPaymentController extends Controller
             ->where('transaction_id', $tran_id)
             ->select('transaction_id', 'status', 'currency', 'amount')->first();
 
-        if ($order_detials->status == 'Pending') {
+        if ($order_detials->status == 1) {
             $update_product = DB::table('orders')
                 ->where('transaction_id', $tran_id)
-                ->update(['status' => 'Canceled']);
+                ->update(['status' => 5]);
             echo "Transaction is Cancel";
-        } else if ($order_detials->status == 'Processing' || $order_detials->status == 'Complete') {
+        } else if ($order_detials->status == 2 || $order_detials->status == 3) {
             echo "Transaction is already Successful";
         } else {
             echo "Transaction is Invalid";
@@ -313,7 +381,7 @@ class SslCommerzPaymentController extends Controller
                 ->where('transaction_id', $tran_id)
                 ->select('transaction_id', 'status', 'currency', 'amount')->first();
 
-            if ($order_details->status == 'Pending') {
+            if ($order_details->status == 1) {
                 $sslc = new SslCommerzNotification();
                 $validation = $sslc->orderValidate($request->all(), $tran_id, $order_details->amount, $order_details->currency);
                 if ($validation == TRUE) {
@@ -324,7 +392,7 @@ class SslCommerzPaymentController extends Controller
                     */
                     $update_product = DB::table('orders')
                         ->where('transaction_id', $tran_id)
-                        ->update(['status' => 'Processing']);
+                        ->update(['status' => 2]);
 
                     echo "Transaction is successfully Completed";
                 } else {
@@ -334,12 +402,12 @@ class SslCommerzPaymentController extends Controller
                     */
                     $update_product = DB::table('orders')
                         ->where('transaction_id', $tran_id)
-                        ->update(['status' => 'Failed']);
+                        ->update(['status' => 5]);
 
                     echo "validation Fail";
                 }
 
-            } else if ($order_details->status == 'Processing' || $order_details->status == 'Complete') {
+            } else if ($order_details->status == 2 || $order_details->status == 3) {
 
                 #That means Order status already updated. No need to udate database.
 

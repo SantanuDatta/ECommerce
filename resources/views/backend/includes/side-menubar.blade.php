@@ -151,13 +151,16 @@
         <label class="sidebar-label pd-x-10 mg-t-25 mg-b-20 tx-info">Customer Management</label>
         
         <li class="br-menu-item">
-            <a href="#" class="br-menu-link with-sub">
+            <a href="#" class="br-menu-link with-sub 
+            @if (Route::is('customer.manage') || Route::is('customer.create') || Route::is('customer.edit'))
+            active
+            @endif">
                 <i class="menu-item-icon icon ion-ios-people-outline tx-20"></i>
                 <span class="menu-item-label">Customer [CRM]</span>
             </a>
             <ul class="br-menu-sub">
-                <li class="sub-item"><a href="card-dashboard.html" class="sub-link">Add New Customer</a></li>
-                <li class="sub-item"><a href="card-social.html" class="sub-link">Manage All Customers</a></li>
+                <li class="sub-item"><a href="" class="sub-link">Add New Customer</a></li>
+                <li class="sub-item"><a href="{{ route('customer.manage') }}" class="sub-link @if (Route::is('customer.manage')) active @endif">Manage All Customers</a></li>
             </ul>
         </li>
 

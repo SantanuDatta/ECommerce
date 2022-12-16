@@ -374,7 +374,7 @@
 
 @section('pageScripts')
     <script>
-        $('#country_id').change(function(){
+        $('#country_id').on('change',function(){
             var country = $('#country_id').val();
             // Make All The Division As Null
             $('#divisions').html("");
@@ -385,10 +385,11 @@
                     option += "<option value=' " + value.id + " '>" + value.name + "</option>";
                 });
                 $('#divisions').html(option);
-            });
+                $('#divisions').trigger('change');
+            }).trigger('change');
         });
 
-        $('#divisions').change(function(){
+        $('#divisions').on('change', function(){
             var division = $('#divisions').val();
             // Make All The Dsitrict As Null
             $('#districts').html("");
@@ -399,7 +400,7 @@
                     option += "<option value=' " + value.id + " '>" + value.name + "</option>";
                 });
                 $('#districts').html(option);
-            });
+            }).trigger('change');
         });
     </script>
 @endsection

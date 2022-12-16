@@ -139,6 +139,9 @@
                 </div>
             </div><!-- media-list -->
             </div><!-- dropdown-menu -->
+            <a href="{{ route('home') }}" class="nav-link pd-x-7 pos-relative">
+                <i class="icon ion-ios-home-outline tx-24"></i>
+            </a>
         </div><!-- dropdown -->
         <div class="dropdown">
             <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">

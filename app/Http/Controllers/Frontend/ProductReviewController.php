@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use File;
-use Image;
 use App\Models\Cart;
-use App\Models\Brand;
+use App\Models\User;
+use App\Models\Order;
 use App\Models\Product;
-use Illuminate\Support\Str;
-use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use App\Models\ProductReview;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class CartController extends Controller
+class ProductReviewController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,8 +20,7 @@ class CartController extends Controller
      */
     public function index()
     {
-    return view('frontend.pages.cart');
-    
+        //
     }
 
     /**
@@ -44,25 +41,19 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::check()){
-            $cart = Cart::where('user_id', Auth::user()->id)->where('product_id', $request->product_id)->where('order_id', Null)->first();
-        }else{
-            $cart = Cart::where('ip_address', request()->ip())->where('product_id', $request->product_id)->where('order_id', Null)->first();
-        }
-        if(!is_null($cart)){
-            $cart->increment('product_quantity');
-            return back();
-        }else{
-            $cart = new Cart();
-            if(Auth::check()){
-                $cart->user_id          = Auth::user()->id;
-            }
-            $cart->ip_address           = request()->ip();
-            $cart->product_id           = $request->product_id;
-            $cart->product_quantity     = $request->quantity;
-            $cart->save();
-            return back();
-        }
+        $review = new ProductReview();
+        $review->rating = $request->rating;
+        $review->comment = $request->comment;
+        $review->user_id = Auth::user()->id;
+        $review->product_id = $request->product_id;
+
+        $notification = array(
+            'alert-type'    => 'success',
+            'message'       => 'Your Product Review Has Been Submitted!',
+        );
+
+        $review->save();
+        return redirect()->back()->with($notification);
     }
 
     /**
@@ -96,14 +87,16 @@ class CartController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $cart = Cart::find($id);
-        if(!is_null($cart)){
-            $cart->product_quantity = $request->quantity;
-            $cart->save();
-            return back();
-        }else{
-            return back();
-        }
+        $review = ProductReview::find($id);
+        $review->rating = $request->rating;
+        $review->comment = $request->comment;
+        $notification = array(
+            'alert-type'    => 'success',
+            'message'       => 'Your Product Review Has Been Updated!',
+        );
+
+        $review->save();
+        return redirect()->back()->with($notification);
     }
 
     /**
@@ -114,12 +107,6 @@ class CartController extends Controller
      */
     public function destroy($id)
     {
-        $cart = Cart::find($id);
-        if(!is_null($cart)){
-            $cart->delete();
-        }else{
-            return redirect()->route('cart.manage');
-        }
-        return redirect()->route('cart.manage');
+        //
     }
 }
