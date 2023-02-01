@@ -11,6 +11,9 @@
     {{-- Data Table CSS --}}
     <link rel="stylesheet" href="{{ asset('backend/lib/datatables.net-dt/css/jquery.dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/lib/datatables.net-responsive-dt/css/responsive.dataTables.min.css') }}">
+
+    {{-- Tags Input --}}
+    <link rel="stylesheet" href="{{ asset('backend/lib/bootstrap-tagsinput/bootstrap-tagsinput.css') }}">
     
     {{-- Toastr --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">

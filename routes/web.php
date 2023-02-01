@@ -19,8 +19,8 @@ use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\FlashController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Backend\CustomerController;
+use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\SslCommerzPaymentController;
-use Illuminate\Routing\RouteGroup;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,9 +41,29 @@ use Illuminate\Routing\RouteGroup;
 Route::get('/', [FrontPagesController::class, 'home'])->name('home');
 Route::get('/404', [FrontPagesController::class, 'notFound'])->name('notFound');
 
-//Checkout
-Route::get('/checkout', [FrontPagesController::class, 'checkout'])->name('checkout');
-Route::post('/checkout/pay', [SslCommerzPaymentController::class, 'index'])->name('make.payment');
+//User Dashboard
+Route::group(['middleware' => ['auth', 'verified']], function(){
+    Route::group(['prefix' => '/user'], function(){
+        Route::get('/dashboard', [FrontPagesController::class, 'userDashboard'])->name('user.dashboard');
+        Route::post('/update/{id}', [FrontPagesController::class, 'userUpdate'])->name('user.update');
+        //User Account
+        Route::get('/invoice/{inv_id}', [FrontPagesController::class, 'invoice'])->name('invoice');
+        //Product Review
+        Route::post('/review-product', [ProductReviewController::class, 'store'])->name('product.review');
+        Route::post('/update-review-product/{id}', [ProductReviewController::class, 'update'])->name('update.review');
+    });
+
+    //Checkout Payment
+    Route::post('/checkout/pay', [SslCommerzPaymentController::class, 'index'])->name('make.payment');
+
+});
+
+//Wishlist
+Route::group(['prefix' => '/wishlist'], function(){
+    Route::get('/', [WishlistController::class, 'index'])->name('wishlist.manage');
+    Route::post('/edit/{id}', [WishlistController::class, 'edit'])->name('wishlist.edit');
+    Route::post('/destroy/{id}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
+});
 
 //Cart
 Route::group(['prefix' => '/cart'], function(){
@@ -53,27 +73,16 @@ Route::group(['prefix' => '/cart'], function(){
     Route::post('/destroy/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
 });
 
-//User Dashboard
-Route::group(['prefix' => '/user'], function(){
-    Route::get('/dashboard', [FrontPagesController::class, 'userDashboard'])->name('user.dashboard');
-    Route::post('/update/{id}', [FrontPagesController::class, 'userUpdate'])->name('user.update');
-    //User Account
-    Route::get('/invoice/{id}', [FrontPagesController::class, 'invoice'])->name('invoice');
-    //Product Review
-    Route::post('/review-product', [ProductReviewController::class, 'store'])->name('product.review');
-    Route::post('/update-review-product/{id}', [ProductReviewController::class, 'update'])->name('update.review');
-});
-
-
+//Checkout
+Route::get('/checkout', [FrontPagesController::class, 'checkout'])->name('checkout');
 
 //Search Products
-Route::post('/search-products', [FrontPagesController::class, 'searchProduct'])->name('search.products');
+Route::any('/search-products', [FrontPagesController::class, 'searchProduct'])->name('search.products');
 
 //Products
 Route::get('/shop', [FrontPagesController::class, 'shop'])->name('shop');
 Route::get('/single-product/{slug}', [FrontPagesController::class, 'singleProduct'])->name('singleProduct');
-Route::get('category/{slug}', [FrontPagesController::class, 'categoryProduct'])->name('category.product');
-
+Route::get('/category/{slug}', [FrontPagesController::class, 'categoryProduct'])->name('category.product');
 
 //User Auth
 Route::get('/customer-login', [FrontPagesController::class, 'customerLogin'])->name('customerLogin');
@@ -81,6 +90,7 @@ Route::get('/customer-login', [FrontPagesController::class, 'customerLogin'])->n
 //Static Pages
 Route::get('/about', [FrontPagesController::class, 'about'])->name('about');
 Route::get('/contact', [FrontPagesController::class, 'contact'])->name('contact');
+Route::post('/contact', [FrontPagesController::class, 'contactData'])->name('contact.data');
 Route::get('/faq', [FrontPagesController::class, 'faq'])->name('faq');
 Route::get('/privacy-policy', [FrontPagesController::class, 'privacyPolicy'])->name('privacyPolicy');
 Route::get('/return-policy', [FrontPagesController::class, 'returnPolicy'])->name('returnPolicy');
@@ -149,6 +159,7 @@ Route::group(['prefix' => '/admin'], function(){
         Route::get('/manage', [OrderController::class, 'index'])->name('order.manage');
         Route::get('/order-details/{id}', [OrderController::class, 'show'])->name('order.details');
         Route::post('/order-details/update/{id}', [OrderController::class, 'update'])->name('order.update');
+        Route::post('/destroy/{id}', [OrderController::class, 'destroy'])->name('order.destroy');
     });
 
     // Country Route

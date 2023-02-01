@@ -58,7 +58,7 @@
                         <div class="col-lg-6">
                             <form method="post" class="apply-coupon">
                                 <input type="text" placeholder="Enter Coupon Code...">
-                                <button class="btn btn-md" name="login">{{ __('Apply Coupon') }}</button>
+                                <button class="btn btn-sm" name="login">{{ __('Apply Coupon') }}</button>
                             </form>
                         </div>
                     </div>
@@ -119,37 +119,33 @@
                                 </div>
                             </div>
                             <div class="row shipping_calculator">
-                                <div class="form-group col-lg-4">
-                                    <div class="custom_select">
-                                        <select name="country_id" id="country_id" class="form-control select-active" required>
-                                            <option value="">{{ __('Please Select Country') }}</option>
+                                <div class="form-group col-md-4">
+                                    <label>Country <span class="required">*</span></label>
+                                    <select name="country_id" id="country_id" class="form-control">
+                                        <option value="" hidden>Please Select Country</option>
+                                        @if(Auth::check())
                                             @foreach ($countries as $country)
-                                                @if (Auth::check())
-                                                    @if (!is_null(Auth::user()->country_id))
-                                                        <option value="{{ $country->id }}" @if ($country->id == Auth::user()->country_id) selected @endif>{{ $country->name }}</option>
-                                                    @else
-                                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                                    @endif
-                                                @else
-                                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                                @endif
+                                                <option value="{{ $country->id }}" @if ($country->id == Auth::user()->country_id) selected @endif>{{ $country->name }}</option>
                                             @endforeach
-                                        </select>
-                                    </div>
+                                        @else
+                                            @foreach ($countries as $country)
+                                                <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                            @endforeach
+                                        @endif
+
+                                    </select>
                                 </div>
-                                <div class="form-group col-lg-4">
-                                    <div class="custom_select">
-                                        <select name="division_id" id="divisions" class="form-control select-active" required>
-                                            <option value="" hidden>{{ __('Please Select Division') }}</option>
-                                        </select>
-                                    </div>
+                                <div class="form-group col-md-4">
+                                    <label>Division <span class="required">*</span></label>
+                                    <select name="division_id" class="form-control" id="divisions">
+                                        <option value="" hidden>Please Select Division</option>
+                                    </select>
                                 </div>
-                                <div class="form-group col-lg-4">
-                                    <div class="custom_select">
-                                        <select name="district_id" id="districts" class="form-control select-active" required>
-                                            <option value="" hidden>{{ __('Please Select District') }}</option>
-                                        </select>
-                                    </div>
+                                <div class="form-group col-md-4">
+                                    <label>District <span class="required">*</span></label>
+                                    <select name="district_id" class="form-control" id="districts">
+                                        <option value="" hidden>Please Select District</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="row">
@@ -374,33 +370,47 @@
 
 @section('pageScripts')
     <script>
+        //Showing Saved locations From Database
+        var savedCountryId = "{{ $savedCountryId}}";
+        var savedDivisionId = "{{ $savedDivisionId}}";
+        var savedDistrictId = "{{ $savedDistrictId}}";
+
+        //Trggering and Changing
+        $("#country_id").val(savedCountryId);
+        $("#country_id").trigger("change");
+        $("#divisions").val(savedDivisionId);
+        $("#divisions").trigger("change");
+        $("#districts").val(savedDistrictId);
+
+        //Ajax for trigger change
         $('#country_id').on('change',function(){
             var country = $('#country_id').val();
             // Make All The Division As Null
             $('#divisions').html("");
             var option = "";
-            $.get("http://127.0.0.1:8000/divisions/" + country, function(data){
+            $.get("/divisions/" + country, function(data){
                 data = JSON.parse(data);
                 data.forEach(function(value){
-                    option += "<option value=' " + value.id + " '>" + value.name + "</option>";
+                    option += "<option value='" + value.id + "'>" + value.name + "</option>";
                 });
                 $('#divisions').html(option);
                 $('#divisions').trigger('change');
-            }).trigger('change');
+            });
         });
 
         $('#divisions').on('change', function(){
             var division = $('#divisions').val();
-            // Make All The Dsitrict As Null
+            // Make All The District As Null
             $('#districts').html("");
             var option = "";
-            $.get("http://127.0.0.1:8000/districts/" + division, function(data){
+            $.get("/districts/" + division, function(data){
                 data = JSON.parse(data);
                 data.forEach(function(value){
-                    option += "<option value=' " + value.id + " '>" + value.name + "</option>";
+                    option += "<option value='" + value.id + "'>" + value.name + "</option>";
                 });
                 $('#districts').html(option);
-            }).trigger('change');
+            });
         });
+        $('#country_id').trigger('change');
     </script>
 @endsection

@@ -137,12 +137,13 @@
                 <div class="dropdown-footer">
                 <a href=""><i class="fa fa-angle-down"></i> Show All Notifications</a>
                 </div>
+                
             </div><!-- media-list -->
             </div><!-- dropdown-menu -->
-            <a href="{{ route('home') }}" class="nav-link pd-x-7 pos-relative">
-                <i class="icon ion-ios-home-outline tx-24"></i>
-            </a>
         </div><!-- dropdown -->
+        <a href="{{ route('home') }}" class="nav-link pd-x-7 pos-relative">
+            <i class="icon ion-ios-home-outline tx-24"></i>
+        </a>
         <div class="dropdown">
             <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
             <span class="logged-name hidden-md-down">{{ Auth::user()->name }}</span>
@@ -156,11 +157,6 @@
                 <p>{{ Auth::user()->email }}</p>
             </div>
             <hr>
-            <div class="tx-center">
-                <span class="profile-earning-label">Earnings After Taxes</span>
-                <h3 class="profile-earning-amount">$13,230 <i class="icon ion-ios-arrow-thin-up tx-success"></i></h3>
-                <span class="profile-earning-text">Based on list price.</span>
-            </div>
             <hr>
             <ul class="list-unstyled user-profile-nav">
                 <li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>
@@ -179,14 +175,6 @@
             </div><!-- dropdown-menu -->
         </div><!-- dropdown -->
         </nav>
-        <div class="navicon-right">
-        <a id="btnRightMenu" href="" class="pos-relative">
-            <i class="icon ion-ios-chatboxes-outline"></i>
-            <!-- start: if statement -->
-            <span class="square-8 bg-danger pos-absolute t-10 r--5 rounded-circle"></span>
-            <!-- end: if statement -->
-        </a>
-        </div><!-- navicon-right -->
     </div><!-- br-header-right -->
     </div><!-- br-header -->
     <!-- ########## END: HEAD PANEL ########## -->

@@ -123,12 +123,15 @@
                                     </a>
                                     <a href="shop-compare.html"><span class="lable ml-0">Compare</span></a>
                                 </div>
+                                @php
+                                    $wishCount = DB::table('markable_favorites')->where('user_id', Auth::user()?->id)->get();
+                                @endphp
                                 <div class="header-action-icon-2">
-                                    <a href="shop-wishlist.html">
+                                    <a href="{{ route('wishlist.manage') }}">
                                         <img class="svgInject" alt="Nest" src="{{ asset('frontend/assets/imgs/theme/icons/icon-heart.svg')  }}" />
-                                        <span class="pro-count blue">6</span>
+                                        <span class="pro-count blue">{{ $wishCount->count() }}</span>
                                     </a>
-                                    <a href="shop-wishlist.html"><span class="lable">Wishlist</span></a>
+                                    <a href="{{ route('wishlist.manage') }}"><span class="lable">Wishlist</span></a>
                                 </div>
                                 {{-- Cart --}}
                                 <div class="header-action-icon-2">

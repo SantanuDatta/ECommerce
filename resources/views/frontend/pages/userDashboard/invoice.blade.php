@@ -65,92 +65,94 @@
                                                         <div class="item-desc-1">
                                                             <span>{{ $item->product->name }}</span>
                                                             <small>SKU: {{ $item->product->sku_code ?? 'N/A' }}</small>
-                                                            @if ( $inv->status == 3 )
-                                                                @if ( is_null( App\Models\ProductReview::where('user_id', Auth::user()->id)->where('product_id', $item->product->id)->first() ) )
-                                                                    <span><a href="" data-bs-toggle="modal" data-bs-target="#ProductReview-{{ $item->product_id }}">Review This Product</a></span>
-            
+                                                            @if ( $inv->status == 3 && Auth::check())
+                                                                @if (is_null(App\Models\ProductReview::where('user_id', Auth::user()->id)->where('product_id', $item->product_id)->first()))
+                                                                    <span><a href="" data-bs-toggle="modal" data-bs-target="#productReview-{{ $item->product_id }}">Review This Product</a></span>
                                                                 @else
-                                                                    <span><a href="" data-bs-toggle="modal" data-bs-target="#updateReview-{{ $item->product_id }}">Update This Product</a></span>
+                                                                    <span><a href="" data-bs-toggle="modal" data-bs-target="#updateReview-{{ $item->product_id }}">Update This Product Review</a></span>
                                                                 @endif
-                                                                
                                                             @endif
+                                                            <!--Review Modal -->
+<div class="modal fade" id="productReview-{{ $item->product_id }}" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="reviewModalLabel">{{ $item->product->name }}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('product.review') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="">Review Product</label><br>
+                        <ul class="rate-area">
+                            <input type="radio" id="5-star-{{ $item->product_id }}" name="rating" value="5"/>
+                            <label for="5-star-{{ $item->product_id }}" title="Amazing">5 stars</label>
+                            <input type="radio" id="4-star-{{ $item->product_id }}" name="rating" value="4"/>
+                            <label for="4-star-{{ $item->product_id }}" title="Good">4 stars</label>
+                            <input type="radio" id="3-star-{{ $item->product_id }}" name="rating" value="3"/>
+                            <label for="3-star-{{ $item->product_id }}" title="Average">3 stars</label>
+                            <input type="radio" id="2-star-{{ $item->product_id }}" name="rating" value="2"/>
+                            <label for="2-star-{{ $item->product_id }}" title="Not Good">2 stars</label>
+                            <input type="radio" id="1-star-{{ $item->product_id }}" name="rating" value="1"/>
+                            <label for="1-star-{{ $item->product_id }}" title="Bad">1 star</label>
+                        </ul>
+                    </div>
+                    <div class="form-group"><br>
+                        <label for="">Your Experience</label>
+                        <textarea name="comment" id="" cols="30" rows="10" placeholder="You FeedBack Matters"></textarea>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="product_id" value="{{ $item->product_id }}">
+                <input type="submit" class="btn btn-primary" name="review" value="Review Product">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Update Review -->
+@foreach ( App\Models\ProductReview::where('user_id', Auth::user()->id)->where('product_id', $item->product->id)->get() as $review )
+    <div class="modal fade" id="updateReview-{{ $item->product_id }}" tabindex="-1" aria-labelledby="updateReviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="updateReviewModalLabel">{{ $item->product->name }}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('update.review', $review->id) }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label for="">Review Product</label><br>
+                            <ul class="rate-area">
+                                <input type="radio" id="5-star-{{ $item->product_id }}-review-{{ $review->id }}" name="rating" value="5"@if ($review->rating == 5) checked @endif/>
+                                <label for="5-star-{{ $item->product_id }}-review-{{ $review->id }}" title="Amazing">5 stars</label>
+                                <input type="radio" id="4-star-{{ $item->product_id }}-review-{{ $review->id }}" name="rating" value="4"@if ($review->rating == 4) checked @endif/>
+                                <label for="4-star-{{ $item->product_id }}-review-{{ $review->id }}" title="Good">4 stars</label>
+                                <input type="radio" id="3-star-{{ $item->product_id }}-review-{{ $review->id }}" name="rating" value="3"@if ($review->rating == 3) checked @endif/>
+                                <label for="3-star-{{ $item->product_id }}-review-{{ $review->id }}" title="Average">3 stars</label>
+                                <input type="radio" id="2-star-{{ $item->product_id }}-review-{{ $review->id }}" name="rating" value="2"@if ($review->rating == 2) checked @endif/>
+                                <label for="2-star-{{ $item->product_id }}-review-{{ $review->id }}" title="Not Good">2 stars</label>
+                                <input type="radio" id="1-star-{{ $item->product_id }}-review-{{ $review->id }}" name="rating" value="1"@if ($review->rating == 1) checked @endif/>
+                                <label for="1-star-{{ $item->product_id }}-review-{{ $review->id }}" title="Bad">1 star</label>
+                            </ul>
+                        </div>
+                        <div class="form-group"><br>
+                            <label for="">Your Experience</label>
+                            <textarea name="comment" id="" cols="30" rows="10" placeholder="You FeedBack Matters">{{ $review->comment }}</textarea>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary" name="review" value="Review Product">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endforeach
                                                         </div>
                                                     </td>
-                                                    <!--Review Modal -->
-                                                    <div class="modal fade" id="ProductReview-{{ $item->product_id }}" tabindex="-1" aria-labelledby="ReviewModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                <h5 class="modal-title" id="ReviewModalLabel">Review This Product</h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form action="{{ route('product.review') }}" method="POST">
-                                                                        @csrf
-                                                                        <label for="">Product Rating</label><br>
-                                                                        <ul class="rate-area">
-                                                                            <input type="radio" id="5-star" name="rating" value="5" />
-                                                                            <label for="5-star" title="Amazing">5 stars</label>
-                                                                            <input type="radio" id="4-star" name="rating" value="4" />
-                                                                            <label for="4-star" title="Good">4 stars</label>
-                                                                            <input type="radio" id="3-star" name="rating" value="3" />
-                                                                            <label for="3-star" title="Average">3 stars</label>
-                                                                            <input type="radio" id="2-star" name="rating" value="2" />
-                                                                            <label for="2-star" title="Not Good">2 stars</label>
-                                                                            <input type="radio" id="1-star" name="rating" value="1" />
-                                                                            <label for="1-star" title="Bad">1 star</label>
-                                                                        </ul><br>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                    <input type="hidden" name="product_id" value="{{ $item->product->id }}" id="">
-                                                                    <input type="submit" name="addreview" value="Submit Review" class="btn btn-primary">
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    {{-- Update Modal --}}
-                                                    @foreach (App\Models\ProductReview::where('user_id', Auth::user()->id)->where('product_id', $item->product->id)->get() as $review)
-                                                        <div class="modal fade" id="updateReview{{ $item->product->id }}" tabindex="-1" aria-labelledby="updateReviewLabel" aria-hidden="true">
-                                                            <div class="modal-dialog modal-dialog-centered">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h1 class="modal-title fs-5" id="updateReviewLabel">Update Your Review Of This Product</h1>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                    </div>
-                                                                    <form action="{{ route('update.review', $review->id) }}" method="POST">
-                                                                        @csrf
-                                                                        <div class="modal-body">
-                                                                            <div class="form-group">
-                                                                                <label for="">Your Product Rating</label><br>
-                                                                                <ul class="rate-area">
-                                                                                    <input type="radio" id="5-star" name="rating" value="5" @if ($review->rating == 5) checked @endif />
-                                                                                    <label for="5-star" title="Amazing">5 stars</label>
-                                                                                    <input type="radio" id="4-star" name="rating" value="4" @if ($review->rating == 4) checked @endif/>
-                                                                                    <label for="4-star" title="Good">4 stars</label>
-                                                                                    <input type="radio" id="3-star" name="rating" value="3" @if ($review->rating == 3) checked @endif/>
-                                                                                    <label for="3-star" title="Average">3 stars</label>
-                                                                                    <input type="radio" id="2-star" name="rating" value="2" @if ($review->rating == 2) checked @endif/>
-                                                                                    <label for="2-star" title="Not Good">2 stars</label>
-                                                                                    <input type="radio" id="1-star" name="rating" value="1" @if ($review->rating == 1) checked @endif/>
-                                                                                    <label for="1-star" title="Bad">1 star</label>
-                                                                                </ul><br>
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label for="">Your Comment</label>
-                                                                                <textarea name="comment" cols="10" rows="5">{{ $review->comment }}</textarea>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                            <input type="submit" name="updatereview" value="Update Review" class="btn btn-primary">
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
                                                     <td class="text-center">{{ $item->unit_price }} {{ __('BDT') }}</td>
                                                     <td class="text-center">{{ $item->product_quantity }}</td>
                                                     <td class="text-right">{{ $item->unit_price * $item->product_quantity }} {{ __('BDT') }}</td>

@@ -46,7 +46,7 @@
                         @foreach ($categories as $pCat)
                             @foreach (App\Models\Category::orderBy('name', 'asc')->where('is_parent', $pCat->id)->get() as $category)
                                 @if ($category->is_featured == 1)
-                                    <div class="card-2 bg-12 wow animate__animated animate__fadeInUp" data-wow-delay=".1s">
+                                    <div class="card-2 wow animate__animated animate__fadeInUp @if ($loop->odd) bg-12  @else bg-11 @endif" data-wow-delay=".1s">
                                         <figure class="img-hover-scale overflow-hidden">
                                             <a href="{{ route('category.product', $category->slug) }}"><img src="{{ asset('frontend/assets/imgs/shop/cat-13.png')  }}" alt="" /></a>
                                         </figure>

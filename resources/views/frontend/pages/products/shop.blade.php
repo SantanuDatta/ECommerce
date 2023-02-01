@@ -107,9 +107,12 @@
                                             </a>
                                         </div>
                                         <div class="product-action-1">
-                                            <a aria-label="Add To Wishlist" class="action-btn" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
-                                            <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
-                                            <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal" data-bs-target="#quickViewModal-{{ $prDetails->id }}"><i class="fi-rs-eye"></i></a>
+                                            <form action="{{ route('wishlist.edit', $prDetails->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" aria-label="Add To Wishlist" class="action-btn wishlist-btn"><i class="fi-rs-heart"></i></button>
+                                                <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                                <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal" data-bs-target="#quickViewModal-{{ $prDetails->id }}"><i class="fi-rs-eye"></i></a>
+                                            </form>
                                         </div>
                                         @include('frontend.includes.quickview')
                                         <div class="product-badges product-badges-position product-badges-mrg">

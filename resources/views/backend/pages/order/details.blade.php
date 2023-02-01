@@ -30,7 +30,7 @@
             <div class="col-md">
                 <label class="tx-uppercase tx-13 tx-bold mg-b-20">Billed To</label>
                 <h6 class="tx-white">{{ $order->name }} {{ $order->lastName }}</h6>
-                <p class="lh-7">{{ $order->address_1 }}, {{ $order->district->name }}, {{ $order->division->name }}, {{ $order->country->name }} <br>
+                <p class="lh-7">{{ $order->address_1 }}, {{ $order->district->name ?? 'N/A'}}, {{ $order->division->name ?? 'N/A'}}, {{ $order->country->name ?? 'N/A'}} <br>
                 Tel No: {{ $order->phone }}<br>
                 Email: {{ $order->email }}</p>
             </div><!-- col -->

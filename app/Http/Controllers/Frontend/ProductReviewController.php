@@ -49,7 +49,7 @@ class ProductReviewController extends Controller
 
         $notification = array(
             'alert-type'    => 'success',
-            'message'       => 'Your Product Review Has Been Submitted!',
+            'message'       => 'Product Review Has Been Submitted!',
         );
 
         $review->save();
@@ -92,7 +92,7 @@ class ProductReviewController extends Controller
         $review->comment = $request->comment;
         $notification = array(
             'alert-type'    => 'success',
-            'message'       => 'Your Product Review Has Been Updated!',
+            'message'       => 'Product Review Has Been Updated!',
         );
 
         $review->save();

@@ -189,6 +189,8 @@ class ProductController extends Controller
                 'alert-type'    => 'error',
                 'message'       => 'Product Removed Permanently!',
             );
+            $product->carts()->delete();
+            $product->orders()->delete();
             $product->delete();
             return redirect()->route('product.softdelete')->with($notification);
         }else{

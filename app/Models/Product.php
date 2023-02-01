@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Maize\Markable\Markable;
+use Maize\Markable\Models\Favorite;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, Markable;
 
     /**
      * The attributes that are mass assignable.
@@ -34,6 +37,10 @@ class Product extends Model
         'status',
     ];
 
+    protected static $marks = [
+        Favorite::class,
+    ];
+
     public function brand()
     {
         return $this->belongsTo(Brand::class, 'brand_id');
@@ -47,5 +54,13 @@ class Product extends Model
     public function images()
     {
         return $this->hasMany(ProductImage::class);
+    }
+
+    public function carts(){
+        return $this->hasMany(Cart::class);
+    }
+
+    public function orders(){
+        return $this->hasMany(Order::class);
     }
 }

@@ -90,7 +90,6 @@ class OrderController extends Controller
     {
         $order = Order::find($id);
         $order->status = $request->status;
-
         $notification = array(
             'alert-type'    => 'success',
             'message'       => 'Order Status Updated Successfully!',
@@ -108,6 +107,17 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $order = Order::find($id);
+        if(!is_null($order)){
+            $notification = array(
+                'alert-type'    => 'error',
+                'message'       => 'Order Removed Successfully!',
+            );
+            $order->carts()->delete();
+            $order->delete();
+            return redirect()->route('order.manage')->with($notification);
+        }else{
+            //404
+        }
     }
 }

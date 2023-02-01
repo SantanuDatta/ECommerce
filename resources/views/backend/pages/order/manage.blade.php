@@ -59,7 +59,33 @@
                                             <td>
                                                 <div class="btn-group action-bar" role="group">
                                                     <a href="{{ route('order.details', $order->id) }}"><i class="fas fa-eye"></i></a>
-                                                    <a href="" data-toggle="modal" data-target="#softdelete-"><i class="fas fa-trash"></i></a>
+                                                    <a href="" data-toggle="modal" data-target="#deleteOrder-{{ $order->id }}"><i class="fas fa-trash"></i></a>
+                                                </div>
+
+                                                <!-- Delete Modal -->
+                                                <div class="modal fade effect-scale modal-dark" id="deleteOrder-{{ $order->id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-sm modal-dialog-centered">
+                                                        <div class="modal-content bd-0">
+                                                            <div class="modal-header pd-x-20">
+                                                                <h5 class="modal-title" id="deleteModalLabel">Delete Order</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body pd-20">
+                                                                <p class="mg-b-5">
+                                                                    This Order Will Be Removed Completely
+                                                                </p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                                                                <form action="{{ route('order.destroy', $order->id) }}" method="POST">
+                                                                @csrf
+                                                                    <button type="submit" name="status" class="btn btn-danger btn-sm" >Delete Order</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>

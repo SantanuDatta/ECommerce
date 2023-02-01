@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -21,8 +20,7 @@ class NewPasswordController extends Controller
      */
     public function create(Request $request)
     {
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        return view('frontend.pages.userAuth.reset-password',['request' => $request], compact('categories'));
+        return view('frontend.pages.userAuth.reset-password',['request' => $request]);
     }
 
     /**

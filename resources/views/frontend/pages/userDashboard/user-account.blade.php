@@ -98,7 +98,7 @@
                                                                             @endif
                                                                         </td>
                                                                         <td>{{ $item->amount }} {{ __('BDT') }} for {{ $item->total_quantity }} item</td>
-                                                                        <td><a href="{{ route('invoice', $item->id) }}" class="btn-small d-block">View</a></td>
+                                                                        <td><a href="{{ route('invoice', $item->inv_id) }}" class="btn-small d-block">View</a></td>
                                                                     </tr>
                                                                 @endforeach
                                                             @endif
@@ -216,7 +216,7 @@
                                                         <div class="form-group col-md-4">
                                                             <label>Division <span class="required">*</span></label>
                                                             <select name="division_id" id="divisions" class="form-control">
-                                                                <option hidden>Please Select Division</option>
+                                                                <option value="" hidden>Please Select Division</option>
                                                             </select>
                                                         </div>
                                                         <div class="form-group col-md-4">
@@ -245,34 +245,48 @@
 
 @section('pageScripts')
     <script>
+        //Showing Saved locations From Database
+        var savedCountryId = "{{ $savedCountryId }}";
+        var savedDivisionId = "{{ $savedDivisionId }}";
+        var savedDistrictId = "{{ $savedDistrictId }}";
+
+        //Trggering and Changing
+        $("#country_id").val(savedCountryId);
+        $("#country_id").trigger("change");
+        $("#divisions").val(savedDivisionId);
+        $("#divisions").trigger("change");
+        $("#districts").val(savedDistrictId);
+
+        //Ajax for trigger change
         $('#country_id').on('change',function(){
             var country = $('#country_id').val();
             // Make All The Division As Null
             $('#divisions').html("");
             var option = "";
-            $.get("http://127.0.0.1:8000/divisions/" + country, function(data){
+            $.get("/divisions/" + country, function(data){
                 data = JSON.parse(data);
                 data.forEach(function(value){
-                    option += "<option value=' " + value.id + " '>" + value.name + "</option>";
+                    option += "<option value='" + value.id + "'>" + value.name + "</option>";
                 });
                 $('#divisions').html(option);
                 $('#divisions').trigger('change');
-            }).trigger('change');
+            });
         });
 
         $('#divisions').on('change', function(){
             var division = $('#divisions').val();
-            // Make All The Dsitrict As Null
+            // Make All The District As Null
             $('#districts').html("");
             var option = "";
-            $.get("http://127.0.0.1:8000/districts/" + division, function(data){
+            $.get("/districts/" + division, function(data){
                 data = JSON.parse(data);
                 data.forEach(function(value){
-                    option += "<option value=' " + value.id + " '>" + value.name + "</option>";
+                    option += "<option value='" + value.id + "'>" + value.name + "</option>";
                 });
                 $('#districts').html(option);
-            }).trigger('change');
+            });
         });
+        $('#country_id').trigger('change');
     </script>
 @endsection
     

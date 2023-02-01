@@ -86,26 +86,31 @@
                                         <h5 class="text-brand mb-10">Contact form</h5>
                                         <h2 class="mb-10">Drop Us a Line</h2>
                                         <p class="text-muted mb-30 font-sm">Your email address will not be published. Required fields are marked *</p>
-                                        <form class="contact-form-style mt-30" id="contact-form" action="#" method="post">
+                                        <form class="contact-form-style mt-30 needs-validation" id="contact-form" action="{{ route('contact.data') }}" method="POST" novalidate>
+                                            @csrf
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6">
                                                     <div class="input-style mb-20">
                                                         <input name="name" placeholder="First Name" type="text" />
+                                                        <div class="invalid-feedback">
+                                                            Input Your First Name
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6">
                                                     <div class="input-style mb-20">
                                                         <input name="email" placeholder="Your Email" type="email" />
+                                                        <div class="invalid-feedback">
+                                                            Input Your Email Address
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6">
-                                                    <div class="input-style mb-20">
-                                                        <input name="telephone" placeholder="Your Phone" type="tel" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6">
+                                                <div class="col-lg-12 col-md-12">
                                                     <div class="input-style mb-20">
                                                         <input name="subject" placeholder="Subject" type="text" />
+                                                        <div class="invalid-feedback">
+                                                            Input Your Email Subject
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12">

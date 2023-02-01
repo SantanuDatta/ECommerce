@@ -17,9 +17,12 @@ use Illuminate\Support\Str;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\ContactMail;
 use App\Models\Category;
 use App\Models\ProductReview;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
+use Mail;
 
 class FrontPagesController extends Controller
 {
@@ -43,13 +46,12 @@ class FrontPagesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function invoice($id)
+    public function invoice($inv_id)
     {
-        $inv = Order::find($id);
-        if(!is_null($id)){
+        $inv = Order::where('inv_id', $inv_id)->first();
+        if(!is_null($inv)){
             return view('frontend.pages.userDashboard.invoice', compact('inv'));
         }
-        
     }
 
     public function userDashboard()
@@ -59,7 +61,10 @@ class FrontPagesController extends Controller
         $districts  = District::orderBy('name', 'asc')->where('status', '1')->get();
         $cart       = Cart::select('order_id')->get();
         $orderHistory = Order::where('user_id', Auth::user()->id)->orderBy('inv_id', 'asc')->get();
-        return view('frontend.pages.userDashboard.user-account', compact('countries', 'divisions', 'districts', 'orderHistory', 'cart'));
+        $savedCountryId = Auth::user()->country_id;
+        $savedDivisionId = Auth::user()->division_id;
+        $savedDistrictId = Auth::user()->district_id;
+        return view('frontend.pages.userDashboard.user-account', compact('countries', 'divisions', 'districts', 'orderHistory', 'cart', 'savedCountryId', 'savedDivisionId', 'savedDistrictId'));
     }
 
     /**
@@ -87,7 +92,7 @@ class FrontPagesController extends Controller
         );
 
         $user->save();
-        return redirect()->back()->with($notification);
+        return redirect()->route('user.dashboard')->with($notification);
     }
 
     /**
@@ -146,7 +151,16 @@ class FrontPagesController extends Controller
         $countries = Country::orderBy('priority', 'asc')->where('status', '1')->get();
         $divisions = Division::orderBy('priority', 'asc')->where('status', '1')->get();
         $districts = District::orderBy('name', 'asc')->where('status', '1')->get();
-        return view('frontend.pages.checkout', compact('countries', 'divisions', 'districts'));
+        if (Auth::check()) {
+            $savedCountryId = Auth::user()->country_id;
+            $savedDivisionId = Auth::user()->division_id;
+            $savedDistrictId = Auth::user()->district_id;
+        } else {
+            $savedCountryId = "";
+            $savedDivisionId = "";
+            $savedDistrictId = "";
+        }
+        return view('frontend.pages.checkout', compact('countries', 'divisions', 'districts', 'savedCountryId', 'savedDivisionId', 'savedDistrictId'));
     }
 
 
@@ -162,6 +176,26 @@ class FrontPagesController extends Controller
     public function contact()
     {
         return view('frontend.pages.staticPages.contact');
+    }
+
+    public function contactData(Request $request)
+    {
+        $settings = Setting::where('id', 1)->first();
+        $mailData = [
+            'name'      => $request->name,
+            'email'     => $request->email,
+            'subject'   => $request->subject,
+            'message'   => $request->message,
+        ];
+
+        Mail::to('satanudatta94@gmail.com')->send( new ContactMail($mailData, $settings));
+
+        $notification = array(
+            'alert-type'    => 'success',
+            'message'       => 'Your Mail Has Been Sent!',
+        );
+
+        return redirect()->route('home')->with($notification);
     }
     public function faq()
     {

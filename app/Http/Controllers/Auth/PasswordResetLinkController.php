@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
@@ -16,8 +15,7 @@ class PasswordResetLinkController extends Controller
      */
     public function create()
     {
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        return view('frontend.pages.userAuth.forgot-password', compact('categories'));
+        return view('frontend.pages.userAuth.forgot-password');
     }
 
     /**

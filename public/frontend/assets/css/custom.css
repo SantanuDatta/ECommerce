@@ -93,6 +93,20 @@
     color: #3BB77E !important;
 }
 
+.product-action-1 .wishlist-btn{
+    padding: 0;
+    background: transparent;
+    border: 0px;
+    border-radius: 0px;
+    color: #3BB77E;
+    width: 35px !important;
+}
+
+.product-action-1 .wishlist-btn:hover{
+    background-color: transparent !important;
+}
+
+
 /* Rating Css */
 
 .rate-area {

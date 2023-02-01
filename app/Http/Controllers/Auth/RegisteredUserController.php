@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -21,8 +20,7 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        return view('frontend.pages.userAuth.register', compact('categories'));
+        return view('frontend.pages.userAuth.register');
     }
 
     /**

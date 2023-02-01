@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,8 +18,7 @@ class ConfirmablePasswordController extends Controller
     public function show()
     {
         //return view('auth.confirm-password');
-        $categories = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
-        return view('frontend.pages.userAuth.confirm-password', compact('categories'));
+        return view('frontend.pages.userAuth.confirm-password');
     }
 
     /**
