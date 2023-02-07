@@ -43,8 +43,8 @@
                                             <div class="login_footer form-group mb-50">
                                                 <div class="chek-form">
                                                     <div class="custome-checkbox">
-                                                        <input class="form-check-input" type="checkbox" name="remember" id="remember_me" />
-                                                        <label class="form-check-label" for="remember_me"><span>{{ __('Remember Me') }}</span></label>
+                                                        <input class="form-check-input" type="checkbox" name="remember" id="remember" />
+                                                        <label class="form-check-label" for="remember"><span>{{ __('Remember Me') }}</span></label>
                                                     </div>
                                                 </div>
                                                 @if (Route::has('password.request'))

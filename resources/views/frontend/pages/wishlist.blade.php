@@ -33,6 +33,7 @@
                                     <tr class="main-heading">
                                         <th class="start pl-30" scope="col" colspan="2">{{ __('Product') }}</th>
                                         <th scope="col">Price</th>
+                                        <th scope="col">Quantity</th>
                                         <th scope="col">Action</th>
                                         <th scope="col" class="end">Remove</th>
                                     </tr>
@@ -74,6 +75,15 @@
                                                         @endphp
                                                     @endif 
                                                 </h4>
+                                            </td>
+                                            <td class="detail-info" data-title="Stock">
+                                                <div class="detail-extralink mr-15">
+                                                    <div class="detail-qty border radius">
+                                                        <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
+                                                        <input type="text" name="quantity" class="qty-val" value="1" min="1">
+                                                        <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td class="text-right" data-title="Cart">
                                                 <button class="btn btn-sm">Add to cart</button>

@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use DB;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -90,6 +91,24 @@ class OrderController extends Controller
     {
         $order = Order::find($id);
         $order->status = $request->status;
+        if ($order->status != 3) {
+            foreach ($order->carts as $cart) {
+                // Get the product model
+                $product = Product::find($cart->product_id);
+                
+                // Get the quantity from the current cart item
+                $quantity = $cart->product_quantity;
+                
+                if ($order->status == 4 || $order->status == 5) {
+                    // Increment the product stock for failed or cancelled status
+                    $product->quantity += $quantity;
+                } else {
+                    // Decrement the product stock for pending or processing status
+                    $product->quantity -= $quantity;
+                }
+                $product->save();
+            }
+        }
         $notification = array(
             'alert-type'    => 'success',
             'message'       => 'Order Status Updated Successfully!',

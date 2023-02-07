@@ -90,3 +90,34 @@
             window.addEventListener ? window.addEventListener("load", loader, false) : window.attachEvent("onload", loader);
         })(window, document);
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.wishlist-btn').click(function(e) {
+                e.preventDefault();
+
+                let productId = $(this).data('product-id');
+                let btn = $(this);
+                $.ajax({
+                    url: "/wishlist/edit/" + productId,
+                    type: "POST",
+                    data: { _token: "{{ csrf_token() }}" },
+                    success: function(response) {
+                        if (response.status == 'success') {
+                            toastr.success("Product Added To Wishlist");
+                            // update the wishlist count
+                            $('#wishCount').text(response.wish_count);
+                            btn.addClass('wishlisted');
+                        } else if (response.status == 'error') {
+                            toastr.error("Product Removed From Wishlist");
+                            // update the wishlist count
+                            $('#wishCount').text(response.wish_count);
+                            btn.removeClass('wishlisted');
+                        } else if (response.status == 'warning') {
+                            toastr.warning("Login To Wishlist This Product!")
+                        }
+                    },
+                });
+            });
+        });
+    </script>

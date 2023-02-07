@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Maize\Markable\Models\Favorite;
 
 class WishlistController extends Controller
@@ -67,33 +68,23 @@ class WishlistController extends Controller
      */
     public function edit($id)
     {
+        $wishCount = 0;
         if(Auth::check()){
             $user = Auth::user();
             $product = Product::find($id);
             if (Favorite::has($product, $user)) {
                 Favorite::toggle($product, $user);
-                $notification = array(
-                    'alert-type'    => 'error',
-                    'message'       => 'Product Removed From Wishlist Successfully!',
-                );
-                return back()->with($notification);
+                $wishCount = DB::table('markable_favorites')->where('user_id', Auth::user()->id)->count();
+                return response()->json(['status' => 'error', 'wish_count' => $wishCount], 200);
             }else{
                 Favorite::add($product, $user);
-                $notification = array(
-                    'alert-type'    => 'success',
-                    'message'       => 'Product is Added to Wishlist Successfully!',
-                );
-                return back()->with($notification);
+                $wishCount = DB::table('markable_favorites')->where('user_id', Auth::user()->id)->count();
+                return response()->json(['status' => 'success', 'wish_count' => $wishCount], 200);
             }
             
         }else{
-            $notification = array(
-                'alert-type'    => 'warning',
-                'message'       => 'Please Login To Wishlist This Product!',
-            );
-            return back()->with($notification);
+            return response()->json(['status' => 'warning'], 200);
         }
-        
     }
 
     /**

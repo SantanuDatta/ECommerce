@@ -6,10 +6,10 @@
 <head>
     <!--[if gte mso 9]>
 <xml>
-    <o:OfficeDocumentSettings>
-        <o:AllowPNG/>
-        <o:PixelsPerInch>96</o:PixelsPerInch>
-    </o:OfficeDocumentSettings>
+  <o:OfficeDocumentSettings>
+    <o:AllowPNG/>
+    <o:PixelsPerInch>96</o:PixelsPerInch>
+  </o:OfficeDocumentSettings>
 </xml>
 <![endif]-->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -213,8 +213,8 @@
                                                                         align="center">
 
                                                                         <img align="center" border="0"
-                                                                            src="{{ asset('backend/img/settings/logo/'.$logo) }}" alt="Image"
-                                                                            title="Image"
+                                                                            src="{{ asset('backend/img/settings/logo/' . $logo) }}"
+                                                                            alt="Image" title="Image"
                                                                             style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 29%;max-width: 168.2px;"
                                                                             width="168.2" />
 
@@ -270,7 +270,8 @@
                                                                     style="font-size: 14px; line-height: 100%; text-align: center;">
                                                                     <span
                                                                         style="font-size: 24px; line-height: 24px; color: #ffffff; font-family: 'Source Sans Pro', sans-serif;">New
-                                                                        Mail From {{ $mailData['name'] }}<br /></span></p>
+                                                                        Mail From {{ $mailData['name'] }}<br /></span>
+                                                                </p>
                                                             </div>
 
                                                         </td>
@@ -319,13 +320,15 @@
                                                                 style="line-height: 140%; text-align: left; word-wrap: break-word;">
                                                                 <p style="font-size: 14px; line-height: 140%;">
                                                                     <span
-                                                                        style="font-size: 18px; line-height: 25.2px; color: #666666;">Email: {{ $mailData['email'] }}
+                                                                        style="font-size: 18px; line-height: 25.2px; color: #666666;">Email:
+                                                                        {{ $mailData['email'] }}
                                                                     </span>
                                                                 </p>
                                                                 <p style="font-size: 14px; line-height: 140%;"> </p>
                                                                 <p style="font-size: 14px; line-height: 140%;">
                                                                     <span
-                                                                        style="font-size: 18px; line-height: 25.2px; color: #666666;">Subject: {{ $mailData['subject'] }}
+                                                                        style="font-size: 18px; line-height: 25.2px; color: #666666;">Subject:
+                                                                        {{ $mailData['subject'] }}
                                                                     </span>
                                                                 </p>
                                                                 <p style="font-size: 14px; line-height: 140%;"> </p>
@@ -359,13 +362,13 @@
                                                                                 Be Patient One Of Our Support Will
                                                                                 Contact You
                                                                             </span></em>
-                                                                        </span><br />
-                                                                        <span
+                                                                    </span><br />
+                                                                    <span
                                                                         style="color: #888888; font-size: 14px; line-height: 19.6px;"><em>
                                                                             <span
-                                                                                style="font-size: 16px; line-height: 22.4px;"> 
+                                                                                style="font-size: 16px; line-height: 22.4px;">
                                                                             </span></em>
-                                                                        </span>
+                                                                    </span>
                                                                 </p>
                                                             </div>
 
@@ -417,9 +420,11 @@
                                                                         style="font-size: 16px; line-height: 22.4px; color: #ecf0f1;">Contact</span>
                                                                 </p>
                                                                 <p style="font-size: 14px; line-height: 140%;"><span
-                                                                        style="font-size: 14px; line-height: 19.6px; color: #ecf0f1;">{{ $address }}</span></p>
+                                                                        style="font-size: 14px; line-height: 19.6px; color: #ecf0f1;">{{ $address }}</span>
+                                                                </p>
                                                                 <p style="font-size: 14px; line-height: 140%;"><span
-                                                                        style="font-size: 14px; line-height: 19.6px; color: #ecf0f1;">{{ $support_phone }} | {{ $email }}</span></p>
+                                                                        style="font-size: 14px; line-height: 19.6px; color: #ecf0f1;">{{ $support_phone }}
+                                                                        | {{ $email }}</span></p>
                                                             </div>
 
                                                         </td>
