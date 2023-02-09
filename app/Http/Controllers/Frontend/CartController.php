@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 
 class CartController extends Controller
 {
@@ -64,52 +64,6 @@ class CartController extends Controller
             return back();
         }
     }
-    
-    // public function store(Request $request)
-    // {
-    //     if(Auth::check()){
-    //         $user_id = Auth::user()->id;
-
-    //         // check if the guest user's cart exists for the current product
-    //         $guest_cart = Cart::where('ip_address', request()->ip())->where('product_id', $request->product_id)->where('order_id', Null)->first();
-
-    //         // if it exists, transfer it to the logged-in user
-    //         if(!is_null($guest_cart)){
-    //             $guest_cart->user_id = $user_id;
-    //             $guest_cart->ip_address = null;
-    //             $guest_cart->save();
-
-    //             return back();
-    //         }
-            
-    //         // if not, create a new cart for the logged-in user
-    //         $cart = Cart::where('user_id', $user_id)->where('product_id', $request->product_id)->where('order_id', Null)->first();
-    //         if(!is_null($cart)){
-    //             $cart->increment('product_quantity');
-    //             return back();
-    //         }else{
-    //             $cart = new Cart();
-    //             $cart->user_id          = $user_id;
-    //             $cart->product_id       = $request->product_id;
-    //             $cart->product_quantity = $request->quantity;
-    //             $cart->save();
-    //             return back();
-    //         }
-    //     }else{
-    //         $cart = Cart::where('ip_address', request()->ip())->where('product_id', $request->product_id)->where('order_id', Null)->first();
-    //         if(!is_null($cart)){
-    //             $cart->increment('product_quantity');
-    //             return back();
-    //         }else{
-    //             $cart = new Cart();
-    //             $cart->ip_address           = request()->ip();
-    //             $cart->product_id           = $request->product_id;
-    //             $cart->product_quantity     = $request->quantity;
-    //             $cart->save();
-    //             return back();
-    //         }
-    //     }
-    // }
     /**
      * Display the specified resource.
      *

@@ -145,6 +145,26 @@ class ProductController extends Controller
         $product->status        = $request->status;
 
         $product->save();
+
+        if($request->hasFile('image')){
+            $oldImages = ProductImage::where('product_id', $product->id)->get();
+            foreach($oldImages as $oldImage){
+                if(File::exists('backend/img/products/' . $oldImage->image)) {
+                    File::delete('backend/img/products/' . $oldImage->image);
+                }
+            }
+            ProductImage::where('product_id', $product->id)->delete();
+            foreach($request->image as $image){
+                $img = rand() . '.' . $image->getClientOriginalExtension();
+                $location = public_path('backend/img/products/' . $img);
+                $imageResize = Image::make($image);
+                $imageResize->fit(650, 650)->save($location);
+                $newImage = new ProductImage();
+                $newImage->product_id = $product->id;
+                $newImage->image = $img;
+                $newImage->save();
+            }
+        }
         
         $notification = array(
             'alert-type'    => 'success',
@@ -168,6 +188,7 @@ class ProductController extends Controller
                 'alert-type'    => 'warning',
                 'message'       => 'Product Removed Temporarily!',
             );
+            $product->carts()->delete();
             $product->save();
             return redirect()->route('product.manage')->with($notification);
         }else{
@@ -185,12 +206,20 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         if(!is_null($product)){
+            $oldImages = ProductImage::where('product_id', $product->id)->get();
+            foreach($oldImages as $oldImage){
+                if(File::exists(public_path('backend/img/products/' . $oldImage->image))) {
+                    File::delete(public_path('backend/img/products/' . $oldImage->image));
+                }
+            }
             $notification = array(
                 'alert-type'    => 'error',
                 'message'       => 'Product Removed Permanently!',
             );
-            $product->carts()->delete();
-            $product->orders()->delete();
+            $product->images()->delete();
+            $product->carts()->each(function($cart) {
+                $cart->order()->delete();
+            });
             $product->delete();
             return redirect()->route('product.softdelete')->with($notification);
         }else{

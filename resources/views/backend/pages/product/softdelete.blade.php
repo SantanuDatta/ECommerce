@@ -55,11 +55,16 @@
                                     <tr>
                                         <th scope="row">{{ $serial }}</th>
                                         <td>
-                                            @if (is_null($product->image))
-                                                {{-- <img src="{{ asset('backend/img/products/Default.png') }}" alt="" class="img-fluid rounded-circle table-image"> --}}
-                                            @else
-                                                {{-- <img src="{{ asset('backend/img/products/' . $product->image) }}" class="img-fluid rounded-circle table-image"> --}}
-                                            @endif
+                                            @php $img = 1; @endphp
+                                            @foreach ($product->images as $image)
+                                                @if ($img > 0)
+                                                    <img src="{{ asset('backend/img/products/' . $image->image) }}" class="img-fluid rounded-circle table-image">
+                                                    @php $img--; @endphp
+                                                @endif
+                                                @if (is_null($image->image))
+                                                    <img src="{{ asset('backend/img/products/Default.png') }}" alt="" class="img-fluid rounded-circle table-image">
+                                                @endif
+                                            @endforeach
                                         </td>
                                         <td>{{ $product->name }}</td>
                                         <td>{{ $product->brand->name ?? 'N/A' }}</td>
