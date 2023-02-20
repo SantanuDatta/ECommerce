@@ -14,6 +14,7 @@
         @include('frontend.includes.footer')
         @include('frontend.includes.script')
         @yield('pageScripts')
+        @yield('rangeScript')
     </body>
 
 </html>
