@@ -23,6 +23,8 @@ use App\Models\ProductReview;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
 use Mail;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class FrontPagesController extends Controller
 {
@@ -113,10 +115,47 @@ class FrontPagesController extends Controller
     //Shop
     public function shop()
     {
-        $products = Product::orderBy('id', 'desc')->where('status', 1)->paginate(15);
-        $lastProducts = Product::orderBy('id', 'desc')->where('status', 1)->take(3)->get();
-        return view('frontend.pages.products.shop', compact('products', 'lastProducts'));
+        // Get the maximum regular price of all products
+        $maxRegularPrice = Product::max('regular_price');
+
+        // Set the initial minimum and maximum price range values
+        $minPrice = 0;
+        $maxPrice = $maxRegularPrice;
+
+        // Check if the price range input is present in the request
+        if (request()->has('price_range')) {
+            $priceRange = request()->input('price_range');
+            $priceRangeArray = explode(',', $priceRange);
+
+            // Set the minimum price to the first value in the price range array
+            $minPrice = $priceRangeArray[0];
+
+            // Check if the maximum price is greater than the maximum regular price
+            if (count($priceRangeArray) >= 2 && $priceRangeArray[1] > $maxRegularPrice) {
+                // If it is, set the maximum price to the maximum regular price
+                $maxPrice = $maxRegularPrice;
+            } else if (count($priceRangeArray) >= 2) {
+                // Otherwise, set the maximum price to the second value in the price range array
+                $maxPrice = $priceRangeArray[1];
+            }
+        }
+
+        // Use the minimum and maximum price range values to filter the products
+        $products = QueryBuilder::for(Product::class)
+            ->allowedFilters([
+                AllowedFilter::exact('status')
+            ])
+            ->where('regular_price', '>=', $minPrice)
+            ->orderBy('id', 'desc')
+            ->paginate(15);
+
+        $lastProducts = Product::orderBy('id', 'desc')
+            ->where('status', 1)
+            ->take(3)
+            ->get();
+        return view('frontend.pages.products.shop', compact('products', 'lastProducts', 'minPrice', 'maxPrice', 'maxRegularPrice'));
     }
+
     public function singleProduct($slug)
     {
         $prDetails = Product::where('slug', $slug)->first();

@@ -33,10 +33,6 @@ use App\Http\Controllers\SslCommerzPaymentController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 //Home
 Route::get('/', [FrontPagesController::class, 'home'])->name('home');
 Route::get('/404', [FrontPagesController::class, 'notFound'])->name('notFound');
@@ -103,7 +99,6 @@ Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
 Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
 //SSLCOMMERZ END
 
-
 /*
 |--------------------------------------------------------------------------
 | Back End Web Routes
@@ -114,7 +109,8 @@ Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::group(['middleware' => ['auth', 'role']], function(){
+
+Route::group(['middleware' => ['auth', 'verified', 'role']], function(){
     Route::group(['prefix' => '/admin'], function(){
         Route::get('/dashboard', [PagesController::class, 'index'])->name('admin.dashboard');
     
@@ -224,7 +220,6 @@ Route::group(['middleware' => ['auth', 'role']], function(){
         });
     });
 });
-
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');

@@ -92,6 +92,18 @@
     </script>
 
     <script>
+        const priceRange = document.getElementById('price-range');
+        const priceMin = document.getElementById('price-min');
+        
+        priceRange.addEventListener('input', () => {
+            const [min, max] = priceRange.value.split(',');
+            priceMin.textContent = `From: ${min} BDT`;
+            priceMax.textContent = `To: ${max} BDT`;
+            priceRange.max = "{{ $maxRegularPrice }}" - min;
+        });
+    </script>
+
+    <script>
         $(document).ready(function() {
             $('.wishlist-btn').click(function(e) {
                 e.preventDefault();

@@ -3412,7 +3412,7 @@
                         /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
                         return $instance->recordPendingBatch($pendingBatch);
         }
-        
+         
     }
             /**
      * 

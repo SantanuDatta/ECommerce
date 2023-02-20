@@ -11,7 +11,8 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "maize-tech/laravel-markable": "^1.0"
+        "maize-tech/laravel-markable": "^1.0",
+        "spatie/laravel-query-builder": "^5.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",
