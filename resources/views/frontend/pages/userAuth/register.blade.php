@@ -22,41 +22,51 @@
                                     <div class="padding_eight_all bg-white">
                                         <div class="heading_s1">
                                             <h1 class="mb-5">{{ __('Create an Account') }}</h1>
-                                            <p class="mb-30">Already have an account? <a href="{{ route('customerLogin') }}">{{ __('Login') }}</a></p>
+                                            <p class="mb-30">Already have an account? <a
+                                                    href="{{ route('customerLogin') }}">{{ __('Login') }}</a></p>
                                         </div>
                                         <form method="POST" action="{{ route('register') }}">
                                             @csrf
                                             <div class="form-group">
-                                                <input type="text" name="name" value="{{ old('name') }}" placeholder="First Name" required/>
+                                                <input type="text" name="name" value="{{ old('name') }}"
+                                                    placeholder="First Name" required />
                                                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
                                             </div>
                                             <div class="form-group">
-                                                <input type="text" name="lastName" value="{{ old('lastName') }}" placeholder="Last Name" required/>
+                                                <input type="text" name="lastName" value="{{ old('lastName') }}"
+                                                    placeholder="Last Name" required />
                                                 <x-input-error :messages="$errors->get('lastName')" class="mt-2" />
                                             </div>
                                             <div class="form-group">
-                                                <input type="email" name="email" value="{{ old('email') }}" placeholder="Email Address" required/>
+                                                <input type="email" name="email" value="{{ old('email') }}"
+                                                    placeholder="Email Address" required />
                                                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                             </div>
                                             <div class="form-group">
-                                                <input type="password" name="password" placeholder="Password" required autocomplete="new-password"/>
+                                                <input type="password" name="password" placeholder="Password" required
+                                                    autocomplete="new-password" />
                                                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                             </div>
                                             <div class="form-group">
-                                                <input type="password" name="password_confirmation" placeholder="Confirm Password" required/>
+                                                <input type="password" name="password_confirmation"
+                                                    placeholder="Confirm Password" required />
                                                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                                             </div>
                                             <div class="login_footer form-group mb-50">
                                                 <div class="chek-form">
                                                     <div class="custome-checkbox">
-                                                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox12" value="" required/>
-                                                        <label class="form-check-label" for="exampleCheckbox12"><span>{{ __('I agree to terms & Policy.') }}</span></label>
+                                                        <input class="form-check-input" type="checkbox" name="checkbox"
+                                                            id="exampleCheckbox12" value="" required />
+                                                        <label class="form-check-label"
+                                                            for="exampleCheckbox12"><span>{{ __('I agree to terms & Policy.') }}</span></label>
                                                     </div>
                                                 </div>
-                                                <a href="{{ route('privacyPolicy') }}"><i class="fi-rs-book-alt mr-5 text-muted"></i>{{ __('Learn more') }}</a>
+                                                <a href="{{ route('privacyPolicy') }}"><i
+                                                        class="fi-rs-book-alt mr-5 text-muted"></i>{{ __('Learn more') }}</a>
                                             </div>
                                             <div class="form-group mb-30">
-                                                <button type="submit" class="btn btn-heading btn-block hover-up" name="register">{{ __('Submit & Register') }}</button>
+                                                <button type="submit" class="btn btn-heading btn-block hover-up"
+                                                    name="register">{{ __('Submit & Register') }}</button>
                                             </div>
                                         </form>
                                     </div>
@@ -85,4 +95,4 @@
         </div>
     </main>
 
-@endsection    
+@endsection

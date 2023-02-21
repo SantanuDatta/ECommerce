@@ -22,8 +22,7 @@ class CartController extends Controller
      */
     public function index()
     {
-    return view('frontend.pages.cart');
-    
+        return view('frontend.pages.cart');
     }
 
     /**
@@ -44,17 +43,17 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::check()){
+        if (Auth::check()) {
             $cart = Cart::where('user_id', Auth::user()->id)->where('product_id', $request->product_id)->where('order_id', Null)->first();
-        }else{
+        } else {
             $cart = Cart::where('ip_address', request()->ip())->where('product_id', $request->product_id)->where('order_id', Null)->first();
         }
-        if(!is_null($cart)){
+        if (!is_null($cart)) {
             $cart->increment('product_quantity');
             return back();
-        }else{
+        } else {
             $cart = new Cart();
-            if(Auth::check()){
+            if (Auth::check()) {
                 $cart->user_id          = Auth::user()->id;
             }
             $cart->ip_address           = request()->ip();
@@ -96,11 +95,11 @@ class CartController extends Controller
     public function update(Request $request, $id)
     {
         $cart = Cart::find($id);
-        if(!is_null($cart)){
+        if (!is_null($cart)) {
             $cart->product_quantity = $request->quantity;
             $cart->save();
             return back();
-        }else{
+        } else {
             return back();
         }
     }
@@ -114,9 +113,9 @@ class CartController extends Controller
     public function destroy($id)
     {
         $cart = Cart::find($id);
-        if(!is_null($cart)){
+        if (!is_null($cart)) {
             $cart->delete();
-        }else{
+        } else {
             return redirect()->route('cart.manage');
         }
         return redirect()->route('cart.manage');

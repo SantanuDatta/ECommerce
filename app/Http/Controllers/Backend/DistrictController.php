@@ -17,7 +17,7 @@ class DistrictController extends Controller
      */
     public function index()
     {
-        $districts = District::orderBy('name','asc')->get();
+        $districts = District::orderBy('name', 'asc')->get();
         return view('backend.pages.district.manage', compact('districts'));
     }
 
@@ -76,11 +76,11 @@ class DistrictController extends Controller
     public function edit($id)
     {
         $district = District::find($id);
-        if(!is_null($district)){
+        if (!is_null($district)) {
             $countries = Country::orderBy('priority', 'asc')->get();
             $divisions = Division::orderBy('priority', 'asc')->get();
             return view('backend.pages.district.edit', compact('district', 'divisions', 'countries'));
-        }else{
+        } else {
             //404
         }
     }
@@ -95,19 +95,19 @@ class DistrictController extends Controller
     public function update(Request $request, $id)
     {
         $district = District::find($id);
-        if(!is_null($district)){
+        if (!is_null($district)) {
             $district->name             = $request->name;
             $district->division_id      = $request->division_id;
             $district->country_id       = $request->country_id;
             $district->status           = $request->status;
-    
+
             $notification = array(
                 'alert-type'    => 'success',
                 'message'       => 'District Updated Successfully!',
             );
             $district->save();
             return redirect()->route('district.manage')->with($notification);
-        }else{
+        } else {
             //404
         }
     }
@@ -121,14 +121,14 @@ class DistrictController extends Controller
     public function destroy($id)
     {
         $district = District::find($id);
-        if(!is_null($district)){
+        if (!is_null($district)) {
             $notification = array(
                 'alert-type'    => 'error',
                 'message'       => 'District Removed Permanently!',
             );
             $district->delete();
             return redirect()->route('district.manage')->with($notification);
-        }else{
+        } else {
             //404
         }
     }

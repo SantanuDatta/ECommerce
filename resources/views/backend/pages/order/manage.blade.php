@@ -5,8 +5,8 @@
     <div class="br-pagetitle">
         <i class="icon ion-ios-list-outline tx-70 lh-0"></i>
         <div>
-        <h4>Order Management</h4>
-        <p class="mg-b-0">Do bigger things with Bracket plus, the responsive bootstrap 4 admin template.</p>
+            <h4>Order Management</h4>
+            <p class="mg-b-0">Do bigger things with Bracket plus, the responsive bootstrap 4 admin template.</p>
         </div>
     </div><!-- d-flex -->
 
@@ -18,11 +18,12 @@
                         Manage All Orders
                     </div><!-- card-header -->
                     <div class="card-body bd bd-t-0 rounded-bottom">
-                        
+
                         @if ($orders->count() == 0)
                             <div class="alert alert-info">No Orders Have Been Placed Yet!</div>
                         @else
-                            <table id="data" class="table table-striped table-hover table-bordered table-responsive-xl">
+                            <table id="data"
+                                class="table table-striped table-hover table-bordered table-responsive-xl">
                                 <thead>
                                     <tr>
                                         <th scope="col">#SL.</th>
@@ -44,31 +45,38 @@
                                             <td>{{ $order->name }} {{ $order->lastName }}</td>
                                             <td>{{ $order->email }}</td>
                                             <td>
-                                                @if($order->status == 1) 
-                                                    <span class="badge badge-info">Pending</span> 
+                                                @if ($order->status == 1)
+                                                    <span class="badge badge-info">Pending</span>
                                                 @elseif ($order->status == 2)
-                                                    <span class="badge badge-primary">Proceesing</span> 
+                                                    <span class="badge badge-primary">Proceesing</span>
                                                 @elseif ($order->status == 3)
-                                                    <span class="badge badge-success">Success</span> 
+                                                    <span class="badge badge-success">Success</span>
                                                 @elseif ($order->status == 4)
-                                                    <span class="badge badge-warning">Failed</span> 
+                                                    <span class="badge badge-warning">Failed</span>
                                                 @elseif ($order->status == 5)
-                                                    <span class="badge badge-danger">Cancelled</span> 
+                                                    <span class="badge badge-danger">Cancelled</span>
                                                 @endif
                                             </td>
                                             <td>
                                                 <div class="btn-group action-bar" role="group">
-                                                    <a href="{{ route('order.details', $order->id) }}"><i class="fas fa-eye"></i></a>
-                                                    <a href="" data-toggle="modal" data-target="#deleteOrder-{{ $order->id }}"><i class="fas fa-trash"></i></a>
+                                                    <a href="{{ route('order.details', $order->id) }}"><i
+                                                            class="fas fa-eye"></i></a>
+                                                    <a href="" data-toggle="modal"
+                                                        data-target="#deleteOrder-{{ $order->id }}"><i
+                                                            class="fas fa-trash"></i></a>
                                                 </div>
 
                                                 <!-- Delete Modal -->
-                                                <div class="modal fade effect-scale modal-dark" id="deleteOrder-{{ $order->id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                                <div class="modal fade effect-scale modal-dark"
+                                                    id="deleteOrder-{{ $order->id }}" tabindex="-1"
+                                                    aria-labelledby="deleteModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-sm modal-dialog-centered">
                                                         <div class="modal-content bd-0">
                                                             <div class="modal-header pd-x-20">
-                                                                <h5 class="modal-title" id="deleteModalLabel">Delete Order</h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <h5 class="modal-title" id="deleteModalLabel">Delete Order
+                                                                </h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
                                                             </div>
@@ -78,10 +86,13 @@
                                                                 </p>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-                                                                <form action="{{ route('order.destroy', $order->id) }}" method="POST">
-                                                                @csrf
-                                                                    <button type="submit" name="status" class="btn btn-danger btn-sm" >Delete Order</button>
+                                                                <button type="button" class="btn btn-secondary btn-sm"
+                                                                    data-dismiss="modal">Close</button>
+                                                                <form action="{{ route('order.destroy', $order->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    <button type="submit" name="status"
+                                                                        class="btn btn-danger btn-sm">Delete Order</button>
                                                                 </form>
                                                             </div>
                                                         </div>
@@ -94,7 +105,7 @@
                                 </tbody>
                             </table>
                         @endif
-                        
+
                     </div><!-- card-body -->
                 </div><!-- card -->
             </div>

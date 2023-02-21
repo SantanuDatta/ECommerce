@@ -1,8 +1,9 @@
     <!-- Favicon -->
     @foreach ($settings as $setting)
-        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('backend/img/settings/favicon/' . $setting->favicon) }}" />
+        <link rel="shortcut icon" type="image/x-icon"
+            href="{{ asset('backend/img/settings/favicon/' . $setting->favicon) }}" />
     @endforeach
-    
+
     {{-- Toastr --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <!-- Template CSS -->

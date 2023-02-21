@@ -76,12 +76,12 @@ class SslCommerzPaymentController extends Controller
         $post_data['value_c'] = "ref003";
         $post_data['value_d'] = "ref004";
 
-        if($post_data['payment_method'] == 1){
+        if ($post_data['payment_method'] == 1) {
             // COD
             $lastInvoice = Order::orderBy('id', 'desc')->first();
-            if(empty($lastInvoice)){
+            if (empty($lastInvoice)) {
                 $newInvoice = 1;
-            }else{
+            } else {
                 $newInvoice = $lastInvoice->inv_id + 1;
             }
 
@@ -114,54 +114,53 @@ class SslCommerzPaymentController extends Controller
                     'created_at'            => $createDateTime,
                 ]);
 
-                $orderID = Order::where('transaction_id', $post_data['tran_id'])->first();
-                
-                foreach(Cart::totalCarts() as $cart){
-                    if (!is_null($cart->product->offer_price)) {
-                        $totalSave = ($cart->product->regular_price *($cart->product->offer_price /100) );
-                        $cart->unit_price = $totalSave;
-                        $cart->user_id  = $post_data['cus_id'];
-                        $cart->order_id = $orderID->id;
-                        $currentQuantity = DB::table('products')->where('id', $cart->product_id)->value('quantity');
-                        if ($currentQuantity - $cart->product_quantity < 0) {
-                            $notification = array(
-                                'alert-type'    => 'error',
-                                'message'       => 'This product is out of stock!',
-                            );
-                            return redirect()->back()->with($notification);
-                        }
-                        $updatedQuantity = $currentQuantity - $cart->product_quantity;
-                        DB::table('products')->where('id', $cart->product_id)->update(['quantity' => $updatedQuantity]);
-                        $cart->save();
-                    } else {
-                        $cart->unit_price = $cart->product->regular_price;
-                        $cart->user_id  = $post_data['cus_id'];
-                        $cart->order_id = $orderID->id;
-                        $currentQuantity = DB::table('products')->where('id', $cart->product_id)->value('quantity');
-                        if ($currentQuantity - $cart->product_quantity < 0) {
-                            $notification = array(
-                                'alert-type'    => 'error',
-                                'message'       => 'This product is out of stock!',
-                            );
-                            return redirect()->back()->with($notification);
-                        }
-                        $updatedQuantity = $currentQuantity - $cart->product_quantity;
-                        DB::table('products')->where('id', $cart->product_id)->update(['quantity' => $updatedQuantity]);
-                        $cart->save();
-                    }
-                }
-                $orderHistory = Order::where('transaction_id', $post_data['tran_id'])->first();
-                if($orderHistory){
-                    Mail::to($post_data['cus_email'])->send( new OrderReceived($orderHistory));
-                }
-                return view('frontend.pages.success', compact('orderHistory'));
+            $orderID = Order::where('transaction_id', $post_data['tran_id'])->first();
 
-        }elseif($post_data['payment_method'] == 2){
+            foreach (Cart::totalCarts() as $cart) {
+                if (!is_null($cart->product->offer_price)) {
+                    $totalSave = ($cart->product->regular_price * ($cart->product->offer_price / 100));
+                    $cart->unit_price = $totalSave;
+                    $cart->user_id  = $post_data['cus_id'];
+                    $cart->order_id = $orderID->id;
+                    $currentQuantity = DB::table('products')->where('id', $cart->product_id)->value('quantity');
+                    if ($currentQuantity - $cart->product_quantity < 0) {
+                        $notification = array(
+                            'alert-type'    => 'error',
+                            'message'       => 'This product is out of stock!',
+                        );
+                        return redirect()->back()->with($notification);
+                    }
+                    $updatedQuantity = $currentQuantity - $cart->product_quantity;
+                    DB::table('products')->where('id', $cart->product_id)->update(['quantity' => $updatedQuantity]);
+                    $cart->save();
+                } else {
+                    $cart->unit_price = $cart->product->regular_price;
+                    $cart->user_id  = $post_data['cus_id'];
+                    $cart->order_id = $orderID->id;
+                    $currentQuantity = DB::table('products')->where('id', $cart->product_id)->value('quantity');
+                    if ($currentQuantity - $cart->product_quantity < 0) {
+                        $notification = array(
+                            'alert-type'    => 'error',
+                            'message'       => 'This product is out of stock!',
+                        );
+                        return redirect()->back()->with($notification);
+                    }
+                    $updatedQuantity = $currentQuantity - $cart->product_quantity;
+                    DB::table('products')->where('id', $cart->product_id)->update(['quantity' => $updatedQuantity]);
+                    $cart->save();
+                }
+            }
+            $orderHistory = Order::where('transaction_id', $post_data['tran_id'])->first();
+            if ($orderHistory) {
+                Mail::to($post_data['cus_email'])->send(new OrderReceived($orderHistory));
+            }
+            return view('frontend.pages.success', compact('orderHistory'));
+        } elseif ($post_data['payment_method'] == 2) {
             //SSL Commerce
             $lastInvoice = Order::orderBy('id', 'desc')->first();
-            if(empty($lastInvoice)){
+            if (empty($lastInvoice)) {
                 $newInvoice = 1;
-            }else{
+            } else {
                 $newInvoice = $lastInvoice->inv_id + 1;
             }
 
@@ -194,42 +193,42 @@ class SslCommerzPaymentController extends Controller
                     'created_at'            => $createDateTime,
                 ]);
 
-                $orderID = Order::where('transaction_id', $post_data['tran_id'])->first();
+            $orderID = Order::where('transaction_id', $post_data['tran_id'])->first();
 
-                foreach(Cart::totalCarts() as $cart){
-                    if (!is_null($cart->product->offer_price)) {
-                        $totalSave = ($cart->product->regular_price *($cart->product->offer_price /100) );
-                        $cart->unit_price = $totalSave;
-                        $cart->user_id  = $post_data['cus_id'];
-                        $cart->order_id = $orderID->id;
-                        $currentQuantity = DB::table('products')->where('id', $cart->product_id)->value('quantity');
-                        if ($currentQuantity - $cart->product_quantity < 0) {
-                            $notification = array(
-                                'alert-type'    => 'error',
-                                'message'       => 'This product is out of stock!',
-                            );
-                            return redirect()->back()->with($notification);
-                        }
-                        $updatedQuantity = $currentQuantity - $cart->product_quantity;
-                        DB::table('products')->where('id', $cart->product_id)->update(['quantity' => $updatedQuantity]);
-                        $cart->save();
-                    } else {
-                        $cart->unit_price = $cart->product->regular_price;
-                        $cart->user_id  = $post_data['cus_id'];
-                        $cart->order_id = $orderID->id;
-                        $currentQuantity = DB::table('products')->where('id', $cart->product_id)->value('quantity');
-                        if ($currentQuantity - $cart->product_quantity < 0) {
-                            $notification = array(
-                                'alert-type'    => 'error',
-                                'message'       => 'This product is out of stock!',
-                            );
-                            return redirect()->back()->with($notification);
-                        }
-                        $updatedQuantity = $currentQuantity - $cart->product_quantity;
-                        DB::table('products')->where('id', $cart->product_id)->update(['quantity' => $updatedQuantity]);
-                        $cart->save();
+            foreach (Cart::totalCarts() as $cart) {
+                if (!is_null($cart->product->offer_price)) {
+                    $totalSave = ($cart->product->regular_price * ($cart->product->offer_price / 100));
+                    $cart->unit_price = $totalSave;
+                    $cart->user_id  = $post_data['cus_id'];
+                    $cart->order_id = $orderID->id;
+                    $currentQuantity = DB::table('products')->where('id', $cart->product_id)->value('quantity');
+                    if ($currentQuantity - $cart->product_quantity < 0) {
+                        $notification = array(
+                            'alert-type'    => 'error',
+                            'message'       => 'This product is out of stock!',
+                        );
+                        return redirect()->back()->with($notification);
                     }
+                    $updatedQuantity = $currentQuantity - $cart->product_quantity;
+                    DB::table('products')->where('id', $cart->product_id)->update(['quantity' => $updatedQuantity]);
+                    $cart->save();
+                } else {
+                    $cart->unit_price = $cart->product->regular_price;
+                    $cart->user_id  = $post_data['cus_id'];
+                    $cart->order_id = $orderID->id;
+                    $currentQuantity = DB::table('products')->where('id', $cart->product_id)->value('quantity');
+                    if ($currentQuantity - $cart->product_quantity < 0) {
+                        $notification = array(
+                            'alert-type'    => 'error',
+                            'message'       => 'This product is out of stock!',
+                        );
+                        return redirect()->back()->with($notification);
+                    }
+                    $updatedQuantity = $currentQuantity - $cart->product_quantity;
+                    DB::table('products')->where('id', $cart->product_id)->update(['quantity' => $updatedQuantity]);
+                    $cart->save();
                 }
+            }
 
             $sslc = new SslCommerzNotification();
             # initiate(Transaction Data , false: Redirect to SSLCOMMERZ gateway/ true: Show all the Payement gateway here )
@@ -309,7 +308,6 @@ class SslCommerzPaymentController extends Controller
             print_r($payment_options);
             $payment_options = array();
         }
-
     }
 
     public function success(Request $request)
@@ -343,8 +341,8 @@ class SslCommerzPaymentController extends Controller
 
                 //echo "<br >Transaction is successfully Completed";
                 $orderHistory = Order::where('transaction_id', $tran_id)->first();
-                if($orderHistory){
-                    Mail::to($email)->send( new OrderReceived($orderHistory));
+                if ($orderHistory) {
+                    Mail::to($email)->send(new OrderReceived($orderHistory));
                 }
                 return view('frontend.pages.success', compact('orderHistory'));
             } else {
@@ -388,7 +386,6 @@ class SslCommerzPaymentController extends Controller
         } else {
             echo "Transaction is Invalid";
         }
-
     }
 
     public function cancel(Request $request)
@@ -409,8 +406,6 @@ class SslCommerzPaymentController extends Controller
         } else {
             echo "Transaction is Invalid";
         }
-
-
     }
 
     public function ipn(Request $request)
@@ -451,7 +446,6 @@ class SslCommerzPaymentController extends Controller
 
                     echo "validation Fail";
                 }
-
             } else if ($order_details->status == 2 || $order_details->status == 3) {
 
                 #That means Order status already updated. No need to udate database.
@@ -466,5 +460,4 @@ class SslCommerzPaymentController extends Controller
             echo "Invalid Data";
         }
     }
-
 }

@@ -58,7 +58,7 @@ class CategoryController extends Controller
         $category->description  = $request->description;
         $category->status       = $request->status;
         $category->is_featured  = $request->is_featured;
-        if($request->image){
+        if ($request->image) {
             $image = $request->file('image');
             $img = rand() . '.' . $image->getClientOriginalExtension();
             $location = public_path('backend/img/categories/' . $img);
@@ -96,10 +96,10 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = Category::find($id);
-        if(!is_null($category)){
+        if (!is_null($category)) {
             $parentCat = Category::orderBy('name', 'asc')->where('is_parent', 0)->get();
             return view('backend.pages.category.edit', compact('category', 'parentCat'));
-        }else{
+        } else {
             //404
         }
     }
@@ -127,8 +127,8 @@ class CategoryController extends Controller
         $category->description  = $request->description;
         $category->status       = $request->status;
         $category->is_featured  = $request->is_featured;
-        if($request->image){
-            if(File::exists('backend/img/categories/' . $category->image)){
+        if ($request->image) {
+            if (File::exists('backend/img/categories/' . $category->image)) {
                 File::delete('backend/img/categories/' . $category->image);
             }
             $image = $request->file('image');
@@ -157,10 +157,10 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::find($id);
-        if(!is_null($category)){
-            
-            if($category->is_parent == 0){
-                foreach(Category::where('is_parent', $category->id)->get() as $sCat){
+        if (!is_null($category)) {
+
+            if ($category->is_parent == 0) {
+                foreach (Category::where('is_parent', $category->id)->get() as $sCat) {
                     $sCat->is_parent = 7;
                     $sCat->save();
                 }
@@ -174,12 +174,13 @@ class CategoryController extends Controller
             $category->status = 2;
             $category->save();
             return redirect()->route('category.manage')->with($notification);
-        }else{
+        } else {
             //404
         }
     }
 
-    public function softDelete(){
+    public function softDelete()
+    {
         $categories = Category::where('status', 2)->orderBy('name', 'asc')->get();
         return view('backend.pages.category.softdelete', compact('categories'));
     }
@@ -187,8 +188,8 @@ class CategoryController extends Controller
     public function fullDelete($id)
     {
         $category = Category::find($id);
-        if(!is_null($category)){
-            if(File::exists('backend/img/categories/' . $category->image)){
+        if (!is_null($category)) {
+            if (File::exists('backend/img/categories/' . $category->image)) {
                 File::delete('backend/img/categories/' . $category->image);
             }
 
@@ -198,8 +199,8 @@ class CategoryController extends Controller
             );
             $category->delete();
             return redirect()->route('category.manage')->with($notification);
-        }else{
+        } else {
             //404
         }
-    } 
+    }
 }

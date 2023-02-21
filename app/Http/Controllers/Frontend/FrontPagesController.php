@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use File;
+use Mail;
 use Image;
 use App\Models\Cart;
 use App\Models\User;
@@ -11,20 +12,19 @@ use App\Models\Order;
 use App\Models\Slider;
 use App\Models\Country;
 use App\Models\Product;
+use App\Models\Setting;
+use App\Models\Category;
 use App\Models\District;
 use App\Models\Division;
+use App\Mail\ContactMail;
 use Illuminate\Support\Str;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Mail\ContactMail;
-use App\Models\Category;
 use App\Models\ProductReview;
-use App\Models\Setting;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Mail;
-use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class FrontPagesController extends Controller
 {
@@ -42,7 +42,7 @@ class FrontPagesController extends Controller
     {
         return view('frontend.pages.404');
     }
-    
+
     /**
      * Display a listing of the resource.
      * @param  int  $id
@@ -51,7 +51,7 @@ class FrontPagesController extends Controller
     public function invoice($inv_id)
     {
         $inv = Order::where('inv_id', $inv_id)->first();
-        if(!is_null($inv)){
+        if (!is_null($inv)) {
             return view('frontend.pages.userDashboard.invoice', compact('inv'));
         }
     }
@@ -106,10 +106,7 @@ class FrontPagesController extends Controller
     public function searchProduct(Request $request)
     {
         $search = $request->searchContent;
-        $products = Product::orWhere('name', 'like', '%' . $search . '%')->
-        orWhere('slug', 'like', '%' . $search . '%')->
-        orWhere('product_tags', 'like', '%' . $search . '%')->
-        orderBy('id', 'desc')->where('status', 1)->paginate(15);
+        $products = Product::orWhere('name', 'like', '%' . $search . '%')->orWhere('slug', 'like', '%' . $search . '%')->orWhere('product_tags', 'like', '%' . $search . '%')->orderBy('id', 'desc')->where('status', 1)->paginate(15);
         return view('frontend.pages.products.searchProducts', compact('products', 'search'));
     }
     //Shop
@@ -227,7 +224,7 @@ class FrontPagesController extends Controller
             'message'   => $request->message,
         ];
 
-        Mail::to('satanudatta94@gmail.com')->send( new ContactMail($mailData, $settings));
+        Mail::to('satanudatta94@gmail.com')->send(new ContactMail($mailData, $settings));
 
         $notification = array(
             'alert-type'    => 'success',

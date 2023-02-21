@@ -12,16 +12,16 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/divisions/{id}', function($id){
+Route::get('/divisions/{id}', function ($id) {
     return json_encode(App\Models\Division::where('country_id', $id)->get());
 });
 
-Route::get('/districts/{id}', function($id){
+Route::get('/districts/{id}', function ($id) {
     return json_encode(App\Models\District::where('division_id', $id)->get());
 });

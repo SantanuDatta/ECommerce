@@ -5,8 +5,8 @@
     <div class="br-pagetitle">
         <i class="icon ion-ios-plus-outline tx-70 lh-0"></i>
         <div>
-        <h4>Update Product</h4>
-        <p class="mg-b-0">Do bigger things with Bracket plus, the responsive bootstrap 4 admin template.</p>
+            <h4>Update Product</h4>
+            <p class="mg-b-0">Do bigger things with Bracket plus, the responsive bootstrap 4 admin template.</p>
         </div>
     </div><!-- d-flex -->
 
@@ -18,22 +18,27 @@
                         Edit Product
                     </div><!-- card-header -->
                     <div class="card-body bd bd-t-0 rounded-bottom">
-                        <form action="{{ route('product.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('product.update', $product->id) }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-lg-8">
                                     <div class="form-group">
                                         <label for="">Product Name</label>
-                                        <input type="text" class="form-control form-control-dark" name="name" value="{{ $product->name }}" required>
+                                        <input type="text" class="form-control form-control-dark" name="name"
+                                            value="{{ $product->name }}" required>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label for="">Select Brand</label>
-                                                <select name="brand_id" class="form-control form-control-dark select2" id="">
+                                                <select name="brand_id" class="form-control form-control-dark select2"
+                                                    id="">
                                                     <option value="" hidden>Select A Brand</option>
                                                     @foreach ($brands as $brand)
-                                                        <option value="{{ $brand->id }}" @if($brand->id == $product->brand_id) selected @endif>{{ $brand->name }}</option>
+                                                        <option value="{{ $brand->id }}"
+                                                            @if ($brand->id == $product->brand_id) selected @endif>
+                                                            {{ $brand->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -41,12 +46,17 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label for="">Select Category</label>
-                                                <select name="category_id" class="form-control form-control-dark select2" id="">
+                                                <select name="category_id" class="form-control form-control-dark select2"
+                                                    id="">
                                                     <option value="" hidden>Select A Category</option>
                                                     @foreach ($parentCat as $pCat)
-                                                        <option value="{{ $pCat->id }}" @if ($pCat->id == $product->category_id) selected @endif>{{ $pCat->name }}</option>
+                                                        <option value="{{ $pCat->id }}"
+                                                            @if ($pCat->id == $product->category_id) selected @endif>
+                                                            {{ $pCat->name }}</option>
                                                         @foreach (App\Models\Category::orderBy('name', 'asc')->where('is_parent', $pCat->id)->get() as $childCat)
-                                                            <option value="{{ $childCat->id }}" @if ($childCat->id == $product->category_id) selected @endif>&#8627; {{ $childCat->name }}</option>
+                                                            <option value="{{ $childCat->id }}"
+                                                                @if ($childCat->id == $product->category_id) selected @endif>&#8627;
+                                                                {{ $childCat->name }}</option>
                                                         @endforeach
                                                     @endforeach
                                                 </select>
@@ -59,9 +69,11 @@
                                                 <label for="">Manufacturing Date</label>
                                                 <div class="input-group input-group-dark">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="icon ion-calendar tx-16 lh-0 op-6"></i></span>
+                                                        <span class="input-group-text"><i
+                                                                class="icon ion-calendar tx-16 lh-0 op-6"></i></span>
                                                     </div>
-                                                    <input type="text" name="mfg_date" class="form-control fc-datepicker" value="{{ $product->mfg_date }}" placeholder="MM/DD/YYYY">
+                                                    <input type="text" name="mfg_date" class="form-control fc-datepicker"
+                                                        value="{{ $product->mfg_date }}" placeholder="MM/DD/YYYY">
                                                 </div>
                                             </div>
                                         </div>
@@ -70,16 +82,19 @@
                                                 <label for="">Expire Date</label>
                                                 <div class="input-group input-group-dark">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="icon ion-calendar tx-16 lh-0 op-6"></i></span>
+                                                        <span class="input-group-text"><i
+                                                                class="icon ion-calendar tx-16 lh-0 op-6"></i></span>
                                                     </div>
-                                                    <input type="text" name="exp_date" class="form-control fc-datepicker" value="{{ $product->exp_date }}" placeholder="MM/DD/YYYY">
+                                                    <input type="text" name="exp_date" class="form-control fc-datepicker"
+                                                        value="{{ $product->exp_date }}" placeholder="MM/DD/YYYY">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="">SKU Code</label>
-                                                <input type="text" name="sku_code" class="form-control form-control-dark" value="{{ $product->sku_code }}" placeholder="Example: BD:001">
+                                                <input type="text" name="sku_code" class="form-control form-control-dark"
+                                                    value="{{ $product->sku_code }}" placeholder="Example: BD:001">
                                             </div>
                                         </div>
                                     </div>
@@ -107,7 +122,9 @@
                                     <div class="form-group">
                                         <label for="">Product Quantity</label>
                                         <div class="input-group input-group-dark">
-                                            <input type="number" name="quantity" class="form-control form-control-dark" value="{{ $product->quantity }}" placeholder="Input Product Quantity" required>
+                                            <input type="number" name="quantity" class="form-control form-control-dark"
+                                                value="{{ $product->quantity }}" placeholder="Input Product Quantity"
+                                                required>
                                             <div class="input-group-append">
                                                 <span class="input-group-text">Pcs</span>
                                             </div>
@@ -119,7 +136,10 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">৳</span>
                                             </div>
-                                            <input type="number" name="regular_price" class="form-control form-control-dark" value="{{ $product->regular_price }}" placeholder="Input Regular Price" required>
+                                            <input type="number" name="regular_price"
+                                                class="form-control form-control-dark"
+                                                value="{{ $product->regular_price }}" placeholder="Input Regular Price"
+                                                required>
                                             <div class="input-group-append">
                                                 <span class="input-group-text">BDT</span>
                                             </div>
@@ -128,7 +148,9 @@
                                     <div class="form-group">
                                         <label for="">Offer Price</label>
                                         <div class="input-group input-group-dark">
-                                            <input type="number" name="offer_price" class="form-control form-control-dark" value="{{ $product->offer_price }}" placeholder="Input Offer Price">
+                                            <input type="number" name="offer_price"
+                                                class="form-control form-control-dark"
+                                                value="{{ $product->offer_price }}" placeholder="Input Offer Price">
                                             <div class="input-group-append">
                                                 <span class="input-group-text">%</span>
                                             </div>
@@ -138,13 +160,15 @@
                                         <label for="">Feature Product?</label><br>
                                         <div class="form-check-inline">
                                             <label class="rdiobox rdiobox-info">
-                                                <input name="is_featured" type="radio" value="1" @if ($product->is_featured == 1) checked @endif>
+                                                <input name="is_featured" type="radio" value="1"
+                                                    @if ($product->is_featured == 1) checked @endif>
                                                 <span>Enable</span>
                                             </label>
                                         </div>
                                         <div class="form-check-inline">
                                             <label class="rdiobox rdiobox-info">
-                                                <input name="is_featured" type="radio" value="0" @if ($product->is_featured == 0) checked @endif>
+                                                <input name="is_featured" type="radio" value="0"
+                                                    @if ($product->is_featured == 0) checked @endif>
                                                 <span>Disable</span>
                                             </label>
                                         </div>
@@ -153,41 +177,49 @@
                                         <label for="">Select Product Type</label><br>
                                         <div class="form-check-inline">
                                             <label class="rdiobox rdiobox-info">
-                                                <input name="product_type" type="radio" value="0" @if ($product->product_type == 0) checked @endif>
+                                                <input name="product_type" type="radio" value="0"
+                                                    @if ($product->product_type == 0) checked @endif>
                                                 <span>Physial</span>
                                             </label>
                                         </div>
                                         <div class="form-check-inline">
                                             <label class="rdiobox rdiobox-info">
-                                                <input name="product_type" type="radio" value="1" @if ($product->product_type == 1) checked @endif>
+                                                <input name="product_type" type="radio" value="1"
+                                                    @if ($product->product_type == 1) checked @endif>
                                                 <span>Digital</span>
                                             </label>
                                         </div>
                                         <div class="form-check-inline">
                                             <label class="rdiobox rdiobox-info">
-                                                <input name="product_type" type="radio" value="2" @if ($product->product_type == 2) checked @endif>
+                                                <input name="product_type" type="radio" value="2"
+                                                    @if ($product->product_type == 2) checked @endif>
                                                 <span>Organic</span>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="">Product Tags</label>
-                                        <input type="text" name="product_tags" class="form-control form-control-dark" value="{{ $product->product_tags }}" placeholder="Enter Tags Using, ">
+                                        <input type="text" name="product_tags" class="form-control form-control-dark"
+                                            value="{{ $product->product_tags }}" placeholder="Enter Tags Using, ">
                                     </div>
                                     <div class="form-group">
                                         <label for="">Select Product Status</label>
-                                        <select name="status" class="form-control form-control-dark select2" id="">
+                                        <select name="status" class="form-control form-control-dark select2"
+                                            id="">
                                             <option value="" hidden>Please Select A Status</option>
-                                            <option value="1" @if ($product->status == 1) selected @endif>Active</option>
-                                            <option value="0" @if ($product->status == 0) selected @endif>Inactive</option>
-                                            <option value="2" @if ($product->status == 2) selected @endif hidden>Soft Deleted</option>
+                                            <option value="1" @if ($product->status == 1) selected @endif>Active
+                                            </option>
+                                            <option value="0" @if ($product->status == 0) selected @endif>
+                                                Inactive</option>
+                                            <option value="2" @if ($product->status == 2) selected @endif
+                                                hidden>Soft Deleted</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="">Edit Thumbnail</label>
                                         <div class="ht-200 bg-black-2 d-flex align-items-center justify-content-center">
-                                            <input type="file" name="image[]" id="image"
-                                            class="inputfile" data-multiple-caption="{count} files selected" multiple>
+                                            <input type="file" name="image[]" id="image" class="inputfile"
+                                                data-multiple-caption="{count} files selected" multiple>
                                             <label for="image" class="if-outline if-outline-info">
                                                 <i class="icon ion-ios-upload-outline tx-24"></i>
                                                 <span>Choose files...</span>
@@ -195,10 +227,11 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" name="updateProduct" class="btn btn-teal float-right">Update Product</button>
+                                        <button type="submit" name="updateProduct"
+                                            class="btn btn-teal float-right">Update Product</button>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </form>
                     </div><!-- card-body -->

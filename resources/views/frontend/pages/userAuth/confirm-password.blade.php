@@ -19,18 +19,22 @@
                         <div class="login_wrap widget-taber-content background-white">
                             <div class="padding_eight_all bg-white">
                                 <div class="heading_s1">
-                                    <img class="border-radius-15" src="{{ asset('frontend/assets/imgs/page/forgot_password.svg') }}" alt="" />
+                                    <img class="border-radius-15"
+                                        src="{{ asset('frontend/assets/imgs/page/forgot_password.svg') }}" alt="" />
                                     <h2 class="mb-15 mt-15">{{ __('Confirm Your Password?') }}</h2>
-                                    <p class="mb-30">{{ __('This is a secure area of the application. Please confirm your password before continuing.') }}</p>
+                                    <p class="mb-30">
+                                        {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
+                                    </p>
                                 </div>
                                 <form method="POST" action="{{ route('password.confirm') }}">
                                     @csrf
                                     <div class="form-group">
-                                        <input type="password" name="password" required autocomplete="current-password"/>
+                                        <input type="password" name="password" required autocomplete="current-password" />
                                         <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-heading btn-block hover-up" name="confirmPassword">{{ __('Confirm') }}</button>
+                                        <button type="submit" class="btn btn-heading btn-block hover-up"
+                                            name="confirmPassword">{{ __('Confirm') }}</button>
                                     </div>
                                 </form>
                             </div>
@@ -40,5 +44,5 @@
             </div>
         </div>
     </main>
-    
+
 @endsection

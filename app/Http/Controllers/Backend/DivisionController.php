@@ -16,7 +16,7 @@ class DivisionController extends Controller
      */
     public function index()
     {
-        $divisions = Division::orderBy('name','asc')->get();
+        $divisions = Division::orderBy('name', 'asc')->get();
         return view('backend.pages.division.manage', compact('divisions'));
     }
 
@@ -74,10 +74,10 @@ class DivisionController extends Controller
     public function edit($id)
     {
         $division = Division::find($id);
-        if(!is_null($division)){
+        if (!is_null($division)) {
             $countries = Country::orderBy('priority', 'asc')->get();
             return view('backend.pages.division.edit', compact('division', 'countries'));
-        }else{
+        } else {
             //404
         }
     }
@@ -92,7 +92,7 @@ class DivisionController extends Controller
     public function update(Request $request, $id)
     {
         $division = Division::find($id);
-        if(!is_null($division)){
+        if (!is_null($division)) {
             $division->name             = $request->name;
             $division->country_id       = $request->country_id;
             $division->priority         = $request->priority;
@@ -104,7 +104,7 @@ class DivisionController extends Controller
             );
             $division->save();
             return redirect()->route('division.manage')->with($notification);
-        }else{
+        } else {
             //404
         }
     }
@@ -118,14 +118,14 @@ class DivisionController extends Controller
     public function destroy($id)
     {
         $division = Division::find($id);
-        if(!is_null($division)){
+        if (!is_null($division)) {
             $notification = array(
                 'alert-type'    => 'error',
                 'message'       => 'Division Removed Permanently!',
             );
             $division->delete();
             return redirect()->route('division.manage')->with($notification);
-        }else{
+        } else {
             //404
         }
     }

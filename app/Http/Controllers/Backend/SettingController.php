@@ -17,7 +17,7 @@ class SettingController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
+    {
         $settings = Setting::where('id', 1)->get();
         return view('backend.pages.setting.manage', compact('settings'));
     }
@@ -81,25 +81,25 @@ class SettingController extends Controller
         $setting->support_phone = $request->support_phone;
         $setting->address = $request->address;
         $setting->business_hours = $request->business_hours;
-        if($request->logo){
-            if(File::exists('backend/img/settings/logo/' . $setting->logo)){
+        if ($request->logo) {
+            if (File::exists('backend/img/settings/logo/' . $setting->logo)) {
                 File::delete('backend/img/settings/logo/' . $setting->logo);
             }
             $logo = $request->file('logo');
-            $logoName = $setting->site_title.'-logo';
-            $logoImg = $logoName. '-' .rand() . '.' . $logo->getClientOriginalExtension();
+            $logoName = $setting->site_title . '-logo';
+            $logoImg = $logoName . '-' . rand() . '.' . $logo->getClientOriginalExtension();
             $location = public_path('backend/img/settings/logo/' . $logoImg);
             $imageResize = Image::make($logo);
             $imageResize->fit(215, 66)->save($location);
             $setting->logo = $logoImg;
         }
-        if($request->favicon){
-            if(File::exists('backend/img/settings/favicon/' . $setting->favicon)){
+        if ($request->favicon) {
+            if (File::exists('backend/img/settings/favicon/' . $setting->favicon)) {
                 File::delete('backend/img/settings/favicon/' . $setting->favicon);
             }
             $favicon = $request->file('favicon');
-            $faviconName = $setting->site_title.'-favicon';
-            $faviconImg = $faviconName. '-' .rand() . '.' . $favicon->getClientOriginalExtension();
+            $faviconName = $setting->site_title . '-favicon';
+            $faviconImg = $faviconName . '-' . rand() . '.' . $favicon->getClientOriginalExtension();
             $location = public_path('backend/img/settings/favicon/' . $faviconImg);
             $imageResize = Image::make($favicon);
             $imageResize->fit(75, 60)->save($location);

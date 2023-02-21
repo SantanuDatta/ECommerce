@@ -18,8 +18,11 @@
                 <div class="col-lg-8 mb-40">
                     <h1 class="heading-2 mb-10">{{ __('Your Cart') }}</h1>
                     <div class="d-flex justify-content-between">
-                        <h6 class="text-body">{{ __('There are') }} <span class="text-brand">{{ App\Models\Cart::totalItems() }}</span> {{ __('products in your cart') }}</h6>
-                        <h6 class="text-body"><a href="#" class="text-muted"><i class="fi-rs-trash mr-5"></i>{{ __('Clear Cart') }}</a></h6>
+                        <h6 class="text-body">{{ __('There are') }} <span
+                                class="text-brand">{{ App\Models\Cart::totalItems() }}</span>
+                            {{ __('products in your cart') }}</h6>
+                        <h6 class="text-body"><a href="#" class="text-muted"><i
+                                    class="fi-rs-trash mr-5"></i>{{ __('Clear Cart') }}</a></h6>
                     </div>
                 </div>
             </div>
@@ -31,99 +34,110 @@
                     @if (App\Models\Cart::totalItems() == 0)
                         <div class="alert alert-warning">{{ __('No Item Added To Your Cart!!') }}</div>
                     @else
-                    <div class="table-responsive shopping-summery">
-                        <table class="table table-wishlist">
-                            <thead>
-                                <tr class="main-heading">
-                                    <th class="start pl-30" scope="col" colspan="2">{{ __('Product') }}</th>
-                                    <th scope="col">{{ __('Unit Price') }}</th>
-                                    <th scope="col">{{ __('Quantity') }}</th>
-                                    <th scope="col">{{ __('Subtotal') }}</th>
-                                    <th scope="col">{{ __('Update') }}</th>
-                                    <th scope="col" class="end">{{ __('Remove') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (App\Models\Cart::totalCarts() as $cart)
-                                    <tr class="pt-30">
-                                        <td class="image product-thumbnail pt-40 pl-10">
-                                        @php $img = 1; @endphp
-                                            @if ($cart->product->images->count() > 0)
-                                                <img src="{{ asset('backend/img/products/' . $cart->product->images->first()->image) }}" alt="#" />
-                                            @endif
-                                        </td>
-                                        <td class="product-des product-name">
-                                            <h6 class="mb-5"><a class="product-name mb-10 text-heading" href="{{ route('singleProduct', $cart->product->slug) }}">{{ $cart->product->name }}</a></h6>
-                                            <div class="product-rate-cover">
-                                                <div class="product-rate d-inline-block">
-                                                    <div class="product-rating" style="width:90%">
-                                                    </div>
-                                                </div>
-                                                <span class="font-small ml-5 text-muted"> (4.0)</span>
-                                            </div>
-                                        </td>
-                                        <td class="price" data-title="Price">
-                                            <h4 class="text-body">
-                                                @if (!is_null($cart->product->offer_price))
-                                                    @php
-                                                        $totalSave = ($cart->product->regular_price *($cart->product->offer_price /100) );
-                                                        $savedAmount = $cart->product->regular_price - $totalSave;
-                                                    @endphp
-                                                    {{ $savedAmount }} {{ __('BDT') }}
-                                                    @php
-                                                        $totalAmount += $savedAmount * $cart->product_quantity;
-                                                    @endphp
-                                                @else
-                                                    {{ $cart->product->regular_price }} {{ __('BDT') }}
-                                                    @php
-                                                        $totalAmount += $cart->product->regular_price * $cart->product_quantity;
-                                                    @endphp
-                                                @endif 
-                                            </h4>
-                                        </td>
-                                        <td class="text-center detail-info" data-title="Stock">
-                                        <form action="{{ route('cart.update', $cart->id) }}" method="POST">
-                                            @csrf
-                                            <div class="detail-extralink mr-15">
-                                                <div class="detail-qty border radius">
-                                                    <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
-                                                    <input type="text" name="quantity" class="qty-val" value="{{ $cart->product_quantity }}" min="1">
-                                                    <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="price" data-title="Price">
-                                            <h4 class="text-brand">
-                                                @if (!is_null($cart->product->offer_price))
-                                                    @php
-                                                        $totalSave = ($cart->product->regular_price *($cart->product->offer_price /100) );
-                                                        $savedAmount = $cart->product->regular_price - $totalSave;
-                                                    @endphp
-                                                    {{ $savedAmount * $cart->product_quantity}} {{ __('BDT') }}
-                                                @else
-                                                    {{ $cart->product->regular_price * $cart->product_quantity}} {{ __('BDT') }}
-                                                @endif 
-                                            </h4>
-                                        </td>
-                                        <td class="action text-center cart-update" data-title="Update">
-                                                <button type="submit" class="cart-btn-update"><i class="fi-rs-refresh mr-10"></i></button>
-                                            </form>
-                                        </td>
-                                        <td class="action text-center" data-title="Remove">
-                                            <form action="{{ route('cart.destroy', $cart->id) }}" method="POST" class="cart-destroy">
-                                                @csrf
-                                                    <button type="submit" class="cart-btn-destroy"><i class="fi-rs-trash"></i></button>
-                                            </form>
-                                        </td>
+                        <div class="table-responsive shopping-summery">
+                            <table class="table table-wishlist">
+                                <thead>
+                                    <tr class="main-heading">
+                                        <th class="start pl-30" scope="col" colspan="2">{{ __('Product') }}</th>
+                                        <th scope="col">{{ __('Unit Price') }}</th>
+                                        <th scope="col">{{ __('Quantity') }}</th>
+                                        <th scope="col">{{ __('Subtotal') }}</th>
+                                        <th scope="col">{{ __('Update') }}</th>
+                                        <th scope="col" class="end">{{ __('Remove') }}</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody>
+                                    @foreach (App\Models\Cart::totalCarts() as $cart)
+                                        <tr class="pt-30">
+                                            <td class="image product-thumbnail pt-40 pl-10">
+                                                @php $img = 1; @endphp
+                                                @if ($cart->product->images->count() > 0)
+                                                    <img src="{{ asset('backend/img/products/' . $cart->product->images->first()->image) }}"
+                                                        alt="#" />
+                                                @endif
+                                            </td>
+                                            <td class="product-des product-name">
+                                                <h6 class="mb-5"><a class="product-name mb-10 text-heading"
+                                                        href="{{ route('singleProduct', $cart->product->slug) }}">{{ $cart->product->name }}</a>
+                                                </h6>
+                                                <div class="product-rate-cover">
+                                                    <div class="product-rate d-inline-block">
+                                                        <div class="product-rating" style="width:90%">
+                                                        </div>
+                                                    </div>
+                                                    <span class="font-small ml-5 text-muted"> (4.0)</span>
+                                                </div>
+                                            </td>
+                                            <td class="price" data-title="Price">
+                                                <h4 class="text-body">
+                                                    @if (!is_null($cart->product->offer_price))
+                                                        @php
+                                                            $totalSave = $cart->product->regular_price * ($cart->product->offer_price / 100);
+                                                            $savedAmount = $cart->product->regular_price - $totalSave;
+                                                        @endphp
+                                                        {{ $savedAmount }} {{ __('BDT') }}
+                                                        @php
+                                                            $totalAmount += $savedAmount * $cart->product_quantity;
+                                                        @endphp
+                                                    @else
+                                                        {{ $cart->product->regular_price }} {{ __('BDT') }}
+                                                        @php
+                                                            $totalAmount += $cart->product->regular_price * $cart->product_quantity;
+                                                        @endphp
+                                                    @endif
+                                                </h4>
+                                            </td>
+                                            <td class="text-center detail-info" data-title="Stock">
+                                                <form action="{{ route('cart.update', $cart->id) }}" method="POST">
+                                                    @csrf
+                                                    <div class="detail-extralink mr-15">
+                                                        <div class="detail-qty border radius">
+                                                            <a href="#" class="qty-down"><i
+                                                                    class="fi-rs-angle-small-down"></i></a>
+                                                            <input type="text" name="quantity" class="qty-val"
+                                                                value="{{ $cart->product_quantity }}" min="1">
+                                                            <a href="#" class="qty-up"><i
+                                                                    class="fi-rs-angle-small-up"></i></a>
+                                                        </div>
+                                                    </div>
+                                            </td>
+                                            <td class="price" data-title="Price">
+                                                <h4 class="text-brand">
+                                                    @if (!is_null($cart->product->offer_price))
+                                                        @php
+                                                            $totalSave = $cart->product->regular_price * ($cart->product->offer_price / 100);
+                                                            $savedAmount = $cart->product->regular_price - $totalSave;
+                                                        @endphp
+                                                        {{ $savedAmount * $cart->product_quantity }} {{ __('BDT') }}
+                                                    @else
+                                                        {{ $cart->product->regular_price * $cart->product_quantity }}
+                                                        {{ __('BDT') }}
+                                                    @endif
+                                                </h4>
+                                            </td>
+                                            <td class="action text-center cart-update" data-title="Update">
+                                                <button type="submit" class="cart-btn-update"><i
+                                                        class="fi-rs-refresh mr-10"></i></button>
+                                                </form>
+                                            </td>
+                                            <td class="action text-center" data-title="Remove">
+                                                <form action="{{ route('cart.destroy', $cart->id) }}" method="POST"
+                                                    class="cart-destroy">
+                                                    @csrf
+                                                    <button type="submit" class="cart-btn-destroy"><i
+                                                            class="fi-rs-trash"></i></button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     @endif
                     <div class="divider-2 mb-30"></div>
                     <div class="cart-action d-flex justify-content-between">
-                        <a href="{{ route('shop') }}" class="btn"><i class="fi-rs-arrow-left mr-10"></i>{{ __('Continue Shopping') }}</a>
+                        <a href="{{ route('shop') }}" class="btn"><i
+                                class="fi-rs-arrow-left mr-10"></i>{{ __('Continue Shopping') }}</a>
                         <a class="btn mr-10 mb-sm-15"><i class="fi-rs-refresh mr-10"></i>{{ __('Update Cart') }}</a>
                     </div>
                     {{-- <div class="row mt-50">
@@ -435,12 +449,16 @@
                                             <h6 class="text-muted">Shipping</h6>
                                         </td>
                                         <td class="cart_total_amount">
-                                            <h5 class="text-heading text-end">Free</h4</td> </tr> <tr>
+                                            <h5 class="text-heading text-end">Free</h4< /td>
+                                    </tr>
+                                    <tr>
                                         <td class="cart_total_label">
                                             <h6 class="text-muted">Estimate for</h6>
                                         </td>
                                         <td class="cart_total_amount">
-                                            <h5 class="text-heading text-end">United Kingdom</h4</td> </tr> <tr>
+                                            <h5 class="text-heading text-end">United Kingdom</h4< /td>
+                                    </tr>
+                                    <tr>
                                         <td scope="col" colspan="2">
                                             <div class="divider-2 mt-10 mb-10"></div>
                                         </td>
@@ -459,11 +477,13 @@
                             </table>
                         </div>
                         @if (App\Models\Cart::totalItems() == 0)
-                            <button class="btn mb-20 w-100" type="button" disabled>{{ __('Proceed To CheckOut') }}<i class="fi-rs-sign-out ml-15"></i></button>
+                            <button class="btn mb-20 w-100" type="button" disabled>{{ __('Proceed To CheckOut') }}<i
+                                    class="fi-rs-sign-out ml-15"></i></button>
                         @else
-                            <a href="{{ route('checkout') }}" class="btn mb-20 w-100">{{ __('Proceed To CheckOut') }}<i class="fi-rs-sign-out ml-15"></i></a>
+                            <a href="{{ route('checkout') }}" class="btn mb-20 w-100">{{ __('Proceed To CheckOut') }}<i
+                                    class="fi-rs-sign-out ml-15"></i></a>
                         @endif
-                        
+
                     </div>
                 </div>
             </div>

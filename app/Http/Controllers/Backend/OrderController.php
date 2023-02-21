@@ -63,7 +63,7 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::find($id);
-        if(!is_null($id)){
+        if (!is_null($id)) {
             $carts = Cart::orderBy('id', 'asc')->where('order_id', $order->id)->get();
             return view('backend.pages.order.details', compact('order', 'carts'));
         }
@@ -95,10 +95,10 @@ class OrderController extends Controller
             foreach ($order->carts as $cart) {
                 // Get the product model
                 $product = Product::find($cart->product_id);
-                
+
                 // Get the quantity from the current cart item
                 $quantity = $cart->product_quantity;
-                
+
                 if ($order->status == 4 || $order->status == 5) {
                     // Increment the product stock for failed or cancelled status
                     $product->quantity += $quantity;
@@ -127,7 +127,7 @@ class OrderController extends Controller
     public function destroy($id)
     {
         $order = Order::find($id);
-        if(!is_null($order)){
+        if (!is_null($order)) {
             $notification = array(
                 'alert-type'    => 'error',
                 'message'       => 'Order Removed Successfully!',
@@ -135,7 +135,7 @@ class OrderController extends Controller
             $order->carts()->delete();
             $order->delete();
             return redirect()->route('order.manage')->with($notification);
-        }else{
+        } else {
             //404
         }
     }

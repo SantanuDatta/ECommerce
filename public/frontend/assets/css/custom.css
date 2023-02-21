@@ -1,8 +1,8 @@
-.entry-main-content .tab-pane ul{
+.entry-main-content .tab-pane ul {
     padding: 0 0 0px 14px;
 }
 
-.entry-main-content .tab-pane ul li{
+.entry-main-content .tab-pane ul li {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -10,7 +10,7 @@
     position: relative;
 }
 
-.entry-main-content .tab-pane ul li::before{
+.entry-main-content .tab-pane ul li::before {
     position: absolute;
     left: -14px;
     top: 9px;
@@ -21,19 +21,19 @@
     background-color: #9b9b9b;
 }
 
-.entry-main-content .tab-pane ul li span{
+.entry-main-content .tab-pane ul li span {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 165px;
     flex: 0 0 165px;
     display: inline-block;
 }
 
-.entry-main-content .tab-pane ul li:last-child{
+.entry-main-content .tab-pane ul li:last-child {
     margin: 0 0 0;
 }
 
-.entry-main-content .tab-pane blockquote{
-    background-color: #F4F6FA;
+.entry-main-content .tab-pane blockquote {
+    background-color: #f4f6fa;
     padding: 30px;
     border-radius: 15px;
     margin: 10px auto;
@@ -41,7 +41,7 @@
     border-left: 5px solid #8a8c91;
 }
 
-.entry-main-content .tab-pane blockquote p{
+.entry-main-content .tab-pane blockquote p {
     position: relative;
     font-weight: 700;
     font-style: italic;
@@ -63,11 +63,11 @@
     padding-left: 15px;
 } */
 
-.error-red{
+.error-red {
     color: #c82333;
 }
 
-.cart-btn-destroy{
+.cart-btn-destroy {
     background-color: transparent !important;
     padding: 0px !important;
     border: 0px !important;
@@ -75,12 +75,12 @@
 }
 
 .cart-destroy button.submit:hover,
-.cart-destroy button[type='submit']:hover{
+.cart-destroy button[type="submit"]:hover {
     background-color: transparent !important;
     color: #c82333 !important;
 }
 
-.cart-btn-update{
+.cart-btn-update {
     background-color: transparent !important;
     padding: 0px !important;
     border: 0px !important;
@@ -88,63 +88,62 @@
 }
 
 .cart-update button.submit:hover,
-.cart-update button[type='submit']:hover{
+.cart-update button[type="submit"]:hover {
     background-color: transparent !important;
-    color: #3BB77E !important;
+    color: #3bb77e !important;
 }
 
-.product-action-1 .wishlist-btn{
+.product-action-1 .wishlist-btn {
     padding: 0;
     background: transparent;
     border: 0px;
     border-radius: 0px;
-    color: #3BB77E;
+    color: #3bb77e;
     width: 35px !important;
 }
 
-.product-action-1 .wishlisted{
+.product-action-1 .wishlisted {
     color: red;
 }
 
-.product-action-1 .wishlist-btn:hover{
+.product-action-1 .wishlist-btn:hover {
     background-color: transparent !important;
 }
-
 
 /* Rating Css */
 
 .rate-area {
-	float: left;
-	border-style: none;
+    float: left;
+    border-style: none;
 }
 
 .rate-area:not(:checked) > input {
-	position: absolute;
-	top: -9999px;
-	clip: rect(0, 0, 0, 0);
+    position: absolute;
+    top: -9999px;
+    clip: rect(0, 0, 0, 0);
 }
 
 .rate-area:not(:checked) > label {
-	float: right;
-	width: 0.8em;
-	overflow: hidden;
-	white-space: nowrap;
-	cursor: pointer;
-	font-size: 180%;
-	color: lightgrey;
+    float: right;
+    width: 0.8em;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    font-size: 180%;
+    color: lightgrey;
 }
 
 .rate-area:not(:checked) > label:before {
-	content: "★";
+    content: "★";
 }
 
 .rate-area > input:checked ~ label {
-	color: gold;
+    color: gold;
 }
 
 .rate-area:not(:checked) > label:hover,
 .rate-area:not(:checked) > label:hover ~ label {
-	color: gold;
+    color: gold;
 }
 
 .rate-area > input:checked + label:hover,
@@ -152,20 +151,23 @@
 .rate-area > input:checked ~ label:hover,
 .rate-area > input:checked ~ label:hover ~ label,
 .rate-area > label:hover ~ input:checked ~ label {
-	color: gold;
+    color: gold;
 }
 
 /* Toast */
-.toast-info{
-    background-color: #17A2B8;
+.toast-info {
+    background-color: #17a2b8;
 }
-.toast-success{
+
+.toast-success {
     background-color: #1c9108;
 }
-.toast-warning{
-    background-color: #F49917;
+
+.toast-warning {
+    background-color: #f49917;
 }
-#toast-container > .toast-warning{
+
+#toast-container > .toast-warning {
     color: #212529;
 }
 
@@ -173,48 +175,50 @@
     color: #212529;
 }
 
-.toast-error{
-    background-color: #DC3545;
+.toast-error {
+    background-color: #dc3545;
 }
 
 #toast-container > div {
     font-weight: 600;
-    opacity:1;
+    opacity: 1;
     -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
     filter: alpha(opacity=100);
-    -moz-box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-    -webkit-box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    -moz-box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px,
+        rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px,
+        rgba(0, 0, 0, 0.23) 0px 3px 6px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
 /* Rating Css */
 
 .shop-rate-area {
-	float: left;
-	border-style: none;
+    float: left;
+    border-style: none;
 }
 
 .shop-rate-area:not(:checked) > input {
-	position: absolute;
-	top: -9999px;
-	clip: rect(0, 0, 0, 0);
+    position: absolute;
+    top: -9999px;
+    clip: rect(0, 0, 0, 0);
 }
 
 .shop-rate-area:not(:checked) > label {
-	float: right;
-	width: 0.8em;
-	overflow: hidden;
-	white-space: nowrap;
-	font-size: 180%;
-	color: lightgrey;
+    float: right;
+    width: 0.8em;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 180%;
+    color: lightgrey;
 }
 
 .shop-rate-area:not(:checked) > label:before {
-	content: "★";
+    content: "★";
 }
 
 .shop-rate-area > input:checked ~ label {
-	color: gold;
+    color: gold;
 }
 
 /* .shop-rate-area:not(:checked) > label:hover,
@@ -227,37 +231,37 @@
 .shop-rate-area > input:checked ~ label:hover,
 .shop-rate-area > input:checked ~ label:hover ~ label,
 .shop-rate-area > label:hover ~ input:checked ~ label {
-	color: gold;
+    color: gold;
 }
 
 /* Rating Css */
 
 .customer-rate-area {
-	float: left;
-	border-style: none;
+    float: left;
+    border-style: none;
 }
 
 .customer-rate-area:not(:checked) > input {
-	position: absolute;
-	top: -9999px;
-	clip: rect(0, 0, 0, 0);
+    position: absolute;
+    top: -9999px;
+    clip: rect(0, 0, 0, 0);
 }
 
 .customer-rate-area:not(:checked) > label {
-	float: right;
-	width: 0.8em;
-	overflow: hidden;
-	white-space: nowrap;
-	font-size: 180%;
-	color: lightgrey;
+    float: right;
+    width: 0.8em;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 180%;
+    color: lightgrey;
 }
 
 .customer-rate-area:not(:checked) > label:before {
-	content: "★";
+    content: "★";
 }
 
 .customer-rate-area > input:checked ~ label {
-	color: gold;
+    color: gold;
 }
 
 /* .shop-rate-area:not(:checked) > label:hover,
@@ -270,5 +274,35 @@
 .customer-rate-area > input:checked ~ label:hover,
 .customer-rate-area > input:checked ~ label:hover ~ label,
 .customer-rate-area > label:hover ~ input:checked ~ label {
-	color: gold;
+    color: gold;
+}
+
+.form-range::-webkit-slider-thumb {
+    background-color: #3bb77e;
+    cursor: pointer;
+}
+
+.form-range::-moz-range-thumb {
+    background-color: #3bb77e;
+    cursor: pointer;
+}
+
+.form-range::-ms-thumb {
+    background-color: #3bb77e;
+    cursor: pointer;
+}
+
+.form-range:focus::-webkit-slider-thumb {
+    background-color: #3bb77e;
+    cursor: pointer;
+}
+
+.form-range:focus::-moz-range-thumb {
+    background-color: #3bb77e;
+    cursor: pointer;
+}
+
+.form-range:focus::-ms-thumb {
+    background-color: #3bb77e;
+    cursor: pointer;
 }

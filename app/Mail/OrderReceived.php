@@ -30,11 +30,11 @@ class OrderReceived extends Mailable
      */
     public function build()
     {
-        if(!empty($this->orderHistory->email)){
+        if (!empty($this->orderHistory->email)) {
             return $this
-                        ->to($this->orderHistory->email)
-                        ->subject('We Have Received Your Order')
-                        ->view('mail.orderReceived');
+                ->to($this->orderHistory->email)
+                ->subject('We Have Received Your Order')
+                ->view('mail.orderReceived');
         }
     }
 }

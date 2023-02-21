@@ -9,7 +9,6 @@
         </div>
     </div>
     <!-- Vendor JS-->
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="{{ asset('frontend/assets/js/vendor/modernizr-3.6.0.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/vendor/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/vendor/jquery-migrate-3.3.0.min.js') }}"></script>
@@ -59,35 +58,38 @@
             "hideMethod": "fadeOut"
         }
         @if (Session::has('message'))
-            var type="{{ Session::get('alert-type', 'info') }}";
+            var type = "{{ Session::get('alert-type', 'info') }}";
 
-            switch(type){
+            switch (type) {
                 case 'info':
                     toastr.info("{{ Session::get('message') }}");
-                break;
+                    break;
                 case 'success':
                     toastr.success("{{ Session::get('message') }}");
-                break;
+                    break;
                 case 'warning':
                     toastr.warning("{{ Session::get('message') }}");
-                break;
+                    break;
                 case 'error':
                     toastr.error("{{ Session::get('message') }}");
-                break;
+                    break;
             }
         @endif
     </script>
 
     {{-- SSL COMMERZ SANDBOX --}}
     <script>
-        (function (window, document) {
-            var loader = function () {
-                var script = document.createElement("script"), tag = document.getElementsByTagName("script")[0];
-                script.src = "https://sandbox.sslcommerz.com/embed.min.js?" + Math.random().toString(36).substring(7);
+        (function(window, document) {
+            var loader = function() {
+                var script = document.createElement("script"),
+                    tag = document.getElementsByTagName("script")[0];
+                script.src = "https://sandbox.sslcommerz.com/embed.min.js?" + Math.random().toString(36).substring(
+                    7);
                 tag.parentNode.insertBefore(script, tag);
             };
-    
-            window.addEventListener ? window.addEventListener("load", loader, false) : window.attachEvent("onload", loader);
+
+            window.addEventListener ? window.addEventListener("load", loader, false) : window.attachEvent("onload",
+                loader);
         })(window, document);
     </script>
 
@@ -102,7 +104,9 @@
                 $.ajax({
                     url: "/wishlist/edit/" + productId,
                     type: "POST",
-                    data: { _token: "{{ csrf_token() }}" },
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
                     success: function(response) {
                         if (response.status == 'success') {
                             toastr.success("Product Added To Wishlist");

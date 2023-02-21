@@ -37,28 +37,33 @@ class Order extends Model
         'transaction_id',
     ];
 
-    public function country(){
+    public function country()
+    {
         return $this->belongsTo(Country::class);
     }
 
-    public function division(){
+    public function division()
+    {
         return $this->belongsTo(Division::class);
     }
 
-    public function district(){
+    public function district()
+    {
         return $this->belongsTo(District::class);
     }
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function carts(){
+    public function carts()
+    {
         return $this->hasMany(Cart::class);
     }
 
-    public function product(){
+    public function product()
+    {
         return $this->belongsTo(Product::class);
     }
-
 }

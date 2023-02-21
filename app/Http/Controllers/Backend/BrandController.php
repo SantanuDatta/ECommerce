@@ -52,7 +52,7 @@ class BrandController extends Controller
         $brand->slug        = Str::slug($request->name);
         $brand->description = $request->description;
         $brand->status      = $request->status;
-        if($request->image){
+        if ($request->image) {
             $image = $request->file('image');
             $img = rand() . '.' . $image->getClientOriginalExtension();
             $location = public_path('backend/img/brands/' . $img);
@@ -90,9 +90,9 @@ class BrandController extends Controller
     public function edit($id)
     {
         $brand = Brand::find($id);
-        if(!is_null($brand)){
+        if (!is_null($brand)) {
             return view('backend.pages.brand.edit', compact('brand'));
-        }else{
+        } else {
             //404
         }
     }
@@ -118,8 +118,8 @@ class BrandController extends Controller
         $brand->slug        = Str::slug($request->name);
         $brand->description = $request->description;
         $brand->status      = $request->status;
-        if($request->image){
-            if(File::exists('backend/img/brands/' . $brand->image)){
+        if ($request->image) {
+            if (File::exists('backend/img/brands/' . $brand->image)) {
                 File::delete('backend/img/brands/' . $brand->image);
             }
             $image = $request->file('image');
@@ -148,7 +148,7 @@ class BrandController extends Controller
     public function destroy($id)
     {
         $brand = Brand::find($id);
-        if(!is_null($brand)){
+        if (!is_null($brand)) {
             $brand->status = 2;
             $notification = array(
                 'alert-type'    => 'warning',
@@ -156,12 +156,13 @@ class BrandController extends Controller
             );
             $brand->save();
             return redirect()->route('brand.manage')->with($notification);
-        }else{
+        } else {
             //404
         }
     }
 
-    public function softDelete(){
+    public function softDelete()
+    {
         $brands = Brand::where('status', 2)->orderBy('name', 'asc')->get();
         return view('backend.pages.brand.softdelete', compact('brands'));
     }
@@ -169,8 +170,8 @@ class BrandController extends Controller
     public function fullDelete($id)
     {
         $brand = Brand::find($id);
-        if(!is_null($brand)){
-            if(File::exists('backend/img/brands/' . $brand->image)){
+        if (!is_null($brand)) {
+            if (File::exists('backend/img/brands/' . $brand->image)) {
                 File::delete('backend/img/brands/' . $brand->image);
             }
             $notification = array(
@@ -179,7 +180,7 @@ class BrandController extends Controller
             );
             $brand->delete();
             return redirect()->route('brand.softdelete')->with($notification);
-        }else{
+        } else {
             //404
         }
     }

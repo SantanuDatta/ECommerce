@@ -38,8 +38,8 @@ Route::get('/', [FrontPagesController::class, 'home'])->name('home');
 Route::get('/404', [FrontPagesController::class, 'notFound'])->name('notFound');
 
 //User Dashboard
-Route::group(['middleware' => ['auth', 'verified']], function(){
-    Route::group(['prefix' => '/user'], function(){
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::group(['prefix' => '/user'], function () {
         Route::get('/dashboard', [FrontPagesController::class, 'userDashboard'])->name('user.dashboard');
         Route::post('/update/{id}', [FrontPagesController::class, 'userUpdate'])->name('user.update');
         //User Account
@@ -51,18 +51,17 @@ Route::group(['middleware' => ['auth', 'verified']], function(){
 
     //Checkout Payment
     Route::post('/checkout/pay', [SslCommerzPaymentController::class, 'index'])->name('make.payment');
-
 });
 
 //Wishlist
-Route::group(['prefix' => '/wishlist'], function(){
+Route::group(['prefix' => '/wishlist'], function () {
     Route::get('/', [WishlistController::class, 'index'])->name('wishlist.manage');
     Route::post('/edit/{id}', [WishlistController::class, 'edit'])->name('wishlist.edit');
     Route::post('/destroy/{id}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
 });
 
 //Cart
-Route::group(['prefix' => '/cart'], function(){
+Route::group(['prefix' => '/cart'], function () {
     Route::get('/', [CartController::class, 'index'])->name('cart.manage');
     Route::post('/store', [CartController::class, 'store'])->name('cart.store');
     Route::post('/update/{id}', [CartController::class, 'update'])->name('cart.update');
@@ -110,10 +109,10 @@ Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
 |
 */
 
-Route::group(['middleware' => ['auth', 'verified', 'role']], function(){
-    Route::group(['prefix' => '/admin'], function(){
+Route::group(['middleware' => ['auth', 'verified', 'role']], function () {
+    Route::group(['prefix' => '/admin'], function () {
         Route::get('/dashboard', [PagesController::class, 'index'])->name('admin.dashboard');
-    
+
         // Brand Route
         Route::group(['prefix' => '/brand'], function () {
             Route::get('/manage', [BrandController::class, 'index'])->name('brand.manage');
@@ -125,7 +124,7 @@ Route::group(['middleware' => ['auth', 'verified', 'role']], function(){
             Route::get('/softdelete', [BrandController::class, 'softDelete'])->name('brand.softdelete');
             Route::post('/delete/{id}', [BrandController::class, 'fullDelete'])->name('brand.fulldelete');
         });
-    
+
         // Category Route
         Route::group(['prefix' => '/category'], function () {
             Route::get('/manage', [CategoryController::class, 'index'])->name('category.manage');
@@ -137,7 +136,7 @@ Route::group(['middleware' => ['auth', 'verified', 'role']], function(){
             Route::get('/softdelete', [CategoryController::class, 'softDelete'])->name('category.softdelete');
             Route::post('/delete/{id}', [CategoryController::class, 'fullDelete'])->name('category.fulldelete');
         });
-    
+
         // Product Route
         Route::group(['prefix' => '/product'], function () {
             Route::get('/manage', [ProductController::class, 'index'])->name('product.manage');
@@ -149,15 +148,15 @@ Route::group(['middleware' => ['auth', 'verified', 'role']], function(){
             Route::get('/softdelete', [ProductController::class, 'softDelete'])->name('product.softdelete');
             Route::post('/delete/{id}', [ProductController::class, 'fullDelete'])->name('product.fulldelete');
         });
-    
+
         // Order Route
-        Route::group(['prefix' => '/all-orders'], function(){
+        Route::group(['prefix' => '/all-orders'], function () {
             Route::get('/manage', [OrderController::class, 'index'])->name('order.manage');
             Route::get('/order-details/{id}', [OrderController::class, 'show'])->name('order.details');
             Route::post('/order-details/update/{id}', [OrderController::class, 'update'])->name('order.update');
             Route::post('/destroy/{id}', [OrderController::class, 'destroy'])->name('order.destroy');
         });
-    
+
         // Country Route
         Route::group(['prefix' => '/country'], function () {
             Route::get('/manage', [CountryController::class, 'index'])->name('country.manage');
@@ -167,7 +166,7 @@ Route::group(['middleware' => ['auth', 'verified', 'role']], function(){
             Route::post('/update/{id}', [CountryController::class, 'update'])->name('country.update');
             Route::post('/destroy/{id}', [CountryController::class, 'destroy'])->name('country.destroy');
         });
-    
+
         // Division Route
         Route::group(['prefix' => '/division'], function () {
             Route::get('/manage', [DivisionController::class, 'index'])->name('division.manage');
@@ -177,7 +176,7 @@ Route::group(['middleware' => ['auth', 'verified', 'role']], function(){
             Route::post('/update/{id}', [DivisionController::class, 'update'])->name('division.update');
             Route::post('/destroy/{id}', [DivisionController::class, 'destroy'])->name('division.destroy');
         });
-    
+
         // District Route
         Route::group(['prefix' => '/district'], function () {
             Route::get('/manage', [DistrictController::class, 'index'])->name('district.manage');
@@ -187,18 +186,18 @@ Route::group(['middleware' => ['auth', 'verified', 'role']], function(){
             Route::post('/update/{id}', [DistrictController::class, 'update'])->name('district.update');
             Route::post('/destroy/{id}', [DistrictController::class, 'destroy'])->name('district.destroy');
         });
-    
+
         // Customer Route
-        Route::group(['prefix' => '/customer'], function (){
+        Route::group(['prefix' => '/customer'], function () {
             Route::get('/manage', [CustomerController::class, 'index'])->name('customer.manage');
         });
-    
+
         // Setting Route
         Route::group(['prefix' => '/setting'], function () {
             Route::get('/manage', [SettingController::class, 'index'])->name('setting.manage');
             Route::post('/update/{id}', [SettingController::class, 'update'])->name('setting.update');
         });
-    
+
         // Slider Route
         Route::group(['prefix' => '/slider'], function () {
             Route::get('/manage', [SliderController::class, 'index'])->name('slider.manage');
@@ -208,7 +207,7 @@ Route::group(['middleware' => ['auth', 'verified', 'role']], function(){
             Route::post('/update/{id}', [SliderController::class, 'update'])->name('slider.update');
             Route::post('/destroy/{id}', [SliderController::class, 'destroy'])->name('slider.destroy');
         });
-    
+
         // Flash Route
         Route::group(['prefix' => '/flash'], function () {
             Route::get('/manage', [FlashController::class, 'index'])->name('flash.manage');
@@ -221,9 +220,5 @@ Route::group(['middleware' => ['auth', 'verified', 'role']], function(){
     });
 });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-require __DIR__.'/api.php';
-require __DIR__.'/auth.php';
+require __DIR__ . '/api.php';
+require __DIR__ . '/auth.php';

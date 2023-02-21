@@ -15,7 +15,7 @@ class CountryController extends Controller
      */
     public function index()
     {
-        $countries = Country::orderBy('name','asc')->get();
+        $countries = Country::orderBy('name', 'asc')->get();
         return view('backend.pages.country.manage', compact('countries'));
     }
 
@@ -71,13 +71,11 @@ class CountryController extends Controller
     public function edit($id)
     {
         $country = Country::find($id);
-        if(!is_null($country)){
+        if (!is_null($country)) {
             return view('backend.pages.country.edit', compact('country'));
-        }else{
+        } else {
             //404
         }
-        
-
     }
 
     /**
@@ -90,7 +88,7 @@ class CountryController extends Controller
     public function update(Request $request, $id)
     {
         $country = Country::find($id);
-        if(!is_null($country)){
+        if (!is_null($country)) {
             $country->name      = $request->name;
             $country->priority  = $request->priority;
             $country->status    = $request->status;
@@ -101,7 +99,7 @@ class CountryController extends Controller
             );
             $country->save();
             return redirect()->route('country.manage')->with($notification);
-        }else{
+        } else {
             //404
         }
     }
@@ -115,14 +113,14 @@ class CountryController extends Controller
     public function destroy($id)
     {
         $country = Country::find($id);
-        if(!is_null($country)){
+        if (!is_null($country)) {
             $notification = array(
                 'alert-type'    => 'error',
                 'message'       => 'Country Removed Permanently!',
             );
             $country->delete();
             return redirect()->route('country.manage')->with($notification);
-        }else{
+        } else {
             //404
         }
     }

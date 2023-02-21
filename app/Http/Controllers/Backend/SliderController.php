@@ -45,7 +45,7 @@ class SliderController extends Controller
         $slider->short_desc     = $request->short_desc;
         $slider->status         = $request->status;
 
-        if($request->image){
+        if ($request->image) {
             $image = $request->file('image');
             $img = rand() . '.' . $image->getClientOriginalExtension();
             $location = public_path('backend/img/sliders/' . $img);
@@ -61,7 +61,7 @@ class SliderController extends Controller
 
         $slider->save();
         return redirect()->route('slider.manage')->with($notification);
-    }   
+    }
 
     /**
      * Display the specified resource.
@@ -83,9 +83,9 @@ class SliderController extends Controller
     public function edit($id)
     {
         $slider = Slider::find($id);
-        if(!is_null($slider)){
+        if (!is_null($slider)) {
             return view('backend.pages.slider.edit', compact('slider'));
-        }else{
+        } else {
             //404
         }
     }
@@ -104,8 +104,8 @@ class SliderController extends Controller
         $slider->short_desc     = $request->short_desc;
         $slider->status         = $request->status;
 
-        if($request->image){
-            if(File::exists('backend/img/sliders/' . $slider->image)){
+        if ($request->image) {
+            if (File::exists('backend/img/sliders/' . $slider->image)) {
                 File::delete('backend/img/sliders/' . $slider->image);
             }
             $image = $request->file('image');
@@ -134,8 +134,8 @@ class SliderController extends Controller
     public function destroy($id)
     {
         $slider = Slider::find($id);
-        if(!is_null($slider)){
-            if(File::exists('backend/img/sliders/' . $slider->image)){
+        if (!is_null($slider)) {
+            if (File::exists('backend/img/sliders/' . $slider->image)) {
                 File::delete('backend/img/sliders/' . $slider->image);
             }
             $notification = array(
@@ -144,7 +144,7 @@ class SliderController extends Controller
             );
             $slider->delete();
             return redirect()->route('slider.manage')->with($notification);
-        }else{
+        } else {
             //404
         }
     }

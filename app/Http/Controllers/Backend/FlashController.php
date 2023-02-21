@@ -70,9 +70,9 @@ class FlashController extends Controller
     public function edit($id)
     {
         $flash = Flash::find($id);
-        if(!is_null($flash)){
+        if (!is_null($flash)) {
             return view('backend.pages.flash.edit', compact('flash'));
-        }else{
+        } else {
             //404
         }
     }

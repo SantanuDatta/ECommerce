@@ -25,6 +25,8 @@
     <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
     <meta name="author" content="ThemePixels">
 
-    <title>@section('site-title')@foreach ($settings as $setting)
-        {{ $setting->site_title }}
-    @endforeach - @yield('title')</title>
+    <title>
+        @section('site-title')@foreach ($settings as $setting)
+            {{ $setting->site_title }}
+        @endforeach - @yield('title')
+    </title>

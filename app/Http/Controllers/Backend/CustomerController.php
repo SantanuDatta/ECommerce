@@ -83,7 +83,7 @@ class CustomerController extends Controller
     public function destroy($id)
     {
         $customer = User::find($id);
-        if(!is_null($customer)){
+        if (!is_null($customer)) {
             $notification = array(
                 'alert-type'    => 'error',
                 'message'       => 'User Removed Successfully!',
@@ -92,7 +92,7 @@ class CustomerController extends Controller
             $customer->orders()->delete();
             $customer->delete();
             return redirect()->route('customer.manage')->with($notification);
-        }else{
+        } else {
             //404
         }
     }

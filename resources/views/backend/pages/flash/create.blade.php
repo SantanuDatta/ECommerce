@@ -5,8 +5,8 @@
     <div class="br-pagetitle">
         <i class="icon ion-ios-plus-outline tx-70 lh-0"></i>
         <div>
-        <h4>Add New Flash</h4>
-        <p class="mg-b-0">Do bigger things with Bracket plus, the responsive bootstrap 4 admin template.</p>
+            <h4>Add New Flash</h4>
+            <p class="mg-b-0">Do bigger things with Bracket plus, the responsive bootstrap 4 admin template.</p>
         </div>
     </div><!-- d-flex -->
 
@@ -24,7 +24,8 @@
                                 <div class="col-lg-8">
                                     <div class="form-group">
                                         <label for="">Flash Message</label>
-                                        <input type="text" class="form-control form-control-dark" name="name" placeholder="Example: 50% Off on specific products">
+                                        <input type="text" class="form-control form-control-dark" name="name"
+                                            placeholder="Example: 50% Off on specific products">
                                     </div>
                                 </div>
                                 <div class="col-lg-4">
@@ -37,7 +38,8 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" name="addFlash" class="btn btn-teal float-right">Add Flash</button>
+                                        <button type="submit" name="addFlash" class="btn btn-teal float-right">Add
+                                            Flash</button>
                                     </div>
                                 </div>
                             </div>

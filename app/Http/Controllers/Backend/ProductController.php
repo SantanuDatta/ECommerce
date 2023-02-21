@@ -63,11 +63,11 @@ class ProductController extends Controller
         $product->product_tags  = $request->product_tags;
         $product->additional_info = $request->additional_info;
         $product->status        = $request->status;
-        
+
         $product->save();
 
-        if(count(array($request->image)) > 0){
-            foreach($request->image as $image){
+        if (count(array($request->image)) > 0) {
+            foreach ($request->image as $image) {
                 $img = rand() . '.' . $image->getClientOriginalExtension();
                 $location = public_path('backend/img/products/' . $img);
                 $imageResize = Image::make($image);
@@ -111,7 +111,7 @@ class ProductController extends Controller
             $brands = Brand::orderBy('name', 'asc')->where('status', 0)->get();
             $parentCat = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
             return view('backend.pages.product.edit', compact('product', 'brands', 'parentCat'));
-        }else{
+        } else {
             //404
         }
     }
@@ -146,15 +146,15 @@ class ProductController extends Controller
 
         $product->save();
 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $oldImages = ProductImage::where('product_id', $product->id)->get();
-            foreach($oldImages as $oldImage){
-                if(File::exists('backend/img/products/' . $oldImage->image)) {
+            foreach ($oldImages as $oldImage) {
+                if (File::exists('backend/img/products/' . $oldImage->image)) {
                     File::delete('backend/img/products/' . $oldImage->image);
                 }
             }
             ProductImage::where('product_id', $product->id)->delete();
-            foreach($request->image as $image){
+            foreach ($request->image as $image) {
                 $img = rand() . '.' . $image->getClientOriginalExtension();
                 $location = public_path('backend/img/products/' . $img);
                 $imageResize = Image::make($image);
@@ -165,7 +165,7 @@ class ProductController extends Controller
                 $newImage->save();
             }
         }
-        
+
         $notification = array(
             'alert-type'    => 'success',
             'message'       => 'Product Updated Successfully!',
@@ -182,7 +182,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::find($id);
-        if(!is_null($product)){
+        if (!is_null($product)) {
             $product->status = 2;
             $notification = array(
                 'alert-type'    => 'warning',
@@ -191,7 +191,7 @@ class ProductController extends Controller
             $product->carts()->delete();
             $product->save();
             return redirect()->route('product.manage')->with($notification);
-        }else{
+        } else {
             //404
         }
     }
@@ -205,10 +205,10 @@ class ProductController extends Controller
     public function fulldelete($id)
     {
         $product = Product::find($id);
-        if(!is_null($product)){
+        if (!is_null($product)) {
             $oldImages = ProductImage::where('product_id', $product->id)->get();
-            foreach($oldImages as $oldImage){
-                if(File::exists(public_path('backend/img/products/' . $oldImage->image))) {
+            foreach ($oldImages as $oldImage) {
+                if (File::exists(public_path('backend/img/products/' . $oldImage->image))) {
                     File::delete(public_path('backend/img/products/' . $oldImage->image));
                 }
             }
@@ -217,12 +217,12 @@ class ProductController extends Controller
                 'message'       => 'Product Removed Permanently!',
             );
             $product->images()->delete();
-            $product->carts()->each(function($cart) {
+            $product->carts()->each(function ($cart) {
                 $cart->order()->delete();
             });
             $product->delete();
             return redirect()->route('product.softdelete')->with($notification);
-        }else{
+        } else {
             //404
         }
     }

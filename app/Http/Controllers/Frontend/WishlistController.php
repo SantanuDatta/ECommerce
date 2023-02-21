@@ -25,7 +25,7 @@ class WishlistController extends Controller
         }
         //$prDetails = Product::whereHasFavorite(auth()->user())->orderBy('name', 'asc')->get(); 
         // dd($prDetails);
-        return view('frontend.pages.wishlist',compact('prDetails'));
+        return view('frontend.pages.wishlist', compact('prDetails'));
     }
 
     /**
@@ -69,20 +69,19 @@ class WishlistController extends Controller
     public function edit($id)
     {
         $wishCount = 0;
-        if(Auth::check()){
+        if (Auth::check()) {
             $user = Auth::user();
             $product = Product::find($id);
             if (Favorite::has($product, $user)) {
                 Favorite::toggle($product, $user);
                 $wishCount = DB::table('markable_favorites')->where('user_id', Auth::user()->id)->count();
                 return response()->json(['status' => 'error', 'wish_count' => $wishCount], 200);
-            }else{
+            } else {
                 Favorite::add($product, $user);
                 $wishCount = DB::table('markable_favorites')->where('user_id', Auth::user()->id)->count();
                 return response()->json(['status' => 'success', 'wish_count' => $wishCount], 200);
             }
-            
-        }else{
+        } else {
             return response()->json(['status' => 'warning'], 200);
         }
     }

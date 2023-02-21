@@ -5,8 +5,8 @@
     <div class="br-pagetitle">
         <i class="icon ion-ios-plus-outline tx-70 lh-0"></i>
         <div>
-        <h4>Add New District</h4>
-        <p class="mg-b-0">Do bigger things with Bracket plus, the responsive bootstrap 4 admin template.</p>
+            <h4>Add New District</h4>
+            <p class="mg-b-0">Do bigger things with Bracket plus, the responsive bootstrap 4 admin template.</p>
         </div>
     </div><!-- d-flex -->
 
@@ -24,7 +24,8 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="">District Name</label>
-                                        <input type="text" class="form-control form-control-dark" name="name" placeholder="Please Input District Name">
+                                        <input type="text" class="form-control form-control-dark" name="name"
+                                            placeholder="Please Input District Name">
                                     </div>
                                     <div class="form-group">
                                         <label for="">Select Division</label>
@@ -55,10 +56,11 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" name="addDistrict" class="btn btn-teal float-right">Add District</button>
+                                        <button type="submit" name="addDistrict" class="btn btn-teal float-right">Add
+                                            District</button>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </form>
                     </div><!-- card-body -->

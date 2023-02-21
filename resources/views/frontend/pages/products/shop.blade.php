@@ -10,29 +10,11 @@
                         <div class="col-xl-3">
                             <h1 class="mb-15">All Products</h1>
                             <div class="breadcrumb">
-                                <a href="{{ route('home') }}" rel="nofollow"><i class="fi-rs-home mr-5"></i>{{ __('Home') }}</a>
+                                <a href="{{ route('home') }}" rel="nofollow"><i
+                                        class="fi-rs-home mr-5"></i>{{ __('Home') }}</a>
                                 <span></span> {{ __('Shop') }}
                             </div>
                         </div>
-                        {{-- <div class="col-xl-9 text-end d-none d-xl-block">
-                            <ul class="tags-list">
-                                <li class="hover-up">
-                                    <a href="blog-category-grid.html"><i class="fi-rs-cross mr-10"></i>Cabbage</a>
-                                </li>
-                                <li class="hover-up active">
-                                    <a href="blog-category-grid.html"><i class="fi-rs-cross mr-10"></i>Broccoli</a>
-                                </li>
-                                <li class="hover-up">
-                                    <a href="blog-category-grid.html"><i class="fi-rs-cross mr-10"></i>Artichoke</a>
-                                </li>
-                                <li class="hover-up">
-                                    <a href="blog-category-grid.html"><i class="fi-rs-cross mr-10"></i>Celery</a>
-                                </li>
-                                <li class="hover-up mr-0">
-                                    <a href="blog-category-grid.html"><i class="fi-rs-cross mr-10"></i>Spinach</a>
-                                </li>
-                            </ul>
-                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -42,7 +24,8 @@
                 <div class="col-lg-4-5">
                     <div class="shop-product-fillter">
                         <div class="totall-product">
-                            <p>{{ __('We found') }} <strong class="text-brand">{{ $products->count() }}</strong> {{ __('items for you!') }}</p>
+                            <p>{{ __('We found') }} <strong class="text-brand">{{ $products->count() }}</strong>
+                                {{ __('items for you!') }}</p>
                         </div>
                         <div class="sort-by-product-area">
                             <div class="sort-by-cover mr-10">
@@ -95,11 +78,15 @@
                                                 @php $img = 1; @endphp
                                                 @foreach ($prDetails->images as $image)
                                                     @if ($img > 0)
-                                                    <img class="default-img" src="{{ asset('backend/img/products/'.$image->image) }}" alt="" />
+                                                        <img class="default-img"
+                                                            src="{{ asset('backend/img/products/' . $image->image) }}"
+                                                            alt="" />
                                                         @php $img--; @endphp
                                                     @endif
                                                     @if ($img == 2)
-                                                    <img class="hover-img" src="{{ asset('backend/img/products/'.$image->image) }}" alt="" />
+                                                        <img class="hover-img"
+                                                            src="{{ asset('backend/img/products/' . $image->image) }}"
+                                                            alt="" />
                                                         @php $img++; @endphp
                                                     @endif
                                                 @endforeach
@@ -109,9 +96,15 @@
                                         <div class="product-action-1">
                                             <form action="{{ route('wishlist.edit', $prDetails->id) }}" method="POST">
                                                 @csrf
-                                                <button type="submit" aria-label="Add To Wishlist" class="action-btn wishlist-btn wishlisted" data-product-id="{{ $prDetails->id }}"><i class="fi-rs-heart"></i></button>
-                                                <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
-                                                <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal" data-bs-target="#quickViewModal-{{ $prDetails->id }}"><i class="fi-rs-eye"></i></a>
+                                                <button type="submit" aria-label="Add To Wishlist"
+                                                    class="action-btn wishlist-btn wishlisted"
+                                                    data-product-id="{{ $prDetails->id }}"><i
+                                                        class="fi-rs-heart"></i></button>
+                                                <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i
+                                                        class="fi-rs-shuffle"></i></a>
+                                                <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal"
+                                                    data-bs-target="#quickViewModal-{{ $prDetails->id }}"><i
+                                                        class="fi-rs-eye"></i></a>
                                             </form>
                                         </div>
                                         @include('frontend.includes.quickview')
@@ -129,27 +122,32 @@
                                     </div>
                                     <div class="product-content-wrap">
                                         <div class="product-category">
-                                            <a href="">{{ $prDetails->category->name ?? 'N/A'}}</a>
+                                            <a href="">{{ $prDetails->category->name ?? 'N/A' }}</a>
                                         </div>
-                                        <h2><a href="{{ route('singleProduct', $prDetails->slug) }}">{{ $prDetails->name }}</a></h2>
-                                            <div class="product-rate-cover">
-                                                <div class=" d-inline-block">
-                                                </div>
-                                                <span class="font-small ml-5 text-muted">(0)</span>
+                                        <h2><a
+                                                href="{{ route('singleProduct', $prDetails->slug) }}">{{ $prDetails->name }}</a>
+                                        </h2>
+                                        <div class="product-rate-cover">
+                                            <div class=" d-inline-block">
                                             </div>
+                                            <span class="font-small ml-5 text-muted">(0)</span>
+                                        </div>
                                         <div>
                                             @if (!is_null($prDetails->offer_price))
-                                                <span class="font-small text-muted">{{ __('Save') }} <a href="">{{ $prDetails->offer_price }} %</a></span>
+                                                <span class="font-small text-muted">{{ __('Save') }} <a
+                                                        href="">{{ $prDetails->offer_price }} %</a></span>
                                             @endif
                                         </div>
                                         <div class="product-card-bottom">
                                             <div class="product-price">
                                                 @if (!is_null($prDetails->offer_price))
                                                     @php
-                                                        $totalSave = ($prDetails->regular_price *($prDetails->offer_price /100) );
+                                                        $totalSave = $prDetails->regular_price * ($prDetails->offer_price / 100);
                                                     @endphp
-                                                    <span>{{ $prDetails->regular_price - $totalSave }} {{ __('BDT') }}</span> 
-                                                    <span class="old-price">{{ $prDetails->regular_price }} {{ __('BDT') }}</span>
+                                                    <span>{{ $prDetails->regular_price - $totalSave }}
+                                                        {{ __('BDT') }}</span>
+                                                    <span class="old-price">{{ $prDetails->regular_price }}
+                                                        {{ __('BDT') }}</span>
                                                 @else
                                                     <span>{{ $prDetails->regular_price }} {{ __('BDT') }}</span>
                                                 @endif
@@ -160,23 +158,30 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="detail-qty bordeproductr radius">
-                                                                <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
-                                                                <input type="text" name="quantity" class="qty-val" value="1" min="1">
-                                                                <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
+                                                                <a href="#" class="qty-down"><i
+                                                                        class="fi-rs-angle-small-down"></i></a>
+                                                                <input type="text" name="quantity" class="qty-val"
+                                                                    value="1" min="1">
+                                                                <a href="#" class="qty-up"><i
+                                                                        class="fi-rs-angle-small-up"></i></a>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="add-cart">
-                                                                <input type="hidden" name="product_id" value="{{ $prDetails->id }}">
+                                                                <input type="hidden" name="product_id"
+                                                                    value="{{ $prDetails->id }}">
                                                                 @if (!is_null($prDetails->offer_price))
                                                                     @php
-                                                                        $totalSave = ($prDetails->regular_price *($prDetails->offer_price /100) );
+                                                                        $totalSave = $prDetails->regular_price * ($prDetails->offer_price / 100);
                                                                     @endphp
-                                                                    <input type="hidden" name="unit_price" value="{{ $prDetails->regular_price - $totalSave }}">
+                                                                    <input type="hidden" name="unit_price"
+                                                                        value="{{ $prDetails->regular_price - $totalSave }}">
                                                                 @else
-                                                                    <input type="hidden" name="unit_price" value="{{ $prDetails->regular_price }}">
+                                                                    <input type="hidden" name="unit_price"
+                                                                        value="{{ $prDetails->regular_price }}">
                                                                 @endif
-                                                                <button class="add" type="submit"><i class="fi-rs-shopping-cart mr-5"></i>{{ __('Add') }}</button>
+                                                                <button class="add" type="submit"><i
+                                                                        class="fi-rs-shopping-cart mr-5"></i>{{ __('Add') }}</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -210,7 +215,8 @@
                                     <div class="product-img-action-wrap">
                                         <div class="product-img">
                                             <a href="shop-product-right.html">
-                                                <img src="{{ asset('frontend/assets/imgs/banner/banner-5.png') }}" alt="" />
+                                                <img src="{{ asset('frontend/assets/imgs/banner/banner-5.png') }}"
+                                                    alt="" />
                                             </a>
                                         </div>
                                     </div>
@@ -219,7 +225,8 @@
                                             <div class="deals-countdown" data-countdown="2025/03/25 00:00:00"></div>
                                         </div>
                                         <div class="deals-content">
-                                            <h2><a href="shop-product-right.html">Seeds of Change Organic Quinoa, Brown</a></h2>
+                                            <h2><a href="shop-product-right.html">Seeds of Change Organic Quinoa, Brown</a>
+                                            </h2>
                                             <div class="product-rate-cover">
                                                 <div class="product-rate d-inline-block">
                                                     <div class="product-rating" style="width: 90%"></div>
@@ -227,7 +234,8 @@
                                                 <span class="font-small ml-5 text-muted"> (4.0)</span>
                                             </div>
                                             <div>
-                                                <span class="font-small text-muted">By <a href="vendor-details-1.html">NestFood</a></span>
+                                                <span class="font-small text-muted">By <a
+                                                        href="vendor-details-1.html">NestFood</a></span>
                                             </div>
                                             <div class="product-card-bottom">
                                                 <div class="product-price">
@@ -235,7 +243,8 @@
                                                     <span class="old-price">$33.8</span>
                                                 </div>
                                                 <div class="add-cart">
-                                                    <a class="add" href="shop-cart.html"><i class="fi-rs-shopping-cart mr-5"></i>Add </a>
+                                                    <a class="add" href="shop-cart.html"><i
+                                                            class="fi-rs-shopping-cart mr-5"></i>Add </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -247,7 +256,8 @@
                                     <div class="product-img-action-wrap">
                                         <div class="product-img">
                                             <a href="shop-product-right.html">
-                                                <img src="{{ asset('frontend/assets/imgs/banner/banner-6.png') }}" alt="" />
+                                                <img src="{{ asset('frontend/assets/imgs/banner/banner-6.png') }}"
+                                                    alt="" />
                                             </a>
                                         </div>
                                     </div>
@@ -256,7 +266,8 @@
                                             <div class="deals-countdown" data-countdown="2026/04/25 00:00:00"></div>
                                         </div>
                                         <div class="deals-content">
-                                            <h2><a href="shop-product-right.html">Perdue Simply Smart Organics Gluten</a></h2>
+                                            <h2><a href="shop-product-right.html">Perdue Simply Smart Organics Gluten</a>
+                                            </h2>
                                             <div class="product-rate-cover">
                                                 <div class="product-rate d-inline-block">
                                                     <div class="product-rating" style="width: 90%"></div>
@@ -264,7 +275,8 @@
                                                 <span class="font-small ml-5 text-muted"> (4.0)</span>
                                             </div>
                                             <div>
-                                                <span class="font-small text-muted">By <a href="vendor-details-1.html">Old El Paso</a></span>
+                                                <span class="font-small text-muted">By <a href="vendor-details-1.html">Old
+                                                        El Paso</a></span>
                                             </div>
                                             <div class="product-card-bottom">
                                                 <div class="product-price">
@@ -272,7 +284,8 @@
                                                     <span class="old-price">$26.8</span>
                                                 </div>
                                                 <div class="add-cart">
-                                                    <a class="add" href="shop-cart.html"><i class="fi-rs-shopping-cart mr-5"></i>Add </a>
+                                                    <a class="add" href="shop-cart.html"><i
+                                                            class="fi-rs-shopping-cart mr-5"></i>Add </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -284,7 +297,8 @@
                                     <div class="product-img-action-wrap">
                                         <div class="product-img">
                                             <a href="shop-product-right.html">
-                                                <img src="{{ asset('frontend/assets/imgs/banner/banner-7.png') }}" alt="" />
+                                                <img src="{{ asset('frontend/assets/imgs/banner/banner-7.png') }}"
+                                                    alt="" />
                                             </a>
                                         </div>
                                     </div>
@@ -301,7 +315,8 @@
                                                 <span class="font-small ml-5 text-muted"> (3.0)</span>
                                             </div>
                                             <div>
-                                                <span class="font-small text-muted">By <a href="vendor-details-1.html">Progresso</a></span>
+                                                <span class="font-small text-muted">By <a
+                                                        href="vendor-details-1.html">Progresso</a></span>
                                             </div>
                                             <div class="product-card-bottom">
                                                 <div class="product-price">
@@ -309,7 +324,8 @@
                                                     <span class="old-price">$13.8</span>
                                                 </div>
                                                 <div class="add-cart">
-                                                    <a class="add" href="shop-cart.html"><i class="fi-rs-shopping-cart mr-5"></i>Add </a>
+                                                    <a class="add" href="shop-cart.html"><i
+                                                            class="fi-rs-shopping-cart mr-5"></i>Add </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -321,7 +337,8 @@
                                     <div class="product-img-action-wrap">
                                         <div class="product-img">
                                             <a href="shop-product-right.html">
-                                                <img src="{{ asset('frontend/assets/imgs/banner/banner-8.png') }}" alt="" />
+                                                <img src="{{ asset('frontend/assets/imgs/banner/banner-8.png') }}"
+                                                    alt="" />
                                             </a>
                                         </div>
                                     </div>
@@ -330,7 +347,8 @@
                                             <div class="deals-countdown" data-countdown="2025/02/25 00:00:00"></div>
                                         </div>
                                         <div class="deals-content">
-                                            <h2><a href="shop-product-right.html">Simply Lemonade with Raspberry Juice</a></h2>
+                                            <h2><a href="shop-product-right.html">Simply Lemonade with Raspberry Juice</a>
+                                            </h2>
                                             <div class="product-rate-cover">
                                                 <div class="product-rate d-inline-block">
                                                     <div class="product-rating" style="width: 80%"></div>
@@ -338,7 +356,8 @@
                                                 <span class="font-small ml-5 text-muted"> (3.0)</span>
                                             </div>
                                             <div>
-                                                <span class="font-small text-muted">By <a href="vendor-details-1.html">Yoplait</a></span>
+                                                <span class="font-small text-muted">By <a
+                                                        href="vendor-details-1.html">Yoplait</a></span>
                                             </div>
                                             <div class="product-card-bottom">
                                                 <div class="product-price">
@@ -346,7 +365,8 @@
                                                     <span class="old-price">$16.8</span>
                                                 </div>
                                                 <div class="add-cart">
-                                                    <a class="add" href="shop-cart.html"><i class="fi-rs-shopping-cart mr-5"></i>Add </a>
+                                                    <a class="add" href="shop-cart.html"><i
+                                                            class="fi-rs-shopping-cart mr-5"></i>Add </a>
                                                 </div>
                                             </div>
                                         </div>

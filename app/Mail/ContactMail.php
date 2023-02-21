@@ -33,15 +33,15 @@ class ContactMail extends Mailable
     public function build()
     {
         return $this->from($this->mailData['email'])
-        ->markdown('mail.contact-form')
-        ->with([
-            'name' => $this->mailData['name'],
-            'email' => $this->mailData['email'],
-            'message' => $this->mailData['message'],
-            'logo' => $this->settings->logo,
-            'email' => $this->settings->email,
-            'address' => $this->settings->address,
-            'support_phone' => $this->settings->support_phone
-        ]);
+            ->markdown('mail.contact-form')
+            ->with([
+                'name' => $this->mailData['name'],
+                'email' => $this->mailData['email'],
+                'message' => $this->mailData['message'],
+                'logo' => $this->settings->logo,
+                'email' => $this->settings->email,
+                'address' => $this->settings->address,
+                'support_phone' => $this->settings->support_phone
+            ]);
     }
 }
