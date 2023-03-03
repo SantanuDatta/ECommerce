@@ -3,16 +3,9 @@
     <script src="{{ asset('backend/lib/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('backend/lib/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('backend/lib/moment/min/moment.min.js') }}"></script>
-    <script src="{{ asset('backend/lib/peity/jquery.peity.min.js') }}"></script>
     <script src="{{ asset('backend/lib/rickshaw/vendor/d3.min.js') }}"></script>
     <script src="{{ asset('backend/lib/rickshaw/vendor/d3.layout.min.js') }}"></script>
     <script src="{{ asset('backend/lib/rickshaw/rickshaw.min.js') }}"></script>
-    <script src="{{ asset('backend/lib/jquery.flot/jquery.flot.js') }}"></script>
-    <script src="{{ asset('backend/lib/jquery.flot/jquery.flot.resize.js') }}"></script>
-    <script src="{{ asset('backend/lib/flot-spline/js/jquery.flot.spline.min.js') }}"></script>
-    <script src="{{ asset('backend/lib/jquery-sparkline/jquery.sparkline.min.js') }}"></script>
-    <script src="{{ asset('backend/lib/echarts/echarts.min.js') }}"></script>
-    <script src="{{ asset('backend/lib/select2/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('backend/lib/bootstrap-tagsinput/bootstrap-tagsinput.min.js') }}"></script>
     <script src="http://maps.google.com/maps/api/js?key=AIzaSyAq8o5-8Y5pudbJMJtDFzb8aHiWJufa5fg"></script>
     <script src="{{ asset('bakend/lib/gmaps/gmaps.min.js') }}"></script>
@@ -21,6 +14,8 @@
     <script src="{{ asset('backend/js/map.shiftworker.js') }}"></script>
     <script src="{{ asset('backend/js/ResizeSensor.js') }}"></script>
     <script src="{{ asset('backend/js/dashboard.dark.js') }}"></script>
+
+    @stack('chartScript')
 
     {{-- Ck Editor --}}
     <script src="https://cdn.ckeditor.com/4.19.1/standard/ckeditor.js"></script>
@@ -43,7 +38,6 @@
             shiftEnterMode: CKEDITOR.ENTER_P
         });
 
-
         // Datepicker
         $('.fc-datepicker').datepicker({
             showOtherMonths: true,
@@ -55,7 +49,7 @@
     <script src="{{ asset('backend/lib/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('backend/lib/datatables.net-dt/js/dataTables.dataTables.min.js') }}"></script>
     <script src="{{ asset('backend/lib/datatables.net-responsive-dt/js/responsive.dataTables.min.js') }}"></script>
-    <script src="{{ asset('backend/lib/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('backend/lib/select2/js/select2.full.min.js') }}"></script>
     <script type="text/javascript">
         $('#data').DataTable({
             responsive: true,
@@ -72,7 +66,7 @@
     </script>
 
     {{-- Toastr --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="{{ asset('backend/lib/jquery/jquery-3.6.1.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script type="text/javascript">
         var jq = jQuery.noConflict();

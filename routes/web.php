@@ -34,7 +34,7 @@ use App\Http\Controllers\SslCommerzPaymentController;
 */
 
 //Home
-Route::get('/', [FrontPagesController::class, 'home'])->name('home');
+Route::get('/', [FrontPagesController::class, 'home'])->middleware('siteView')->name('home');
 Route::get('/404', [FrontPagesController::class, 'notFound'])->name('notFound');
 
 //User Dashboard

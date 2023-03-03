@@ -105,9 +105,42 @@ class FrontPagesController extends Controller
     //Search
     public function searchProduct(Request $request)
     {
+        // Get the maximum regular price of all products
+        $maxRegularPrice = Product::max('regular_price');
+
+        // Set the initial minimum and maximum price range values
+        $minPrice = 0;
+        $maxPrice = $maxRegularPrice;
+
+        // Check if the price range input is present in the request
+        if (request()->has('price_range')) {
+            $priceRange = request()->input('price_range');
+            $priceRangeArray = explode(',', $priceRange);
+
+            // Set the minimum price to the first value in the price range array
+            $minPrice = $priceRangeArray[0];
+
+            // Check if the maximum price is greater than the maximum regular price
+            if (count($priceRangeArray) >= 2 && $priceRangeArray[1] > $maxRegularPrice) {
+                // If it is, set the maximum price to the maximum regular price
+                $maxPrice = $maxRegularPrice;
+            } else if (count($priceRangeArray) >= 2) {
+                // Otherwise, set the maximum price to the second value in the price range array
+                $maxPrice = $priceRangeArray[1];
+            }
+        }
+        $products = QueryBuilder::for(Product::class)
+            ->allowedFilters([
+                AllowedFilter::exact('status')
+            ])
+            ->where('regular_price', '>=', $minPrice)
+            ->orderBy('id', 'desc')
+            ->paginate(15);
+
         $search = $request->searchContent;
         $products = Product::orWhere('name', 'like', '%' . $search . '%')->orWhere('slug', 'like', '%' . $search . '%')->orWhere('product_tags', 'like', '%' . $search . '%')->orderBy('id', 'desc')->where('status', 1)->paginate(15);
-        return view('frontend.pages.products.searchProducts', compact('products', 'search'));
+        $lastProducts = Product::orderBy('id', 'desc')->where('status', 1)->take(3)->get();
+        return view('frontend.pages.products.searchProducts', compact('products', 'lastProducts', 'search', 'minPrice', 'maxPrice', 'maxRegularPrice'));
     }
     //Shop
     public function shop()
@@ -162,9 +195,40 @@ class FrontPagesController extends Controller
 
     public function categoryProduct($slug)
     {
+        // Get the maximum regular price of all products
+        $maxRegularPrice = Product::max('regular_price');
+
+        // Set the initial minimum and maximum price range values
+        $minPrice = 0;
+        $maxPrice = $maxRegularPrice;
+
+        // Check if the price range input is present in the request
+        if (request()->has('price_range')) {
+            $priceRange = request()->input('price_range');
+            $priceRangeArray = explode(',', $priceRange);
+
+            // Set the minimum price to the first value in the price range array
+            $minPrice = $priceRangeArray[0];
+
+            // Check if the maximum price is greater than the maximum regular price
+            if (count($priceRangeArray) >= 2 && $priceRangeArray[1] > $maxRegularPrice) {
+                // If it is, set the maximum price to the maximum regular price
+                $maxPrice = $maxRegularPrice;
+            } else if (count($priceRangeArray) >= 2) {
+                // Otherwise, set the maximum price to the second value in the price range array
+                $maxPrice = $priceRangeArray[1];
+            }
+        }
+        $products = QueryBuilder::for(Product::class)
+            ->allowedFilters([
+                AllowedFilter::exact('status')
+            ])
+            ->where('regular_price', '>=', $minPrice)
+            ->orderBy('id', 'desc')
+            ->paginate(15);
         $cDetails = Category::where('slug', $slug)->where('status', 0)->paginate(15);
         $lastProducts = Product::orderBy('id', 'desc')->where('status', 1)->take(3)->get();
-        return view('frontend.pages.products.categoryProduct', compact('cDetails', 'lastProducts'));
+        return view('frontend.pages.products.categoryProduct', compact('cDetails', 'lastProducts', 'minPrice', 'maxPrice', 'maxRegularPrice'));
     }
 
     /**

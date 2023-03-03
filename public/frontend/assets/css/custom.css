@@ -102,10 +102,6 @@
     width: 35px !important;
 }
 
-.product-action-1 .wishlisted {
-    color: red;
-}
-
 .product-action-1 .wishlist-btn:hover {
     background-color: transparent !important;
 }

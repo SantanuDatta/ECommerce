@@ -1,8 +1,7 @@
     <footer class="br-footer">
         <div class="footer-left">
             @foreach ($settings as $setting)
-                <div class="mg-b-2">Copyright &copy; 2020 - {{ date('Y') }} | {{ $setting->site_title }} - HTML
-                    Ecommerce Template<br />All Rights Reserved</div>
+                <div class="mg-b-2">Copyright &copy; 2020 - {{ date('Y') }} | {{ $setting->site_title }} <br />All Rights Reserved</div>
             @endforeach
         </div>
         <div class="footer-right d-flex align-items-center">

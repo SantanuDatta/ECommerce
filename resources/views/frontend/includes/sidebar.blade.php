@@ -30,7 +30,6 @@
                     </li>
                 @endforeach
             @endforeach
-
         </ul>
     </div>
 
@@ -129,7 +128,7 @@
         </div>
     </div>
 
-    @section('rangeScript')
+    @push('extraScripts')
         <script>
             const priceRange = document.getElementById('price-range');
             const priceMin = document.getElementById('price-min');
@@ -141,4 +140,4 @@
                 priceRange.max = "{{ $maxRegularPrice }}" - min;
             });
         </script>
-    @endsection
+    @endpush

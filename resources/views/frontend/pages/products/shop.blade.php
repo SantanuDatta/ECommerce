@@ -28,25 +28,6 @@
                                 {{ __('items for you!') }}</p>
                         </div>
                         <div class="sort-by-product-area">
-                            <div class="sort-by-cover mr-10">
-                                <div class="sort-by-product-wrap">
-                                    <div class="sort-by">
-                                        <span><i class="fi-rs-apps"></i>Show:</span>
-                                    </div>
-                                    <div class="sort-by-dropdown-wrap">
-                                        <span> 50 <i class="fi-rs-angle-small-down"></i></span>
-                                    </div>
-                                </div>
-                                <div class="sort-by-dropdown">
-                                    <ul>
-                                        <li><a class="active" href="#">50</a></li>
-                                        <li><a href="#">100</a></li>
-                                        <li><a href="#">150</a></li>
-                                        <li><a href="#">200</a></li>
-                                        <li><a href="#">All</a></li>
-                                    </ul>
-                                </div>
-                            </div>
                             <div class="sort-by-cover">
                                 <div class="sort-by-product-wrap">
                                     <div class="sort-by">
@@ -90,16 +71,17 @@
                                                         @php $img++; @endphp
                                                     @endif
                                                 @endforeach
-                                                {{-- <img class="hover-img" src="{{ asset('frontend/assets/imgs/shop/product-1-2.jpg') }}" alt="" /> --}}
                                             </a>
                                         </div>
                                         <div class="product-action-1">
                                             <form action="{{ route('wishlist.edit', $prDetails->id) }}" method="POST">
                                                 @csrf
                                                 <button type="submit" aria-label="Add To Wishlist"
-                                                    class="action-btn wishlist-btn wishlisted"
-                                                    data-product-id="{{ $prDetails->id }}"><i
-                                                        class="fi-rs-heart"></i></button>
+                                                    class="action-btn wishlist-btn" data-product-id="{{ $prDetails->id }}"
+                                                    @auth wishlisted="{{ Maize\Markable\Models\Favorite::has($prDetails, Auth::user()) ? 'true' : '' }}"
+                                                        style="{{ Maize\Markable\Models\Favorite::has($prDetails, Auth::user()) ? 'color: red;' : '' }}" @endauth>
+                                                    <i class="fi-rs-heart"></i>
+                                                </button>
                                                 <a aria-label="Compare" class="action-btn" href="shop-compare.html"><i
                                                         class="fi-rs-shuffle"></i></a>
                                                 <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal"
@@ -386,3 +368,7 @@
     </main>
 
 @endsection
+
+@push('extraScripts')
+    @include('frontend.includes.extraScript.wishlistAjax')
+@endpush
