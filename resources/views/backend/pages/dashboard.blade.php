@@ -82,7 +82,8 @@
                             <p>Past 30 Days — Last Updated {{ date('d M, Y') }}</p>
                         </div>
                     </div><!-- d-flex -->
-                    {!! $areaChart->container() !!}
+                    <div class="pd-b-25 pd-x-25">{!! $areaChart->container() !!}</div>
+                    
                 </div><!-- card -->
 
             </div><!-- col-8 -->
@@ -94,14 +95,15 @@
                             </h6>
                         </div>
                     </div>
-                    {!! $barChart->container() !!}
+                    <div class="pd-b-25 pd-x-25">{!! $barChart->container() !!}</div>
+                    
                 </div><!-- card -->
             </div>
         </div>
     @endsection
 
     @push('chartScript')
-        <script src="{{ $barChart->cdn() }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
         {{ $barChart->script() }}
         {{ $areaChart->script() }}
     @endpush
