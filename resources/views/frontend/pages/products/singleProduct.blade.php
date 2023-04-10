@@ -99,7 +99,7 @@
                                                     $totalSave = $prDetails->regular_price * ($prDetails->offer_price / 100);
                                                 @endphp
                                                 <span
-                                                    class="current-price text-brand">{{ $prDetails->regular_price - $totalSave }}
+                                                    class="current-price text-brand">{{ number_format( $prDetails->regular_price - $totalSave, 2)  }}
                                                     {{ __('BDT') }}</span>
                                                 <span>
                                                     @if (!is_null($prDetails->offer_price))
@@ -107,11 +107,11 @@
                                                             class="save-price font-md color3 ml-15"">{{ $prDetails->offer_price }}
                                                             {{ __('% Off') }}</span>
                                                     @endif
-                                                    <span class="old-price font-md ml-15">{{ $prDetails->regular_price }}
+                                                    <span class="old-price font-md ml-15">{{ number_format( $prDetails->regular_price, 2)  }}
                                                         {{ __('BDT') }}</span>
                                                 </span>
                                             @else
-                                                <span class="current-price text-brand">{{ $prDetails->regular_price }}
+                                                <span class="current-price text-brand">{{ number_format( $prDetails->regular_price, 2) }}
                                                     {{ __('BDT') }}</span>
                                             @endif
                                         </div>

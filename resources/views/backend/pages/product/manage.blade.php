@@ -73,13 +73,13 @@
                                                 <td>{{ $product->brand->name ?? 'N/A' }}</td>
                                                 <td>{{ $product->category->name ?? 'N/A' }}</td>
                                                 <td>{{ $product->quantity }} Pcs</td>
-                                                <td>{{ $product->regular_price }} BDT</td>
+                                                <td>{{ number_format($product->regular_price, 2) }} BDT</td>
                                                 <td>
                                                     @if (!is_null($product->offer_price))
                                                         @php
                                                             $totalSave = $product->regular_price * ($product->offer_price / 100);
                                                         @endphp
-                                                        {{ $product->regular_price - $totalSave }} BDT
+                                                        {{ number_format($product->regular_price - $totalSave, 2) }} BDT
                                                     @else
                                                         N/A
                                                     @endif
@@ -180,8 +180,7 @@
                                                                                         <td><span class="text-muted">
                                                                                                 @if ($product->is_featured == 0)
                                                                                                     <span>Disabled</span>
-                                                                                                    @elseif
-                                                                                                    ($product->is_featured == 1)
+                                                                                                    @elseif ($product->is_featured == 1)
                                                                                                     <span>Enabled</span>
                                                                                                 @endif
                                                                                             </span>
@@ -194,12 +193,10 @@
                                                                                         <td><span class="text-muted">
                                                                                                 @if ($product->product_type == 0)
                                                                                                     <span>Physical</span>
-                                                                                                    @elseif
-                                                                                                    ($product->product_type == 1)
+                                                                                                    @elseif ($product->product_type == 1)
                                                                                                     <span">Digital
                                                                                             </span>
-                                                                                            @elseif
-                                                                                            ($product->product_type == 2)
+                                                                                            @elseif ($product->product_type == 2)
                                                                                             <span">Organic</span>
                                         @endif
                                         </span>

@@ -156,12 +156,13 @@
                                                             @php
                                                                 $totalSave = $prDetails->regular_price * ($prDetails->offer_price / 100);
                                                             @endphp
-                                                            <span>{{ $prDetails->regular_price - $totalSave }}
+                                                            <span>{{ number_format($prDetails->regular_price - $totalSave, 2) }}
                                                                 {{ __('BDT') }}</span>
-                                                            <span class="old-price">{{ $prDetails->regular_price }}
+                                                            <span
+                                                                class="old-price">{{ number_format($prDetails->regular_price, 2) }}
                                                                 {{ __('BDT') }}</span>
                                                         @else
-                                                            <span>{{ $prDetails->regular_price }}
+                                                            <span>{{ number_format($prDetails->regular_price, 2) }}
                                                                 {{ __('BDT') }}</span>
                                                         @endif
                                                     </div>
