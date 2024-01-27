@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Maize\Markable\Markable;
 use Maize\Markable\Models\Favorite;
 
@@ -64,5 +63,16 @@ class Product extends Model
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function scopePriceRangeFrom($query, $selectedMinPrice, $selectedMaxPrice)
+    {
+        return $query->where('regular_price', '>=', $selectedMinPrice)
+        ->where('regular_price', '<=', $selectedMaxPrice);
+    }
+
+    public function scopPriceRangeTo($query, $selectedMaxPrice)
+    {
+        return $query->where('regular_price', '<=', $selectedMaxPrice);
     }
 }

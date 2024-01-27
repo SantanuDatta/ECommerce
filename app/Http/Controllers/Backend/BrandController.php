@@ -119,8 +119,8 @@ class BrandController extends Controller
         $brand->description = $request->description;
         $brand->status      = $request->status;
         if ($request->image) {
-            if (File::exists('backend/img/brands/' . $brand->image)) {
-                File::delete('backend/img/brands/' . $brand->image);
+            if (File::exists(public_path('backend/img/brands/' . $brand->image))) {
+                File::delete(public_path('backend/img/brands/' . $brand->image));
             }
             $image = $request->file('image');
             $img = rand() . '.' . $image->getClientOriginalExtension();
@@ -171,8 +171,8 @@ class BrandController extends Controller
     {
         $brand = Brand::find($id);
         if (!is_null($brand)) {
-            if (File::exists('backend/img/brands/' . $brand->image)) {
-                File::delete('backend/img/brands/' . $brand->image);
+            if (File::exists(public_path('backend/img/brands/' . $brand->image))) {
+                File::delete(public_path('backend/img/brands/' . $brand->image));
             }
             $notification = array(
                 'alert-type'    => 'error',

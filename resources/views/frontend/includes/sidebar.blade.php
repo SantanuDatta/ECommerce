@@ -1,4 +1,4 @@
-    <div class="sidebar-widget widget-category-2 mb-30">
+    {{-- <div class="sidebar-widget widget-category-2 mb-30">
         <h5 class="section-title style-1 mb-30">Category</h5>
         <ul>
             @foreach (App\Models\Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get() as $pCat)
@@ -31,61 +31,71 @@
                 @endforeach
             @endforeach
         </ul>
-    </div>
+    </div> --}}
 
     <!-- Fillter By Price -->
     <div class="sidebar-widget price_range range mb-30">
         <h5 class="section-title style-1 mb-30">Fill by price</h5>
         <form action="{{ route('shop') }}" method="GET">
-            @csrf
-            <div class="price-filter">
-                <div class="price-filter-inner">
-                    <div id="slider" class="mb-20">
-                        <label class="fw-900" for="price-range">Price Range:</label>
-                        <input type="range" class="form-range" id="price-range" name="price_range" min="0"
-                            max="{{ $maxRegularPrice }}" value="{{ $minPrice }},{{ $maxPrice }}"
-                            style="border:0px;">
-                        <div id="price-range-values" class="d-flex justify-content-between">
-                            <span id="price-min">From: {{ $minPrice }} BDT</span>
-                            <span id="price-max">To: {{ $maxPrice }} BDT</span>
-                        </div>
-                    </div>
+            <div class="form-group mb-20" id="slider">
+                <label class="fw-900 form-label" for="price-range">Price Range:</label>
+                <input class="form-control" id="price-range" name="filter[regular_price]" data-min="{{ $minPrice }}"
+                    data-max="{{ $maxPrice }}" data-step="1" data-from="{{ $minPrice }}"
+                    data-to="{{ $maxPrice }}" data-prefix="BDT " type="text">
+
+                <div class="d-flex justify-content-between" id="price-range-values">
+                    <span id="price-min">From: {{ $minPrice }} BDT</span>
+                    <span id="price-max">To: {{ $maxPrice }} BDT</span>
                 </div>
             </div>
 
-            <div class="list-group">
+            <div class="form-group">
+                <label for="catgory">Catgory</label>
+                <select class="form-control" id="" name="filter[category_id]">
+                    <option value="" hidden>Please Select Category</option>
+                    @foreach (App\Models\Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get() as $pCat)
+                        <option value="{{ $pCat->id }}" disabled>{{ $pCat->name }}</option>
+                        @foreach (App\Models\Category::orderBy('name', 'asc')->where('is_parent', $pCat->id)->where('status', 0)->get() as $cCat)
+                            <option value="{{ $cCat->id }}">{{ $cCat->name }}</option>
+                        @endforeach
+                    @endforeach
+                </select>
+            </div>
+
+            {{-- <div class="list-group">
                 <div class="list-group-item mb-10 mt-10">
                     <label class="fw-900">Color</label>
                     <div class="custome-checkbox">
-                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox1"
+                        <input class="form-check-input" id="exampleCheckbox1" name="checkbox" type="checkbox"
                             value="" />
                         <label class="form-check-label" for="exampleCheckbox1"><span>Red (56)</span></label>
                         <br />
-                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox2"
+                        <input class="form-check-input" id="exampleCheckbox2" name="checkbox" type="checkbox"
                             value="" />
                         <label class="form-check-label" for="exampleCheckbox2"><span>Green (78)</span></label>
                         <br />
-                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox3"
+                        <input class="form-check-input" id="exampleCheckbox3" name="checkbox" type="checkbox"
                             value="" />
                         <label class="form-check-label" for="exampleCheckbox3"><span>Blue (54)</span></label>
                     </div>
                     <label class="fw-900 mt-15">Item Condition</label>
                     <div class="custome-checkbox">
-                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox11"
+                        <input class="form-check-input" id="exampleCheckbox11" name="checkbox" type="checkbox"
                             value="" />
                         <label class="form-check-label" for="exampleCheckbox11"><span>New (1506)</span></label>
                         <br />
-                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox21"
+                        <input class="form-check-input" id="exampleCheckbox21" name="checkbox" type="checkbox"
                             value="" />
                         <label class="form-check-label" for="exampleCheckbox21"><span>Refurbished (27)</span></label>
                         <br />
-                        <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox31"
+                        <input class="form-check-input" id="exampleCheckbox31" name="checkbox" type="checkbox"
                             value="" />
                         <label class="form-check-label" for="exampleCheckbox31"><span>Used (45)</span></label>
                     </div>
                 </div>
-            </div>
-            <button type="submit" class="btn btn-sm btn-default"><i class="fi-rs-filter mr-5"></i> Fillter</button>
+            </div> --}}
+            <button class="btn btn-sm btn-default" type="submit">Fillter</button>
+            <a class="btn btn-sm btn-dark" type="submit" href="{{ route('shop') }}">Reset</a>
         </form>
     </div>
     <!-- Product sidebar Widget -->
@@ -129,15 +139,21 @@
     </div>
 
     @push('extraScripts')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
         <script>
-            const priceRange = document.getElementById('price-range');
-            const priceMin = document.getElementById('price-min');
-
-            priceRange.addEventListener('input', () => {
-                const [min, max] = priceRange.value.split(',');
-                priceMin.textContent = `From: ${min} BDT`;
-                priceMax.textContent = `To: ${max} BDT`;
-                priceRange.max = "{{ $maxRegularPrice }}" - min;
+            $(document).ready(function() {
+                var slider = $('#price-range');
+                slider.ionRangeSlider({
+                    type: 'double',
+                    skin: 'round',
+                    min: {{ $minPrice }},
+                    max: {{ $maxPrice }},
+                    onFinish: function(data) {
+                        $('#price-min').text('From: ' + slider.data('prefix') + data.from);
+                        $('#price-max').text('To: ' + slider.data('prefix') + data.to);
+                        slider.trigger('change');
+                    }
+                });
             });
         </script>
     @endpush
