@@ -68,7 +68,7 @@ class Product extends Model
     public function scopePriceRangeFrom($query, $selectedMinPrice, $selectedMaxPrice)
     {
         return $query->where('regular_price', '>=', $selectedMinPrice)
-        ->where('regular_price', '<=', $selectedMaxPrice);
+            ->where('regular_price', '<=', $selectedMaxPrice);
     }
 
     public function scopPriceRangeTo($query, $selectedMaxPrice)

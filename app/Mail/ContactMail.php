@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -12,6 +11,7 @@ class ContactMail extends Mailable
     use Queueable, SerializesModels;
 
     public $mailData;
+
     public $settings;
 
     /**
@@ -41,7 +41,7 @@ class ContactMail extends Mailable
                 'logo' => $this->settings->logo,
                 'email' => $this->settings->email,
                 'address' => $this->settings->address,
-                'support_phone' => $this->settings->support_phone
+                'support_phone' => $this->settings->support_phone,
             ]);
     }
 }

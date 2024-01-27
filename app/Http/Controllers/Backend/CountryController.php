@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Http\Controllers\Controller;
 use App\Models\Country;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class CountryController extends Controller
 {
@@ -16,6 +16,7 @@ class CountryController extends Controller
     public function index()
     {
         $countries = Country::orderBy('name', 'asc')->get();
+
         return view('backend.pages.country.manage', compact('countries'));
     }
 
@@ -32,22 +33,22 @@ class CountryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $country = new Country();
-        $country->name      = $request->name;
-        $country->priority  = $request->priority;
-        $country->status    = $request->status;
+        $country->name = $request->name;
+        $country->priority = $request->priority;
+        $country->status = $request->status;
 
-        $notification = array(
-            'alert-type'    => 'success',
-            'message'       => 'New Country Added!',
-        );
+        $notification = [
+            'alert-type' => 'success',
+            'message' => 'New Country Added!',
+        ];
 
         $country->save();
+
         return redirect()->route('country.manage')->with($notification);
     }
 
@@ -71,7 +72,7 @@ class CountryController extends Controller
     public function edit($id)
     {
         $country = Country::find($id);
-        if (!is_null($country)) {
+        if (! is_null($country)) {
             return view('backend.pages.country.edit', compact('country'));
         } else {
             //404
@@ -81,23 +82,23 @@ class CountryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         $country = Country::find($id);
-        if (!is_null($country)) {
-            $country->name      = $request->name;
-            $country->priority  = $request->priority;
-            $country->status    = $request->status;
+        if (! is_null($country)) {
+            $country->name = $request->name;
+            $country->priority = $request->priority;
+            $country->status = $request->status;
 
-            $notification = array(
-                'alert-type'    => 'success',
-                'message'       => 'Country Updated Successfully!',
-            );
+            $notification = [
+                'alert-type' => 'success',
+                'message' => 'Country Updated Successfully!',
+            ];
             $country->save();
+
             return redirect()->route('country.manage')->with($notification);
         } else {
             //404
@@ -113,12 +114,13 @@ class CountryController extends Controller
     public function destroy($id)
     {
         $country = Country::find($id);
-        if (!is_null($country)) {
-            $notification = array(
-                'alert-type'    => 'error',
-                'message'       => 'Country Removed Permanently!',
-            );
+        if (! is_null($country)) {
+            $notification = [
+                'alert-type' => 'error',
+                'message' => 'Country Removed Permanently!',
+            ];
             $country->delete();
+
             return redirect()->route('country.manage')->with($notification);
         } else {
             //404

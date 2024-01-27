@@ -28,22 +28,22 @@ class TopSale extends Chart
                 'yAxes' => [[
                     'ticks' => [
                         'beginAtZero' => true,
-                        'fontColor' => '#ffffff'
+                        'fontColor' => '#ffffff',
                     ],
                     'gridLines' => [
                         'display' => true,
-                        'color' => '#3e3e3e'
-                    ]
+                        'color' => '#3e3e3e',
+                    ],
                 ]],
                 'xAxes' => [[
                     'ticks' => [
-                        'fontColor' => '#ffffff'
+                        'fontColor' => '#ffffff',
                     ],
                     'gridLines' => [
                         'display' => true,
-                        'color' => '#3e3e3e'
-                    ]
-                ]]
+                        'color' => '#3e3e3e',
+                    ],
+                ]],
             ],
             'hover' => [
                 'mode' => 'point',

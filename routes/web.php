@@ -1,26 +1,23 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-//Frontend
-use App\Http\Controllers\Frontend\FrontPagesController;
-use App\Http\Controllers\Frontend\CartController;
-use App\Http\Controllers\Frontend\ProductReviewController;
-
-//Backend
-use App\Http\Controllers\Backend\PagesController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
-use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\CountryController;
-use App\Http\Controllers\Backend\DivisionController;
+use App\Http\Controllers\Backend\CustomerController;
 use App\Http\Controllers\Backend\DistrictController;
-use App\Http\Controllers\Backend\SettingController;
-use App\Http\Controllers\Backend\SliderController;
+use App\Http\Controllers\Backend\DivisionController;
 use App\Http\Controllers\Backend\FlashController;
 use App\Http\Controllers\Backend\OrderController;
-use App\Http\Controllers\Backend\CustomerController;
+use App\Http\Controllers\Backend\PagesController;
+use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\SettingController;
+use App\Http\Controllers\Backend\SliderController;
+use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\FrontPagesController;
+use App\Http\Controllers\Frontend\ProductReviewController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\SslCommerzPaymentController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -220,5 +217,5 @@ Route::group(['middleware' => ['auth', 'verified', 'role']], function () {
     });
 });
 
-require __DIR__ . '/api.php';
-require __DIR__ . '/auth.php';
+require __DIR__.'/api.php';
+require __DIR__.'/auth.php';

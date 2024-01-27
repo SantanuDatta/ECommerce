@@ -63,6 +63,7 @@ class CustomVerifyEmail extends Notification
     protected function buildMailMessage($url)
     {
         $setting = Setting::where('id', 1)->first();
+
         return (new MailMessage)
             ->view('mail.emailVerify', compact('url', 'setting'))
             ->subject(Lang::get('Verify Email Address'));

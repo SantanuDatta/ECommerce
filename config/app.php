@@ -1,6 +1,5 @@
 <?php
 
-use App\Providers\ViewServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
 return [

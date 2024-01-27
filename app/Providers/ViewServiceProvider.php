@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\ServiceProvider;
+use App\Http\View\Composers\CategoryComposer;
 use App\Http\View\Composers\FlashComposer;
 use App\Http\View\Composers\SettingComposer;
-use App\Http\View\Composers\CategoryComposer;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
 
 class ViewServiceProvider extends ServiceProvider
 {

@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -30,7 +29,7 @@ class OrderReceived extends Mailable
      */
     public function build()
     {
-        if (!empty($this->orderHistory->email)) {
+        if (! empty($this->orderHistory->email)) {
             return $this
                 ->to($this->orderHistory->email)
                 ->subject('We Have Received Your Order')

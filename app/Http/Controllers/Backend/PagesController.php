@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Backend;
 
 use App\Charts\TopSale;
 use App\Charts\ViewMonth;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\SiteView;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
@@ -32,7 +32,7 @@ class PagesController extends Controller
                 $productName = $cart->product->name;
                 $quantity = $cart->product_quantity;
 
-                if (!array_key_exists($productName, $data)) {
+                if (! array_key_exists($productName, $data)) {
                     $data[$productName] = array_fill(0, 12, 0); // Initialize the array with 0s for each month
                 }
                 $month = Carbon::parse($order->created_at)->format('n') - 1; // Get the month index (0-11)
@@ -59,7 +59,6 @@ class PagesController extends Controller
 
         $barChart->labels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])->height(350);
 
-        
         // Site View Stat
         $startDate = now()->subDay(29)->startOfDay();
         $endDate = now()->endOfDay();
@@ -134,7 +133,6 @@ class PagesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -167,7 +165,6 @@ class PagesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

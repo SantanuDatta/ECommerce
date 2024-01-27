@@ -2,23 +2,11 @@
 
 namespace App\Http\Controllers\Backend;
 
-use File;
-use Image;
-use App\Models\Cart;
-use App\Models\User;
-use App\Models\Brand;
-use App\Models\Order;
-use App\Models\Country;
-use App\Models\Product;
-use App\Models\Category;
-use App\Models\District;
-use App\Models\Division;
-use Illuminate\Support\Str;
-use App\Models\ProductImage;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use DB;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Cart;
+use App\Models\Order;
+use App\Models\Product;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
@@ -30,6 +18,7 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::orderBy('id', 'desc')->get();
+
         return view('backend.pages.order.manage', compact('orders'));
     }
 
@@ -46,7 +35,6 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -63,8 +51,9 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::find($id);
-        if (!is_null($id)) {
+        if (! is_null($id)) {
             $carts = Cart::orderBy('id', 'asc')->where('order_id', $order->id)->get();
+
             return view('backend.pages.order.details', compact('order', 'carts'));
         }
     }
@@ -83,7 +72,6 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -109,12 +97,13 @@ class OrderController extends Controller
                 $product->save();
             }
         }
-        $notification = array(
-            'alert-type'    => 'success',
-            'message'       => 'Order Status Updated Successfully!',
-        );
+        $notification = [
+            'alert-type' => 'success',
+            'message' => 'Order Status Updated Successfully!',
+        ];
 
         $order->save();
+
         return redirect()->back()->with($notification);
     }
 
@@ -127,13 +116,14 @@ class OrderController extends Controller
     public function destroy($id)
     {
         $order = Order::find($id);
-        if (!is_null($order)) {
-            $notification = array(
-                'alert-type'    => 'error',
-                'message'       => 'Order Removed Successfully!',
-            );
+        if (! is_null($order)) {
+            $notification = [
+                'alert-type' => 'error',
+                'message' => 'Order Removed Successfully!',
+            ];
             $order->carts()->delete();
             $order->delete();
+
             return redirect()->route('order.manage')->with($notification);
         } else {
             //404

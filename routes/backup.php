@@ -1,20 +1,18 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-//Frontend
-use App\Http\Controllers\Frontend\FrontPagesController;
-
-//Backend
-use App\Http\Controllers\Backend\PagesController;
 use App\Http\Controllers\Backend\BrandController;
+//Frontend
 use App\Http\Controllers\Backend\CategoryController;
-use App\Http\Controllers\Backend\ProductController;
+//Backend
 use App\Http\Controllers\Backend\CountryController;
-use App\Http\Controllers\Backend\DivisionController;
 use App\Http\Controllers\Backend\DistrictController;
-use App\Http\Controllers\Backend\SliderController;
+use App\Http\Controllers\Backend\DivisionController;
 use App\Http\Controllers\Backend\FlashController;
-use Illuminate\Routing\RouteGroup;
+use App\Http\Controllers\Backend\PagesController;
+use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\SliderController;
+use App\Http\Controllers\Frontend\FrontPagesController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,11 +41,11 @@ Route::get('/user-account', [FrontPagesController::class, 'userAccount'])->name(
 //Search Products
 Route::post('/search-products', [FrontPagesController::class, 'searchProduct'])->name('search.products');
 
-//Products 
+//Products
 Route::get('/shop', [FrontPagesController::class, 'shop'])->name('shop');
 Route::get('/single-product/{slug}', [FrontPagesController::class, 'singleProduct'])->name('singleProduct');
 
-//User Auth 
+//User Auth
 Route::get('/login', [FrontPagesController::class, 'login'])->name('login');
 Route::get('/register', [FrontPagesController::class, 'register'])->name('register');
 Route::get('/forgot-password', [FrontPagesController::class, 'forgotPassword'])->name('forgotPassword');
@@ -61,7 +59,6 @@ Route::get('/privacy-policy', [FrontPagesController::class, 'privacyPolicy'])->n
 Route::get('/return-policy', [FrontPagesController::class, 'returnPolicy'])->name('returnPolicy');
 Route::get('/terms-conditions', [FrontPagesController::class, 'termsCondition'])->name('termsCondition');
 
-
 /*
 |--------------------------------------------------------------------------
 | Back End Web Routes
@@ -73,7 +70,7 @@ Route::get('/terms-conditions', [FrontPagesController::class, 'termsCondition'])
 |
 */
 
-Route::group(['prefix' => '/admin'], function(){
+Route::group(['prefix' => '/admin'], function () {
     Route::get('/dashboard', [PagesController::class, 'index'])->name('admin.dashboard');
 
     // Brand Route

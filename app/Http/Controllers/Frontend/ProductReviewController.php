@@ -32,23 +32,23 @@ class ProductReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $review             = new ProductReview();
-        $review->rating     = $request->rating;
-        $review->comment    = $request->comment;
-        $review->user_id    = Auth::user()->id;
+        $review = new ProductReview();
+        $review->rating = $request->rating;
+        $review->comment = $request->comment;
+        $review->user_id = Auth::user()->id;
         $review->product_id = $request->product_id;
 
         $notification = [
             'alert-type' => 'success',
-            'message'    => 'Product Review Has Been Submitted!',
+            'message' => 'Product Review Has Been Submitted!',
         ];
 
         $review->save();
+
         return redirect()->back()->with($notification);
     }
 
@@ -77,22 +77,22 @@ class ProductReviewController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $review          = ProductReview::find($id);
-        $review->rating  = $request->rating;
+        $review = ProductReview::find($id);
+        $review->rating = $request->rating;
         $review->comment = $request->comment;
 
         $notification = [
             'alert-type' => 'success',
-            'message'    => 'Product Review Has Been Updated!',
+            'message' => 'Product Review Has Been Updated!',
         ];
 
         $review->save();
+
         return redirect()->back()->with($notification);
     }
 

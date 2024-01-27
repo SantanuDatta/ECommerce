@@ -16,6 +16,7 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = USER::where('role', 2)->orderBy('name', 'asc')->get();
+
         return view('backend.pages.customer.manage', compact('customers'));
     }
 
@@ -32,7 +33,6 @@ class CustomerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -65,7 +65,6 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -83,14 +82,15 @@ class CustomerController extends Controller
     public function destroy($id)
     {
         $customer = User::find($id);
-        if (!is_null($customer)) {
-            $notification = array(
-                'alert-type'    => 'error',
-                'message'       => 'User Removed Successfully!',
-            );
+        if (! is_null($customer)) {
+            $notification = [
+                'alert-type' => 'error',
+                'message' => 'User Removed Successfully!',
+            ];
             $customer->carts()->delete();
             $customer->orders()->delete();
             $customer->delete();
+
             return redirect()->route('customer.manage')->with($notification);
         } else {
             //404

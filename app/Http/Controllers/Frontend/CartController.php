@@ -26,18 +26,20 @@ class CartController extends Controller
         } else {
             $cart = Cart::where('ip_address', request()->ip())->where('product_id', $request->product_id)->where('order_id', null)->first();
         }
-        if (!is_null($cart)) {
+        if (! is_null($cart)) {
             $cart->increment('product_quantity');
+
             return back();
         } else {
             $cart = new Cart();
             if (Auth::check()) {
                 $cart->user_id = Auth::user()->id;
             }
-            $cart->ip_address       = request()->ip();
-            $cart->product_id       = $request->product_id;
+            $cart->ip_address = request()->ip();
+            $cart->product_id = $request->product_id;
             $cart->product_quantity = $request->quantity;
             $cart->save();
+
             return back();
         }
     }
@@ -45,9 +47,10 @@ class CartController extends Controller
     public function update(Request $request, $id)
     {
         $cart = Cart::find($id);
-        if (!is_null($cart)) {
+        if (! is_null($cart)) {
             $cart->product_quantity = $request->quantity;
             $cart->save();
+
             return back();
         } else {
             return back();
@@ -57,11 +60,12 @@ class CartController extends Controller
     public function destroy($id)
     {
         $cart = Cart::find($id);
-        if (!is_null($cart)) {
+        if (! is_null($cart)) {
             $cart->delete();
         } else {
             return redirect()->route('cart.manage');
         }
+
         return redirect()->route('cart.manage');
     }
 }

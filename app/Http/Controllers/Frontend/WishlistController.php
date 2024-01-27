@@ -23,6 +23,7 @@ class WishlistController extends Controller
         } else {
             $prDetails = [];
         }
+
         return view('frontend.pages.wishlist', compact('prDetails'));
     }
 
@@ -39,7 +40,6 @@ class WishlistController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -68,15 +68,17 @@ class WishlistController extends Controller
     {
         $wishCount = 0;
         if (Auth::check()) {
-            $user    = Auth::user();
+            $user = Auth::user();
             $product = Product::find($id);
             if (Favorite::has($product, $user)) {
                 Favorite::toggle($product, $user);
                 $wishCount = DB::table('markable_favorites')->where('user_id', Auth::user()->id)->count();
+
                 return response()->json(['status' => 'error', 'wish_count' => $wishCount], 200);
             } else {
                 Favorite::add($product, $user);
                 $wishCount = DB::table('markable_favorites')->where('user_id', Auth::user()->id)->count();
+
                 return response()->json(['status' => 'success', 'wish_count' => $wishCount], 200);
             }
         } else {
@@ -87,7 +89,6 @@ class WishlistController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -105,12 +106,13 @@ class WishlistController extends Controller
     public function destroy($id)
     {
         $product = Product::find($id);
-        $user    = Auth::user();
+        $user = Auth::user();
         Favorite::remove($product, $user);
         $notification = [
             'alert-type' => 'error',
-            'message'    => 'Product Removed From Wishlist Successfully!',
+            'message' => 'Product Removed From Wishlist Successfully!',
         ];
+
         return back()->with($notification);
     }
 }

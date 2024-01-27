@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Backend;
 
-use File;
-use Image;
-use App\Models\Brand;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
+use File;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Image;
 
 class BrandController extends Controller
 {
@@ -19,6 +19,7 @@ class BrandController extends Controller
     public function index()
     {
         $brands = Brand::orderBy('name', 'asc')->get();
+
         return view('backend.pages.brand.manage', compact('brands'));
     }
 
@@ -35,7 +36,6 @@ class BrandController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -48,25 +48,26 @@ class BrandController extends Controller
         ]);
 
         $brand = new Brand();
-        $brand->name        = $request->name;
-        $brand->slug        = Str::slug($request->name);
+        $brand->name = $request->name;
+        $brand->slug = Str::slug($request->name);
         $brand->description = $request->description;
-        $brand->status      = $request->status;
+        $brand->status = $request->status;
         if ($request->image) {
             $image = $request->file('image');
-            $img = rand() . '.' . $image->getClientOriginalExtension();
-            $location = public_path('backend/img/brands/' . $img);
+            $img = rand().'.'.$image->getClientOriginalExtension();
+            $location = public_path('backend/img/brands/'.$img);
             $imageResize = Image::make($image);
             $imageResize->fit(300, 300)->save($location);
             $brand->image = $img;
         }
 
-        $notification = array(
-            'alert-type'    => 'success',
-            'message'       => 'New Brand Added!',
-        );
+        $notification = [
+            'alert-type' => 'success',
+            'message' => 'New Brand Added!',
+        ];
 
         $brand->save();
+
         return redirect()->route('brand.manage')->with($notification);
     }
 
@@ -90,7 +91,7 @@ class BrandController extends Controller
     public function edit($id)
     {
         $brand = Brand::find($id);
-        if (!is_null($brand)) {
+        if (! is_null($brand)) {
             return view('backend.pages.brand.edit', compact('brand'));
         } else {
             //404
@@ -100,7 +101,6 @@ class BrandController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -114,28 +114,29 @@ class BrandController extends Controller
         ]);
 
         $brand = Brand::find($id);
-        $brand->name        = $request->name;
-        $brand->slug        = Str::slug($request->name);
+        $brand->name = $request->name;
+        $brand->slug = Str::slug($request->name);
         $brand->description = $request->description;
-        $brand->status      = $request->status;
+        $brand->status = $request->status;
         if ($request->image) {
-            if (File::exists(public_path('backend/img/brands/' . $brand->image))) {
-                File::delete(public_path('backend/img/brands/' . $brand->image));
+            if (File::exists(public_path('backend/img/brands/'.$brand->image))) {
+                File::delete(public_path('backend/img/brands/'.$brand->image));
             }
             $image = $request->file('image');
-            $img = rand() . '.' . $image->getClientOriginalExtension();
-            $location = public_path('backend/img/brands/' . $img);
+            $img = rand().'.'.$image->getClientOriginalExtension();
+            $location = public_path('backend/img/brands/'.$img);
             $imageResize = Image::make($image);
             $imageResize->fit(300, 300)->save($location);
             $brand->image = $img;
         }
 
-        $notification = array(
-            'alert-type'    => 'success',
-            'message'       => 'Brand Updated Successfully!',
-        );
+        $notification = [
+            'alert-type' => 'success',
+            'message' => 'Brand Updated Successfully!',
+        ];
 
         $brand->save();
+
         return redirect()->route('brand.manage')->with($notification);
     }
 
@@ -148,13 +149,14 @@ class BrandController extends Controller
     public function destroy($id)
     {
         $brand = Brand::find($id);
-        if (!is_null($brand)) {
+        if (! is_null($brand)) {
             $brand->status = 2;
-            $notification = array(
-                'alert-type'    => 'warning',
-                'message'       => 'Brand Removed Temporarily!',
-            );
+            $notification = [
+                'alert-type' => 'warning',
+                'message' => 'Brand Removed Temporarily!',
+            ];
             $brand->save();
+
             return redirect()->route('brand.manage')->with($notification);
         } else {
             //404
@@ -164,21 +166,23 @@ class BrandController extends Controller
     public function softDelete()
     {
         $brands = Brand::where('status', 2)->orderBy('name', 'asc')->get();
+
         return view('backend.pages.brand.softdelete', compact('brands'));
     }
 
     public function fullDelete($id)
     {
         $brand = Brand::find($id);
-        if (!is_null($brand)) {
-            if (File::exists(public_path('backend/img/brands/' . $brand->image))) {
-                File::delete(public_path('backend/img/brands/' . $brand->image));
+        if (! is_null($brand)) {
+            if (File::exists(public_path('backend/img/brands/'.$brand->image))) {
+                File::delete(public_path('backend/img/brands/'.$brand->image));
             }
-            $notification = array(
-                'alert-type'    => 'error',
-                'message'       => 'Brand Removed Permanently!',
-            );
+            $notification = [
+                'alert-type' => 'error',
+                'message' => 'Brand Removed Permanently!',
+            ];
             $brand->delete();
+
             return redirect()->route('brand.softdelete')->with($notification);
         } else {
             //404

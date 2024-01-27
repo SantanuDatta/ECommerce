@@ -42,24 +42,26 @@ class Cart extends Model
     public static function totalCarts()
     {
         if (Auth::check()) {
-            $carts = Cart::where('user_id', Auth::user()->id)->where('order_id', Null)->get();
+            $carts = Cart::where('user_id', Auth::user()->id)->where('order_id', null)->get();
         } else {
-            $carts = Cart::where('ip_address', request()->ip())->where('order_id', Null)->get();
+            $carts = Cart::where('ip_address', request()->ip())->where('order_id', null)->get();
         }
+
         return $carts;
     }
 
     public static function totalItems()
     {
         if (Auth::check()) {
-            $carts = Cart::where('user_id', Auth::user()->id)->where('order_id', Null)->get();
+            $carts = Cart::where('user_id', Auth::user()->id)->where('order_id', null)->get();
         } else {
-            $carts = Cart::where('ip_address', request()->ip())->where('order_id', Null)->get();
+            $carts = Cart::where('ip_address', request()->ip())->where('order_id', null)->get();
         }
         $totalItems = 0;
         foreach ($carts as $cart) {
             $totalItems += $cart->product_quantity;
         }
+
         return $totalItems;
     }
 }
