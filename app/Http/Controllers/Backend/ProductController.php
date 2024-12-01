@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Backend;
 
-use File;
-use Image;
-use App\Models\Brand;
-use App\Models\Product;
-use App\Models\Category;
-use Illuminate\Support\Str;
-use App\Models\ProductImage;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\ProductImage;
+use File;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Image;
 
 class ProductController extends Controller
 {
@@ -32,7 +32,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $brands = Brand::orderBy('name', 'asc')->where('status', 0 && 'name', null)->get();
+        $brands    = Brand::orderBy('name', 'asc')->where('status', 0 && 'name', null)->get();
         $parentCat = Category::orderBy('name', 'asc')->where('is_parent', 0 && 'status', 0 && 'name', null)->get();
         return view('backend.pages.product.create', compact('brands', 'parentCat'));
     }
@@ -45,44 +45,44 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $product = new Product();
-        $product->name          = $request->name;
-        $product->slug          = Str::slug($request->name);
-        $product->short_desc    = $request->short_desc;
-        $product->long_desc     = $request->long_desc;
-        $product->quantity      = $request->quantity;
-        $product->regular_price = $request->regular_price;
-        $product->offer_price   = $request->offer_price;
-        $product->is_featured   = $request->is_featured;
-        $product->product_type  = $request->product_type;
-        $product->brand_id      = $request->brand_id;
-        $product->category_id   = $request->category_id;
-        $product->mfg_date      = $request->mfg_date;
-        $product->exp_date      = $request->exp_date;
-        $product->sku_code      = $request->sku_code;
-        $product->product_tags  = $request->product_tags;
+        $product                  = new Product();
+        $product->name            = $request->name;
+        $product->slug            = Str::slug($request->name);
+        $product->short_desc      = $request->short_desc;
+        $product->long_desc       = $request->long_desc;
+        $product->quantity        = $request->quantity;
+        $product->regular_price   = $request->regular_price;
+        $product->offer_price     = $request->offer_price;
+        $product->is_featured     = $request->is_featured;
+        $product->product_type    = $request->product_type;
+        $product->brand_id        = $request->brand_id;
+        $product->category_id     = $request->category_id;
+        $product->mfg_date        = $request->mfg_date;
+        $product->exp_date        = $request->exp_date;
+        $product->sku_code        = $request->sku_code;
+        $product->product_tags    = $request->product_tags;
         $product->additional_info = $request->additional_info;
-        $product->status        = $request->status;
+        $product->status          = $request->status;
 
         $product->save();
 
-        if (count(array($request->image)) > 0) {
+        if (count([$request->image]) > 0) {
             foreach ($request->image as $image) {
-                $img = rand() . '.' . $image->getClientOriginalExtension();
-                $location = public_path('backend/img/products/' . $img);
+                $img         = rand() . '.' . $image->getClientOriginalExtension();
+                $location    = public_path('backend/img/products/' . $img);
                 $imageResize = Image::make($image);
                 $imageResize->fit(650, 650)->save($location);
-                $image = new ProductImage();
+                $image             = new ProductImage();
                 $image->product_id = $product->id;
-                $image->image = $img;
+                $image->image      = $img;
                 $image->save();
             }
         }
 
-        $notification = array(
-            'alert-type'    => 'success',
-            'message'       => 'New Product Added!',
-        );
+        $notification = [
+            'alert-type' => 'success',
+            'message'    => 'New Product Added!',
+        ];
 
         return redirect()->route('product.manage')->with($notification);
     }
@@ -108,7 +108,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         if (!is_null($product)) {
-            $brands = Brand::orderBy('name', 'asc')->where('status', 0)->get();
+            $brands    = Brand::orderBy('name', 'asc')->where('status', 0)->get();
             $parentCat = Category::orderBy('name', 'asc')->where('is_parent', 0)->where('status', 0)->get();
             return view('backend.pages.product.edit', compact('product', 'brands', 'parentCat'));
         } else {
@@ -125,24 +125,24 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $product = Product::find($id);
-        $product->name          = $request->name;
-        $product->slug          = Str::slug($request->name);
-        $product->short_desc    = $request->short_desc;
-        $product->long_desc     = $request->long_desc;
-        $product->quantity      = $request->quantity;
-        $product->regular_price = $request->regular_price;
-        $product->offer_price   = $request->offer_price;
-        $product->is_featured   = $request->is_featured;
-        $product->product_type  = $request->product_type;
-        $product->brand_id      = $request->brand_id;
-        $product->category_id   = $request->category_id;
-        $product->mfg_date      = $request->mfg_date;
-        $product->exp_date      = $request->exp_date;
-        $product->sku_code      = $request->sku_code;
-        $product->product_tags  = $request->product_tags;
+        $product                  = Product::find($id);
+        $product->name            = $request->name;
+        $product->slug            = Str::slug($request->name);
+        $product->short_desc      = $request->short_desc;
+        $product->long_desc       = $request->long_desc;
+        $product->quantity        = $request->quantity;
+        $product->regular_price   = $request->regular_price;
+        $product->offer_price     = $request->offer_price;
+        $product->is_featured     = $request->is_featured;
+        $product->product_type    = $request->product_type;
+        $product->brand_id        = $request->brand_id;
+        $product->category_id     = $request->category_id;
+        $product->mfg_date        = $request->mfg_date;
+        $product->exp_date        = $request->exp_date;
+        $product->sku_code        = $request->sku_code;
+        $product->product_tags    = $request->product_tags;
         $product->additional_info = $request->additional_info;
-        $product->status        = $request->status;
+        $product->status          = $request->status;
 
         $product->save();
 
@@ -155,21 +155,21 @@ class ProductController extends Controller
             }
             ProductImage::where('product_id', $product->id)->delete();
             foreach ($request->image as $image) {
-                $img = rand() . '.' . $image->getClientOriginalExtension();
-                $location = public_path('backend/img/products/' . $img);
+                $img         = rand() . '.' . $image->getClientOriginalExtension();
+                $location    = public_path('backend/img/products/' . $img);
                 $imageResize = Image::make($image);
                 $imageResize->fit(650, 650)->save($location);
-                $newImage = new ProductImage();
+                $newImage             = new ProductImage();
                 $newImage->product_id = $product->id;
-                $newImage->image = $img;
+                $newImage->image      = $img;
                 $newImage->save();
             }
         }
 
-        $notification = array(
-            'alert-type'    => 'success',
-            'message'       => 'Product Updated Successfully!',
-        );
+        $notification = [
+            'alert-type' => 'success',
+            'message'    => 'Product Updated Successfully!',
+        ];
         return redirect()->route('product.manage')->with($notification);
     }
 
@@ -184,10 +184,10 @@ class ProductController extends Controller
         $product = Product::find($id);
         if (!is_null($product)) {
             $product->status = 2;
-            $notification = array(
-                'alert-type'    => 'warning',
-                'message'       => 'Product Removed Temporarily!',
-            );
+            $notification    = [
+                'alert-type' => 'warning',
+                'message'    => 'Product Removed Temporarily!',
+            ];
             $product->carts()->delete();
             $product->save();
             return redirect()->route('product.manage')->with($notification);
@@ -212,10 +212,10 @@ class ProductController extends Controller
                     File::delete(public_path('backend/img/products/' . $oldImage->image));
                 }
             }
-            $notification = array(
-                'alert-type'    => 'error',
-                'message'       => 'Product Removed Permanently!',
-            );
+            $notification = [
+                'alert-type' => 'error',
+                'message'    => 'Product Removed Permanently!',
+            ];
             $product->images()->delete();
             $product->carts()->each(function ($cart) {
                 $cart->order()->delete();

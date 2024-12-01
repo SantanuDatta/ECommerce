@@ -23,8 +23,6 @@ class WishlistController extends Controller
         } else {
             $prDetails = [];
         }
-        //$prDetails = Product::whereHasFavorite(auth()->user())->orderBy('name', 'asc')->get(); 
-        // dd($prDetails);
         return view('frontend.pages.wishlist', compact('prDetails'));
     }
 
@@ -70,7 +68,7 @@ class WishlistController extends Controller
     {
         $wishCount = 0;
         if (Auth::check()) {
-            $user = Auth::user();
+            $user    = Auth::user();
             $product = Product::find($id);
             if (Favorite::has($product, $user)) {
                 Favorite::toggle($product, $user);
@@ -107,12 +105,12 @@ class WishlistController extends Controller
     public function destroy($id)
     {
         $product = Product::find($id);
-        $user = Auth::user();
+        $user    = Auth::user();
         Favorite::remove($product, $user);
-        $notification = array(
-            'alert-type'    => 'error',
-            'message'       => 'Product Removed From Wishlist Successfully!',
-        );
+        $notification = [
+            'alert-type' => 'error',
+            'message'    => 'Product Removed From Wishlist Successfully!',
+        ];
         return back()->with($notification);
     }
 }

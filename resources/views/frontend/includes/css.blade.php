@@ -11,3 +11,4 @@
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/plugins/slider-range.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/main.css?v=5.5') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/custom.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css" />
